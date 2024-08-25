@@ -1,12 +1,18 @@
 ---
 layout: page
 permalink: /teaching/
-title: teaching
-description: Materials for courses you taught. Replace this text with your description.
+title: Teaching
+description: Soon to come.
 nav: true
 nav_order: 6
 ---
 
-For now, this page is assumed to be a static description of your courses. You can convert it to a collection similar to `_projects/` so that you can have a dedicated page for each course.
-
-Organize your courses by years, topics, or universities, however you like!
+- Mentored a summer trainee at NIH in Summer 2024
+- Served as a judge at the NIH graduate student symposium 2024
+- Mentored a postbac at NIH from 2023-2024
+- Regularly mentored junior graduate students throughout 2016-2022
+- Mentored 1-year masters dissertation research thesis of trainee (2019-2020) at JNCASR
+- Taught the basic chronobiology course at the Neuroscience Unit, JNCASR (3 weeks- 2018, 2019, 2021)Teaching assistant at the 2020 International Chronobiology Summer School (May-July 2020)
+- Taught chronobiology practical course- timeseries analysis module (3 weeks- 2018, 2019)
+- Taught the basic statistics module of the Neurobiology practical courses at the Neuroscience Unit, JNCASR (2 weeks- 2018, 2019)
+- Mentored 2 summer trainees each in the summers of 2017, 2018, and 2019 at JNCASR, 1 summer trainee in the summer of 2015 at NISER, and one short-term trainee in 2015 at NISER
