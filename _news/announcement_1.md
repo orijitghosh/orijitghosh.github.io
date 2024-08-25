@@ -6,6 +6,6 @@ inline: true
 related_posts: false
 ---
 
-Attended the SRBR 2024 conference at San Juan, PR. I also receieved a merit awad the conference. 🥳🎆🍾
+Attended the SRBR 2024 conference at San Juan, PR. I also receieved a merit award at the conference. 🥳🎆🍾
 
 ---
