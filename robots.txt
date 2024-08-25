@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://orijitghosh.github.io/sitemap.xml
+Sitemap: https://TheArijitGhosh.github.io/sitemap.xml
