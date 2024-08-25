@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Our book chapter is published
-date: 2024-07-15 16:11:00-0400
+date: 2024-07-20 7:00:00-0400
 inline: true
 related_posts: false
 ---
