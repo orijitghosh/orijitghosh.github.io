@@ -17,7 +17,7 @@
       institution: Jawaharlal Nehru Center for Advanced Scientific Research, Bengaluru, India
       year: 2022
       description:
-        - A Tale of Two Chronotypes - Behavioral and Genetic Characterization of Chronotype Divergence in *Drosophila melanogaster*
+        - A Tale of Two Chronotypes - Behavioral and Genetic Characterization of Chronotype Divergence in Drosophila melanogaster
         
     - title: Integrated BSc-Msc
       institution: National Institute of Science Education and Research, Bhubaneswar, India
@@ -34,8 +34,8 @@
       description:
         - Developed hidden Markov model based frameworks to classify fly sleep into distinct states
         - Developed algorithms to extract circadian time series parameters from large datasets
-        - Conducted multiple genome wide association studies of circadian clock and sleep related traits in the *Drosophila* Genetic Reference Panel
-        - Contributed to a book chapter on “The genetics of sleep in *Drosophila*”, and currently writing multiple research articles on original research work
+        - Conducted multiple genome wide association studies of circadian clock and sleep related traits in the Drosophila Genetic Reference Panel
+        - Contributed to a book chapter on “The genetics of sleep in Drosophila”, and currently writing multiple research articles on original research work
         
     - title: Graduate research fellow
       institution: Chronobiology and Behavioral Neurogenetics Laboratory, Neuroscience Unit, JNCASR
