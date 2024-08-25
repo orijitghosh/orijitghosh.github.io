@@ -17,6 +17,12 @@ li,
 span,
 strong {
   color: var(--global-text-color);
+  font-family: "Aleo", serif;
+  // font-optical-sizing: auto;
+  // font-family: "Source Sans 3", sans-serif;
+  font-weight: 400;
+  // font-family: "Outfit", sans-serif;
+  // font-family: "Barlow", sans-serif;
 }
 
 hr {
@@ -199,6 +205,7 @@ ul.task-list input[type="checkbox"] {
     margin-bottom: 5px;
     margin-top: 5px;
     font-family: monospace;
+    text-align: center;
 
     p {
       display: inline-block;
