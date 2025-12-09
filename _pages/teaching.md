@@ -9,8 +9,9 @@ nav_order: 6
 
 - Member of Editorial Advisory Board at SLEEP Advances (2025-2028)
 - Served as a FARE2026 committee member, which disburses $250,000 as travel awards to trainees at the NIH
-- Mentored a summer trainee at NIH in Summer 2024
+- Peer reviewer for Sleep Advances, Journal of Biological Rhtyhms, Nature and Science of Sleep, Scientific Reports
 - Served as a judge at the NIH graduate student symposium 2024
+- Mentored a summer trainee at NIH in Summer 2024
 - Mentored a postbac at NIH from 2023-2024
 - Regularly mentored junior graduate students throughout 2016-2022
 - Mentored 1-year masters dissertation research thesis of trainee (2019-2020) at JNCASR
