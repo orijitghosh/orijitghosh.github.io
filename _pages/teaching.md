@@ -1,12 +1,14 @@
 ---
 layout: page
 permalink: /teaching/
-title: Teaching
-description: Soon to come.
+title: Teaching/Service
+description: Teaching/mentoring stints and Services
 nav: true
 nav_order: 6
 ---
 
+- Member of Editorial Advisory Board at SLEEP Advances (2025-2028)
+- Served as a FARE2026 committee member, which disburses $250,000 as travel awards to trainees at the NIH
 - Mentored a summer trainee at NIH in Summer 2024
 - Served as a judge at the NIH graduate student symposium 2024
 - Mentored a postbac at NIH from 2023-2024
