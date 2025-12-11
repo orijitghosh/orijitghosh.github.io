@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /repositories/
+permalink: /repositories1/
 title: Repositories
 description: Recent repositories.
 nav: true
