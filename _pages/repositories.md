@@ -2,7 +2,7 @@
 layout: page
 permalink: /repositories/
 title: Repositories
-description: Recent work/repos.
+description: Recent work/repos updated automatically.
 nav: true
 nav_order: 4
 ---
