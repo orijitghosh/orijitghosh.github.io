@@ -48,8 +48,8 @@
   --accent: #D4652E;
 }
 [data-vision="protanopia"] {
-  --tan: #6B9BD2;
-  --green: #E6A817;
+  --tan: #B8A038;
+  --green: #5AADE6;
   --accent: #CC8400;
 }
 [data-vision="tritanopia"] {
