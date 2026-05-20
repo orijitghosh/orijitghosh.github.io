@@ -1,6 +1,6 @@
 # terminal-academic
 
-A terminal-themed personal academic website with a CSV-based content management system. Edit your publications, news, CV, and repos in spreadsheets, run a build script, push to GitHub Pages. No databases, no frameworks, no CMS logins.
+A terminal-themed personal academic website with a CSV-based content management system. Edit your publications, news, CV, and repos in spreadsheets, push to GitHub, and a GitHub Actions workflow builds and deploys the site automatically. No databases, no frameworks, no CMS logins.
 
 Live: [orijitghosh.github.io](https://orijitghosh.github.io)
 
@@ -83,19 +83,22 @@ git remote set-url origin https://github.com/yourusername/yourusername.github.io
 git push -u origin main
 ```
 
-Go to your repo **Settings > Pages > Branch: main, Folder: / (root) > Save**. Your site will be live in about a minute.
+Then go to your repo **Settings > Pages > Source** and select **"GitHub Actions"** (not "Deploy from a branch"). The included workflow (`.github/workflows/build-deploy.yml`) handles the rest — it installs Python, runs `build.py`, and deploys the output.
+
+Your site will be live at `https://yourusername.github.io` within a couple minutes.
 
 ### Day-to-day workflow
 
 ```bash
-# edit a CSV, then:
-python build.py
+# edit a CSV or template, then just push:
 git add .
 git commit -m "Add new publication"
 git push
 ```
 
-That's it. No build pipelines, no CI, no deploy commands. Push and it's live.
+GitHub Actions runs `build.py` automatically on every push. You don't need Python installed to update the site — just edit files and push.
+
+If you want to preview locally before pushing, you can still run `python build.py` and open `index.html` in your browser.
 
 ---
 
@@ -186,6 +189,8 @@ Replace `assets/profile.png`. Any square-ish image works, it gets clipped to a c
 │   ├── TUTORIAL.md
 │   └── CSV_FORMAT.md
 │
+├── .github/workflows/
+│   └── build-deploy.yml     # GitHub Actions: auto build + deploy on push
 ├── LICENSE                  # GPL-3.0
 └── README.md                # you're here
 ```

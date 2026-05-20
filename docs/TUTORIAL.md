@@ -117,9 +117,10 @@ Refresh `index.html` (Ctrl+R) and confirm the test item is gone.
 That's the entire workflow:
 
 1. Edit a CSV file
-2. Run `python build.py`
-3. Open the HTML to preview
-4. (When ready to publish) commit and push to GitHub
+2. Commit and push to GitHub
+3. GitHub Actions builds and deploys automatically
+
+If you want to preview locally before pushing, run `python build.py` and open `index.html`.
 
 ---
 
@@ -172,15 +173,13 @@ After editing, run `python build.py`.
 
 ## Publishing to the live site
 
-Once you've made changes and verified them locally:
-
 ```powershell
 git add .
 git commit -m "Add news: SRBR talk in Boston"
-git push origin main
+git push
 ```
 
-Wait 1-2 minutes. Visit `https://orijitghosh.github.io`. Hard-refresh with Ctrl+Shift+R to bypass cache.
+GitHub Actions builds and deploys automatically. Wait 1-2 minutes, then visit `https://orijitghosh.github.io`. Hard-refresh with Ctrl+Shift+R to bypass cache.
 
 ---
 
@@ -202,14 +201,12 @@ The original Jekyll site is preserved in git history, so you can always restore 
 
 | Want to... | Command |
 |---|---|
-| Activate Python env | `venv\Scripts\activate` |
-| Build site | `python build.py` |
-| Run tests | `pytest tests/test_build.py` |
 | See what changed | `git status` |
 | Commit changes | `git add . && git commit -m "message"` |
-| Push to live site | `git push origin main` |
-| Pull updates from GitHub | `git pull origin main` |
-| Preview site | Double-click `index.html` |
+| Push to live site | `git push` |
+| Pull updates from GitHub | `git pull` |
+| Preview locally (optional) | `python build.py` then open `index.html` |
+| Run tests | `pytest tests/test_build.py` |
 
 ---
 

@@ -2,18 +2,19 @@
 
 How to add or change content on your website.
 
-## The 3-step workflow
+## The workflow
 
 1. **Edit a CSV file** in `data/` (or `config.yaml` for personal info)
-2. **Build:** `python build.py`
-3. **Deploy:** `git add . && git commit -m "describe change" && git push`
+2. **Commit and push:**
+   ```bash
+   git add .
+   git commit -m "describe change"
+   git push
+   ```
 
-The site updates on GitHub Pages within ~1 minute after pushing.
+GitHub Actions automatically runs `build.py` and deploys the site. It's live within ~2 minutes.
 
-> Quick deploy one-liner (PowerShell):
-> ```powershell
-> python build.py; git add .; git commit -m "Update $(Get-Date -Format 'yyyy-MM-dd HH:mm')"; git push
-> ```
+> **Optional:** To preview locally before pushing, run `python build.py` and open `index.html` in your browser. This requires the Python venv to be set up (see `docs/SETUP.md`).
 
 ## Adding a new publication
 
@@ -30,13 +31,11 @@ The site updates on GitHub Pages within ~1 minute after pushing.
    - `authors` → semicolons separate authors. Format: `Lastname Firstname`. Your name (Ghosh Arijit) is auto-bolded.
 
 3. Save the file (CSV format, UTF-8 encoding).
-4. Run `python build.py`.
-5. Open `publications.html` in a browser to verify.
-6. Commit and push:
+4. Commit and push:
    ```bash
    git add .
    git commit -m "Add publication: My New Paper Title"
-   git push origin main
+   git push
    ```
 
 ## Adding news/announcements
@@ -48,7 +47,7 @@ The site updates on GitHub Pages within ~1 minute after pushing.
    2026-05,Gave a talk at <a href="https://...">Conference Name</a>.
    ```
 
-3. Save, build, commit, push.
+3. Save, commit, push.
 
 The home page shows the newest 7 items by default (configurable in `config.yaml` → `home_page.news_count`).
 
@@ -102,7 +101,7 @@ Use the `order` column to control display order within a category (lower = first
 
 Edit `config.yaml` (this file is committed and public — don't put secrets there).
 
-After editing, run `python build.py` and commit.
+After editing, commit and push. GitHub Actions rebuilds the site automatically.
 
 ## Git command reference
 
@@ -128,7 +127,7 @@ git pull origin main
 - **Forgot to activate venv:** You'll see `ModuleNotFoundError: No module named 'pandas'`. Run `venv\Scripts\activate` (or the Mac/Linux equivalent).
 - **CSV has commas in cells:** Wrap the cell in double quotes: `"This, has, commas"`. To embed a literal `"`, double it: `"He said ""hi"""`.
 - **Excel mangled the file:** Use "Save As → CSV UTF-8 (Comma delimited)". Or edit in a text editor.
-- **Forgot to run `python build.py`:** Pushed but the site didn't change. Build, commit, push again.
+- **GitHub Actions build failed:** Check the Actions tab on your repo for error logs. Usually a malformed CSV.
 - **All 7 CSV files must exist.** They can be empty (just headers), but they must exist. See `docs/CSV_FORMAT.md` for headers.
 
 ## Verifying the live site
