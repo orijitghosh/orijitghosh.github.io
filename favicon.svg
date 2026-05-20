@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#1A1714"></rect>
+  <text x="50%" y="56%" text-anchor="middle" font-family="JetBrains Mono, Consolas, monospace" font-weight="800" font-size="28" fill="#C4A882">AG</text>
+  <rect x="46" y="44" width="6" height="3" fill="#A8B87C">
+    
+  </rect>
+</svg>

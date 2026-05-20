@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Arijit Ghosh, visiting fellow (postdoctoral) at NHLBI studying circadian rhythms, sleep genetics, quantitative genetics, and multi-omics in Drosophila." />
+  <title>Arijit Ghosh — About</title>
+  <link rel="stylesheet" href="terminal.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    .typing-line { font-size: 1.6rem; font-weight: 600; min-height: 2em; }
+    .bio-block { font-size: 14px; line-height: 1.8; color: var(--muted); max-width: 620px; text-wrap: pretty; }
+    .bio-block code { color: var(--tan); background: var(--code-bg); padding: 1px 5px; border-radius: 2px; font-size: 13px; }
+    .meta-row { display: flex; gap: 28px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+    .profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+
+    /* GLITCH TEXT */
+    .glitch { position: relative; display: inline-block; cursor: default; }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0; pointer-events: none;
+    }
+    .glitch::before { color: var(--accent); clip-path: inset(0 0 60% 0); }
+    .glitch::after { color: var(--green); clip-path: inset(40% 0 0 0); }
+    .glitch:hover::before { opacity: 0.8; animation: glitch-top 0.4s steps(2) infinite; }
+    .glitch:hover::after { opacity: 0.8; animation: glitch-bottom 0.4s steps(3) infinite; }
+    @keyframes glitch-top {
+      0% { transform: translate(-2px, -1px); } 25% { transform: translate(2px, 1px); }
+      50% { transform: translate(-1px, 2px); } 75% { transform: translate(1px, -2px); }
+      100% { transform: translate(-2px, 1px); }
+    }
+    @keyframes glitch-bottom {
+      0% { transform: translate(2px, 1px); } 25% { transform: translate(-1px, -1px); }
+      50% { transform: translate(1px, -2px); } 75% { transform: translate(-2px, 2px); }
+      100% { transform: translate(1px, -1px); }
+    }
+    .glitch:hover {
+      text-shadow: 0.05em 0 0 var(--accent), -0.05em -0.025em 0 var(--green);
+      animation: glitch-skew 0.5s steps(2) infinite;
+    }
+    @keyframes glitch-skew {
+      0% { transform: skewX(0deg); } 25% { transform: skewX(-1deg); }
+      50% { transform: skewX(0.5deg); } 75% { transform: skewX(-0.5deg); }
+      100% { transform: skewX(0deg); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+  <div class="top-bar__dots">
+    <div class="top-bar__dot top-bar__dot--r"></div>
+    <div class="top-bar__dot top-bar__dot--y"></div>
+    <div class="top-bar__dot top-bar__dot--g"></div>
+  </div>
+  <div class="top-bar__tabs">
+    <a href="index.html" class="top-bar__tab top-bar__tab--active">about.sh</a>
+    <a href="publications.html" class="top-bar__tab">publications</a>
+    <a href="repositories.html" class="top-bar__tab">repositories</a>
+    <a href="cv.html" class="top-bar__tab">cv</a>
+    <a href="teaching.html" class="top-bar__tab">teaching</a>
+  </div>
+  <div class="top-bar__spacer"></div>
+  <div class="top-bar__controls">
+    <div class="top-bar__time" id="clock"></div>
+  </div>
+</nav>
+
+  <div class="page-body">
+    <div class="split">
+
+      <div class="split__left">
+        <div class="profile-header fade-in">
+          <img src="assets/profile.png" alt="Arijit Ghosh" class="profile-img" />
+          <div>
+            <div style="font-size: 13px; color: var(--muted);">visitor@arijit-ghosh:~$</div>
+            <div style="font-size: 18px; color: var(--tan); margin-top: 2px;" class="glitch" data-text="অরিজিৎ ঘোষ">অরিজিৎ ঘোষ</div>
+          </div>
+        </div>
+
+        <div class="typing-line fade-in fade-in-d1">
+          <span class="prompt">&gt;</span> <span id="typed"></span><span class="cursor"></span>
+        </div>
+
+        
+        <div class="bio-block fade-in fade-in-d2">
+          <span class="prompt">$ cat</span> bio.txt<br /><br />
+          Currently I am a visiting postdoctoral fellow at the <a href="https://www.nhlbi.nih.gov/science/systems-genetics#Meet-the-Team">Laboratory of Systems Genetics</a>, SBC, NHLBI at Bethesda, Maryland. I study the interaction between the <code>circadian clock</code> and <code>sleep</code> genetic networks, and how these interactions shape various behavior and physiological responses. During my PhD, I worked on understanding the genetic and molecular mechanisms underlying <code>complex behaviors</code>, specifically timing of a behavior (<a href="https://en.wikipedia.org/wiki/Chronotype">chronotypes</a>), under the influence, or independent of the circadian clock, at the <a href="https://www.jncasr.ac.in/faculty/sheeba">Chronobiology and Behavioural Neurogenetics Laboratory</a>, JNCASR.
+        </div>
+        
+        <div class="bio-block fade-in fade-in-d3">
+          
+          My studies use diverse methodologies — from <code>statistical modeling</code> of behavior to <code>quantitative genetics</code> and <code>multi-omics</code> techniques. Previously, I have also worked on thermo-sensitive <code>Transient Receptor Potential</code> (TRP) channels and their role in osteogenesis, using rodent models, primary bone cells, pharmacological modulators, and molecular dynamics during my masters studies at <a href="https://www.niser.ac.in/">NISER</a>.
+        </div>
+        
+        <div class="bio-block fade-in fade-in-d4">
+          
+          I was born in <a href="https://en.wikipedia.org/wiki/Bardhaman">Burdwan, WB</a>, India. I went to <a href="https://rkmvp.org/">RKMV, Purulia</a> and <a href="https://www.rkmvnarendrapur.org/">RKMV, Narendrapur</a> for schooling, then joined <a href="https://www.niser.ac.in/">NISER, Bhubaneswar</a> for an integrated MSc in Life Sciences with focus on <code>cell biology</code> and <code>bioinformatics</code>. After my PhD from <a href="https://www.jncasr.ac.in/research/research-units/neuroscience-unit">JNCASR</a> in Bangalore, I moved to Bethesda, MD to join the <a href="https://www.nih.gov/">NIH</a>. Apart from lab work, I am a leisure photographer, connoisseur of sci-fi and good food! For a full list of my publications, check out my <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en">Google Scholar profile</a>.
+        </div>
+        
+
+        <div class="fade-in fade-in-d4">
+          <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+            <span class="tag">Circadian Rhythms</span><span class="tag">Sleep Genetics</span><span class="tag">Quantitative Genetics</span><span class="tag">Multi-omics</span><span class="tag">Drosophila</span><span class="tag">Statistical Modeling</span>
+          </div>
+        </div>
+
+        <div class="fade-in fade-in-d5" style="font-size: 13px; color: var(--muted);">
+          <span class="prompt">$ echo</span> $EMAIL → arijitghosh2009@gmail.com<br />
+          <span class="prompt">$ echo</span> $LOCATION → Bethesda, MD<br />
+          <span class="prompt">$ echo</span> $LINKS → <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&amp;hl=en">Google Scholar</a> · <a href="https://github.com/orijitghosh">GitHub</a>
+        </div>
+      </div>
+
+      <div class="split__right">
+        <div class="fade-in fade-in-d2">
+          <div class="section-label">// latest</div>
+          
+          <div class="news-item">
+            <span class="news-item__date">Mar 2026</span>
+            <span>Received the SRBR Merit Award by the Society for Research on Biological Rhythms (2026), USA.</span>
+          </div>
+          
+          <div class="news-item">
+            <span class="news-item__date">Jan 2026</span>
+            <span>Posted a <a href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1">Preprint</a> on sleep state inference using HMMs in flies and an associated R package, <a href="https://orijitghosh.github.io/FlyDreamR/">FlyDreamR</a>.</span>
+          </div>
+          
+          <div class="news-item">
+            <span class="news-item__date">Jan 2025</span>
+            <span>Received the Sleep and Circadian Science Scholar Award by the Sleep Research Society (2025). Presenting at Advances in Sleep and Circadian Sciences 2025, Clearwater Beach, FL.</span>
+          </div>
+          
+          <div class="news-item">
+            <span class="news-item__date">Oct 2024</span>
+            <span>Received the L'Enfant Fellowship from NHLBI for postdoctoral training (intramural equivalent to the F32).</span>
+          </div>
+          
+          <div class="news-item">
+            <span class="news-item__date">Jul 2024</span>
+            <span>Collaborative paper with Dragana Protic's group is out! <a href="https://www.mdpi.com/1422-0067/25/14/7949">Check it here</a>.</span>
+          </div>
+          
+          <div class="news-item">
+            <span class="news-item__date">Jul 2024</span>
+            <span>Our book chapter is published. <a href="https://link.springer.com/chapter/10.1007/978-3-031-62723-1_2">Check it out</a>!</span>
+          </div>
+          
+          <div class="news-item">
+            <span class="news-item__date">Jun 2024</span>
+            <span>Attended SRBR 2024 at San Juan, PR. Received a merit award at the conference.</span>
+          </div>
+          
+        </div>
+
+        <div class="fade-in fade-in-d3">
+          <div class="section-label">// selected publications</div>
+          
+          <div class="card">
+            <div class="card__title"><a href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1">Inferring the genetic basis of sleep states in Drosophila melanogaster using hidden Markov models</a></div>
+            <div class="card__meta"><span class="card__year">2026</span><strong>Ghosh A</strong>, Harbison ST · <span class="highlight">bioRxiv</span></div>
+          </div>
+          
+          <div class="card">
+            <div class="card__title"><a href="https://link.springer.com/chapter/10.1007/978-3-031-62723-1_2">The Genetics of Sleep in Drosophila</a></div>
+            <div class="card__meta"><span class="card__year">2024</span>Singh NP, <strong>Ghosh A</strong>, Harbison ST · <span class="highlight">Genetics of Sleep and Sleep Disorders</span></div>
+          </div>
+          
+          <div class="card">
+            <div class="card__title"><a href="https://www.frontiersin.org/journals/cell-and-developmental-biology/articles/10.3389/fcell.2023.1066788/full">TRPV4 regulates osteoblast differentiation and mitochondrial function that are relevant for channelopathy</a></div>
+            <div class="card__meta"><span class="card__year">2023</span>Acharya TK, Pal S, <strong>Ghosh A</strong>, Kumar S, Kumar S, Chattopadhyay N, Goswami C · <span class="highlight">Frontiers in Cell and Dev. Bio.</span></div>
+          </div>
+          
+          <div class="card">
+            <div class="card__title"><a href="https://journals.sagepub.com/doi/full/10.1177/07487304221077662">VANESSA — Shiny Apps for Accelerated Time-series Analysis and Visualization of Drosophila Circadian Rhythm and Sleep Data</a></div>
+            <div class="card__meta"><span class="card__year">2022</span><strong>Ghosh A</strong>, Sheeba V · <span class="highlight">J. Biological Rhythms</span></div>
+          </div>
+          
+          <div class="card">
+            <div class="card__title"><a href="https://www.nature.com/articles/s41598-017-16780-w">Preferential selection of Arginine at the lipid-water-interface of TRPV1 during vertebrate evolution correlates with its snorkeling behaviour and cholesterol interaction</a></div>
+            <div class="card__meta"><span class="card__year">2017</span>Saha S, <strong>Ghosh A</strong>, Tiwari N, Kumar A, Kumar A, Goswami C · <span class="highlight">Scientific Reports</span></div>
+          </div>
+          
+          <div class="card">
+            <div class="card__title"><a href="https://www.tandfonline.com/doi/full/10.1080/19336950.2016.1162365">Why individual thermo sensation and pain perception varies? Clue of disruptive mutations in TRPVs from 2504 human genome data</a></div>
+            <div class="card__meta"><span class="card__year">2016</span><strong>Ghosh A</strong>, Kaur N, Kumar A, Goswami C · <span class="highlight">Channels</span></div>
+          </div>
+          
+          <div style="margin-top: 10px; font-size: 12px;">
+            <a href="publications.html"><span class="prompt">→</span> view all publications</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+  <span>systems biology center · nhlbi · nih</span>
+  <span>© 2026 Arijit Ghosh</span>
+</div>
+
+  <script>
+    const prefix = "hello world \u2014 I\u0027m ";
+    const name = "Arijit Ghosh";
+    const full = prefix + name;
+    const el = document.getElementById('typed');
+    let i = 0;
+    const type = () => {
+      if (i <= full.length) {
+        if (i <= prefix.length) {
+          el.innerHTML = full.slice(0, i);
+        } else {
+          el.innerHTML = prefix + '<span class="glitch" data-text="' + name + '">' + full.slice(prefix.length, i) + '</span>';
+        }
+        i++;
+        setTimeout(type, 55);
+      }
+    };
+    type();
+  </script>
+  <script src="theme.js"></script>
+  <script src="terminal-easteregg.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+# Personal info
+name: "Arijit Ghosh"
+name_native: "অরিজিৎ ঘোষ"
+designation: "Visiting Fellow (Postdoctoral)"
+affiliation: "National Heart, Lung, and Blood Institute"
+advisor: "Susan T. Harbison"
+email: "arijitghosh2009@gmail.com"
+location: "Bethesda, MD"
+github: "orijitghosh"
+scholar_url: "https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en"
+
+# Author name patterns to auto-bold in publications.
+# String matching is case-sensitive. Order matters: longer patterns first.
+author_bold_patterns:
+  - "Ghosh, Arijit"
+  - "Arijit Ghosh"
+  - "Ghosh Arijit"
+  - "Ghosh A"
+
+# Bio paragraphs shown on home page (HTML allowed)
+bio:
+  - 'Currently I am a visiting postdoctoral fellow at the <a href="https://www.nhlbi.nih.gov/science/systems-genetics#Meet-the-Team">Laboratory of Systems Genetics</a>, SBC, NHLBI at Bethesda, Maryland. I study the interaction between the <code>circadian clock</code> and <code>sleep</code> genetic networks, and how these interactions shape various behavior and physiological responses. During my PhD, I worked on understanding the genetic and molecular mechanisms underlying <code>complex behaviors</code>, specifically timing of a behavior (<a href="https://en.wikipedia.org/wiki/Chronotype">chronotypes</a>), under the influence, or independent of the circadian clock, at the <a href="https://www.jncasr.ac.in/faculty/sheeba">Chronobiology and Behavioural Neurogenetics Laboratory</a>, JNCASR.'
+  - 'My studies use diverse methodologies — from <code>statistical modeling</code> of behavior to <code>quantitative genetics</code> and <code>multi-omics</code> techniques. Previously, I have also worked on thermo-sensitive <code>Transient Receptor Potential</code> (TRP) channels and their role in osteogenesis, using rodent models, primary bone cells, pharmacological modulators, and molecular dynamics during my masters studies at <a href="https://www.niser.ac.in/">NISER</a>.'
+  - 'I was born in <a href="https://en.wikipedia.org/wiki/Bardhaman">Burdwan, WB</a>, India. I went to <a href="https://rkmvp.org/">RKMV, Purulia</a> and <a href="https://www.rkmvnarendrapur.org/">RKMV, Narendrapur</a> for schooling, then joined <a href="https://www.niser.ac.in/">NISER, Bhubaneswar</a> for an integrated MSc in Life Sciences with focus on <code>cell biology</code> and <code>bioinformatics</code>. After my PhD from <a href="https://www.jncasr.ac.in/research/research-units/neuroscience-unit">JNCASR</a> in Bangalore, I moved to Bethesda, MD to join the <a href="https://www.nih.gov/">NIH</a>. Apart from lab work, I am a leisure photographer, connoisseur of sci-fi and good food! For a full list of my publications, check out my <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en">Google Scholar profile</a>.'
+
+# Tag pills shown on home page
+tags:
+  - "Circadian Rhythms"
+  - "Sleep Genetics"
+  - "Quantitative Genetics"
+  - "Multi-omics"
+  - "Drosophila"
+  - "Statistical Modeling"
+
+# Display options
+home_page:
+  news_count: 7
+  selected_publications_count: 6
+  typing_text: "hello world — I'm "
+
+# Status bar text
+status_bar:
+  index: "systems biology center · nhlbi · nih"
+  cv: "curriculum vitae · arijit ghosh"
+  teaching: "teaching & service · arijit ghosh"
+
+# Language colors for repository cards (GitHub-style)
+language_colors:
+  R: "#276DC3"
+  Python: "#3572A5"
+  Ruby: "#701516"
+  HTML: "#e34c26"
+  JavaScript: "#f1e05a"
+  TypeScript: "#3178c6"
+  CSS: "#563d7c"
+  Shell: "#89e051"
+  "Jupyter Notebook": "#DA5B0B"
+  Go: "#00ADD8"
+  Rust: "#dea584"
+  C: "#555555"
+  "C++": "#f34b7d"
+  Java: "#b07219"
+  default: "#888888"
+
+# Copyright year
+copyright_year: 2026

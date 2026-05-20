@@ -1,0 +1,36 @@
+# CSV data files (private)
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+ENV/
+env/
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.log
+
+# Internal handoff/notes (private to maintainer)
+HANDOFF.md
+docs/
+.remember/
+
+# Build tooling (not needed on deployed site)
+build.py
+requirements.txt
+templates/
+tests/

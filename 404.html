@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>404 — page not found</title>
+  <link rel="stylesheet" href="terminal.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    .err-wrap {
+      max-width: 720px;
+      margin: 8vh auto;
+      padding: 0 32px;
+      font-family: var(--font-mono);
+    }
+    .err-prompt { color: var(--green); margin-right: 10px; }
+    .err-line { font-size: 1.05rem; line-height: 2; color: var(--cream); }
+    .err-msg {
+      color: var(--accent);
+      margin: 8px 0 24px;
+      font-size: 0.95rem;
+    }
+    .err-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.9;
+      border-top: 1px dashed var(--border-strong);
+      margin-top: 32px;
+      padding-top: 18px;
+    }
+    .err-big {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 14vw, 8rem);
+      font-weight: 800;
+      color: var(--tan);
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      margin: 18px 0;
+    }
+    .err-link-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 18px; }
+    .err-link {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      font-size: 0.78rem;
+      color: var(--cream);
+      transition: all 0.2s;
+    }
+    .err-link:hover { border-color: var(--tan); background: var(--card-hover); }
+    .blink { animation: blink 1.06s step-end infinite; color: var(--tan); }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar__brand">arijit-ghosh<span style="color:var(--muted)">@</span>nhlbi</div>
+    <nav class="top-bar__tabs">
+      <a href="index.html" class="top-bar__tab">about</a>
+      <a href="publications.html" class="top-bar__tab">publications</a>
+      <a href="cv.html" class="top-bar__tab">cv</a>
+      <a href="repositories.html" class="top-bar__tab">repositories</a>
+      <a href="teaching.html" class="top-bar__tab">teaching</a>
+    </nav>
+    <div class="top-bar__controls"></div>
+  </header>
+
+  <main class="err-wrap">
+    <div class="err-line"><span class="err-prompt">$</span> open <span style="color:var(--tan)" id="badpath">page</span></div>
+    <div class="err-msg">bash: <span id="badcmd">page</span>: command not found</div>
+
+    <div class="err-big">404</div>
+
+    <div class="err-line">
+      <span class="err-prompt">$</span> ls available_pages/<span class="blink">_</span>
+    </div>
+    <div class="err-link-row">
+      <a class="err-link" href="index.html">about.sh</a>
+      <a class="err-link" href="publications.html">publications.md</a>
+      <a class="err-link" href="cv.html">cv.yml</a>
+      <a class="err-link" href="repositories.html">repositories.json</a>
+      <a class="err-link" href="teaching.html">teaching.md</a>
+    </div>
+
+    <div class="err-meta">
+      <div># did you mean to go home? try: <a href="index.html" style="color:var(--tan)">cd ~/</a></div>
+      <div># tip: press <code style="background:var(--code-bg);padding:1px 6px;border-radius:2px;">`</code> anywhere to open the terminal</div>
+    </div>
+  </main>
+
+  <footer class="status-bar">
+    <span>error_code: 404</span>
+    <span>© 2026 Arijit Ghosh</span>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="terminal-easteregg.js"></script>
+  <script>
+    // Display the path the user tried to reach
+    const path = window.location.pathname.split('/').pop() || 'page';
+    document.getElementById('badpath').textContent = path;
+    document.getElementById('badcmd').textContent = path;
+  </script>
+</body>
+</html>
