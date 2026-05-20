@@ -610,10 +610,41 @@ a:hover {
   }
   .split__right { padding-left: 0; padding-top: 28px; }
   .hero-name { font-size: 2rem; }
-  .top-bar__tabs { margin-left: 8px; }
-  .top-bar__tab { padding: 5px 11px; font-size: 12px; }
+
+  /* ── Mobile navbar: full-width scrollable tabs ── */
+  .top-bar {
+    flex-wrap: wrap;
+    padding: 10px 16px 0;
+    gap: 6px;
+  }
+  .top-bar__dots { display: none; }
+  .top-bar__tabs {
+    order: 2;
+    width: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;            /* Firefox */
+    gap: 0;
+    /* fade hint on right edge */
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    padding-bottom: 8px;
+  }
+  .top-bar__tabs::-webkit-scrollbar { display: none; }
+  .top-bar__tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .top-bar__spacer { order: 1; }
+  .top-bar__controls {
+    order: 0;
+    gap: 4px;
+    margin-left: auto;
+  }
+
   .cv-grid, .repo-grid, .two-col { grid-template-columns: 1fr; }
-  .top-bar__controls { gap: 4px; }
   .ctrl-btn { font-size: 11px; padding: 3px 7px; }
 }
 
