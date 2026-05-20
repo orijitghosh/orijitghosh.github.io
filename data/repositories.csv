@@ -1,0 +1,6 @@
+name,description,url,languages
+FlyDreamR,An R package to infer sleep/wake states from locomotion data using hidden Markov models. Accompanies our 2026 bioRxiv preprint on genetic basis of sleep states in <em>Drosophila melanogaster</em>.,https://github.com/orijitghosh/FlyDreamR,R
+VANESSA-DAM,Visualization and ANalysis of timE SerieS dAta — Drosophila Activity Monitors. A suite of Shiny apps for accelerated time-series analysis and visualization of circadian rhythm and sleep data.,https://github.com/orijitghosh/VANESSA-DAM,R
+depmixS4,R package to define and fit mixture and hidden Markov (dependent mixture) models. Forked and extended for sleep state classification applications.,https://github.com/orijitghosh/depmixS4,R
+orijitghosh.github.io,Personal academic website. Built with Jekyll and the al-folio theme. Hosts publications CV research projects and repositories.,https://github.com/orijitghosh/orijitghosh.github.io,"CSS, JavaScript, HTML"
+prakriti,R package for Color palettes inspired by India's natural landscapes,https://github.com/orijitghosh/prakriti,R

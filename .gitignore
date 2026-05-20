@@ -1,6 +1,3 @@
-# Personal data (my CSVs — not for public repo)
-data/
-
 # Python
 __pycache__/
 *.py[cod]

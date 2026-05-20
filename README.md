@@ -49,11 +49,7 @@ pip install -r requirements.txt
 
 1. **Edit `config.yaml`** — replace my name, bio, email, affiliation, tags, Google Scholar URL, etc. with yours.
 
-2. **Create your `data/` folder** with 7 CSV files:
-
-   ```
-   mkdir data
-   ```
+2. **Edit the CSV files in `data/`** — they're already there with my data as examples. Replace the rows with your own:
 
    | File | Columns |
    |---|---|
@@ -65,7 +61,7 @@ pip install -r requirements.txt
    | `awards.csv` | `year, description` |
    | `service.csv` | `category, description, order` |
 
-   See `docs/CSV_FORMAT.md` for the full spec with examples.
+   Keep the header row, replace everything below it. See `docs/CSV_FORMAT.md` for the full spec with examples.
 
 3. **Build:**
 
@@ -152,7 +148,7 @@ Replace `assets/profile.png`. Any square-ish image works, it gets clipped to a c
 ├── build.py                 # reads CSVs + config, renders Jinja2 templates to HTML
 ├── requirements.txt         # jinja2, pandas, pyyaml, pytest
 │
-├── data/                    # YOUR content (gitignored — stays local)
+├── data/                    # YOUR content — replace with your own
 │   ├── publications.csv
 │   ├── news.csv
 │   ├── repositories.csv
@@ -194,7 +190,7 @@ Replace `assets/profile.png`. Any square-ish image works, it gets clipped to a c
 └── README.md                # you're here
 ```
 
-The `data/` folder is gitignored because it contains your personal content. Everything else is in the repo so people can fork it.
+The `data/` folder contains my actual content as working examples. Fork the repo, replace the CSVs with your own data, and you're good to go.
 
 ## Tests
 
