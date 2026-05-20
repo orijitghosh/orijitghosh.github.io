@@ -1,0 +1,140 @@
+{% from 'base.html.j2' import topbar, statusbar %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="{{ config.name }}, {{ config.designation | lower }} at NHLBI studying circadian rhythms, sleep genetics, quantitative genetics, and multi-omics in Drosophila." />
+  <title>{{ config.name }} — About</title>
+  <link rel="stylesheet" href="terminal.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    .typing-line { font-size: 1.6rem; font-weight: 600; min-height: 2em; }
+    .bio-block { font-size: 14px; line-height: 1.8; color: var(--muted); max-width: 620px; text-wrap: pretty; }
+    .bio-block code { color: var(--tan); background: var(--code-bg); padding: 1px 5px; border-radius: 2px; font-size: 13px; }
+    .meta-row { display: flex; gap: 28px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+    .profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+
+    /* GLITCH TEXT */
+    .glitch { position: relative; display: inline-block; cursor: default; }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0; pointer-events: none;
+    }
+    .glitch::before { color: var(--accent); clip-path: inset(0 0 60% 0); }
+    .glitch::after { color: var(--green); clip-path: inset(40% 0 0 0); }
+    .glitch:hover::before { opacity: 0.8; animation: glitch-top 0.4s steps(2) infinite; }
+    .glitch:hover::after { opacity: 0.8; animation: glitch-bottom 0.4s steps(3) infinite; }
+    @keyframes glitch-top {
+      0% { transform: translate(-2px, -1px); } 25% { transform: translate(2px, 1px); }
+      50% { transform: translate(-1px, 2px); } 75% { transform: translate(1px, -2px); }
+      100% { transform: translate(-2px, 1px); }
+    }
+    @keyframes glitch-bottom {
+      0% { transform: translate(2px, 1px); } 25% { transform: translate(-1px, -1px); }
+      50% { transform: translate(1px, -2px); } 75% { transform: translate(-2px, 2px); }
+      100% { transform: translate(1px, -1px); }
+    }
+    .glitch:hover {
+      text-shadow: 0.05em 0 0 var(--accent), -0.05em -0.025em 0 var(--green);
+      animation: glitch-skew 0.5s steps(2) infinite;
+    }
+    @keyframes glitch-skew {
+      0% { transform: skewX(0deg); } 25% { transform: skewX(-1deg); }
+      50% { transform: skewX(0.5deg); } 75% { transform: skewX(-0.5deg); }
+      100% { transform: skewX(0deg); }
+    }
+  </style>
+</head>
+<body>
+  {{ topbar('index') }}
+
+  <div class="page-body">
+    <div class="split">
+
+      <div class="split__left">
+        <div class="profile-header fade-in">
+          <img src="assets/profile.png" alt="{{ config.name }}" class="profile-img" />
+          <div>
+            <div style="font-size: 13px; color: var(--muted);">visitor@arijit-ghosh:~$</div>
+            <div style="font-size: 18px; color: var(--tan); margin-top: 2px;" class="glitch" data-text="{{ config.name_native }}">{{ config.name_native }}</div>
+          </div>
+        </div>
+
+        <div class="typing-line fade-in fade-in-d1">
+          <span class="prompt">&gt;</span> <span id="typed"></span><span class="cursor"></span>
+        </div>
+
+        {% for paragraph in config.bio %}
+        <div class="bio-block fade-in fade-in-d{{ loop.index + 1 }}">
+          {% if loop.first %}<span class="prompt">$ cat</span> bio.txt<br /><br />{% endif %}
+          {{ paragraph | safe }}
+        </div>
+        {% endfor %}
+
+        <div class="fade-in fade-in-d4">
+          <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+            {% for tag in config.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+          </div>
+        </div>
+
+        <div class="fade-in fade-in-d5" style="font-size: 13px; color: var(--muted);">
+          <span class="prompt">$ echo</span> $EMAIL → {{ config.email }}<br />
+          <span class="prompt">$ echo</span> $LOCATION → {{ config.location }}<br />
+          <span class="prompt">$ echo</span> $LINKS → <a href="{{ config.scholar_url }}">Google Scholar</a> · <a href="https://github.com/{{ config.github }}">GitHub</a>
+        </div>
+      </div>
+
+      <div class="split__right">
+        <div class="fade-in fade-in-d2">
+          <div class="section-label">// latest</div>
+          {% for item in news %}
+          <div class="news-item">
+            <span class="news-item__date">{{ item.date_formatted }}</span>
+            <span>{{ item.description | safe }}</span>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="fade-in fade-in-d3">
+          <div class="section-label">// selected publications</div>
+          {% for pub in selected_publications %}
+          <div class="card">
+            <div class="card__title">{% if pub.url %}<a href="{{ pub.url }}">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</div>
+            <div class="card__meta"><span class="card__year">{{ pub.year }}</span>{{ pub.authors_short | safe }} · <span class="highlight">{{ pub.venue_short }}</span></div>
+          </div>
+          {% endfor %}
+          <div style="margin-top: 10px; font-size: 12px;">
+            <a href="publications.html"><span class="prompt">→</span> view all publications</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{ statusbar(config.status_bar.index, '© ' ~ config.copyright_year ~ ' ' ~ config.name) }}
+
+  <script>
+    const prefix = {{ config.home_page.typing_text | tojson }};
+    const name = {{ config.name | tojson }};
+    const full = prefix + name;
+    const el = document.getElementById('typed');
+    let i = 0;
+    const type = () => {
+      if (i <= full.length) {
+        if (i <= prefix.length) {
+          el.innerHTML = full.slice(0, i);
+        } else {
+          el.innerHTML = prefix + '<span class="glitch" data-text="' + name + '">' + full.slice(prefix.length, i) + '</span>';
+        }
+        i++;
+        setTimeout(type, 55);
+      }
+    };
+    type();
+  </script>
+  <script src="theme.js"></script>
+  <script src="terminal-easteregg.js"></script>
+</body>
+</html>

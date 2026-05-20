@@ -1,0 +1,32 @@
+{# Reusable nav bar macro. Usage: {{ topbar('publications') }} #}
+{% macro topbar(active) -%}
+<nav class="top-bar">
+  <div class="top-bar__dots">
+    <div class="top-bar__dot top-bar__dot--r"></div>
+    <div class="top-bar__dot top-bar__dot--y"></div>
+    <div class="top-bar__dot top-bar__dot--g"></div>
+  </div>
+  <button class="top-bar__burger" aria-label="Menu" onclick="this.closest('.top-bar').classList.toggle('nav-open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="top-bar__tabs">
+    <a href="index.html" class="top-bar__tab{% if active == 'index' %} top-bar__tab--active{% endif %}">about.sh</a>
+    <a href="publications.html" class="top-bar__tab{% if active == 'publications' %} top-bar__tab--active{% endif %}">publications</a>
+    <a href="repositories.html" class="top-bar__tab{% if active == 'repositories' %} top-bar__tab--active{% endif %}">repositories</a>
+    <a href="cv.html" class="top-bar__tab{% if active == 'cv' %} top-bar__tab--active{% endif %}">cv</a>
+    <a href="teaching.html" class="top-bar__tab{% if active == 'teaching' %} top-bar__tab--active{% endif %}">teaching</a>
+  </div>
+  <div class="top-bar__spacer"></div>
+  <div class="top-bar__controls">
+    <div class="top-bar__time" id="clock"></div>
+  </div>
+</nav>
+{%- endmacro %}
+
+{# Status bar macro. Usage: {{ statusbar('left text', 'right text') }} #}
+{% macro statusbar(left, right) -%}
+<div class="status-bar">
+  <span>{{ left }}</span>
+  <span>{{ right }}</span>
+</div>
+{%- endmacro %}

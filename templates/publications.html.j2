@@ -1,0 +1,45 @@
+{% from 'base.html.j2' import topbar, statusbar %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Publications by {{ config.name }} on sleep genetics, circadian rhythms, Drosophila behavior, TRP channels, and related biological research." />
+  <title>{{ config.name }} — Publications</title>
+  <link rel="stylesheet" href="terminal.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+</head>
+<body>
+  {{ topbar('publications') }}
+
+  <div class="page-body">
+    <div class="page-title fade-in"><span class="prompt">$</span> ls publications/</div>
+    <div class="page-subtitle fade-in fade-in-d1"><span class="comment">// {{ publications | length }} papers · sorted by year</span></div>
+
+    <div class="pub-grid">
+      {% for pub in publications %}
+      {% if pub.show_year_divider %}
+      <div class="year-divider">— {{ pub.year }} —</div>
+      {% endif %}
+      <div class="pub-entry" style="animation-delay: {{ pub.animation_delay }}">
+        <div class="pub-num">{{ "%02d" | format(pub.number) }}</div>
+        <div>
+          <div class="pub-title">{{ pub.title }}</div>
+          <div class="pub-authors">{{ pub.authors_html | safe }}</div>
+          <div class="pub-venue"><em>{{ pub.venue }}</em>{% if pub.note %}, {{ pub.note }}{% endif %}, {{ pub.year }}</div>
+          {% if pub.url %}<a href="{{ pub.url }}" class="pub-link">html →</a>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {{ statusbar(
+    (publications | length) ~ ' publications · ' ~ pub_year_range,
+    '© ' ~ config.copyright_year ~ ' ' ~ config.name
+  ) }}
+
+  <script src="theme.js"></script>
+  <script src="terminal-easteregg.js"></script>
+</body>
+</html>

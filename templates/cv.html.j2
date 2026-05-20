@@ -1,0 +1,99 @@
+{% from 'base.html.j2' import topbar, statusbar %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Curriculum vitae for {{ config.name }}, {{ config.designation }} at {{ config.affiliation }}." />
+  <title>{{ config.name }} — CV</title>
+  <link rel="stylesheet" href="terminal.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+</head>
+<body>
+  {{ topbar('cv') }}
+
+  <div class="page-body">
+    <div class="page-title fade-in"><span class="prompt">$</span> cat cv.yml</div>
+    <div class="page-subtitle fade-in fade-in-d1"><span class="comment">// {{ config.name }} · {{ config.designation }} · NHLBI</span></div>
+
+    <div class="cv-grid">
+      <div class="cv-col">
+
+        <div class="fade-in fade-in-d2">
+          <div class="section-label">// education</div>
+          {% for item in education %}
+          <div class="timeline-item">
+            <div class="timeline-item__year">{{ item.year_label }}</div>
+            <div class="timeline-item__title">{{ item.degree }}</div>
+            <div class="timeline-item__institution">{{ item.institution }}</div>
+            {% if item.details_list %}
+            <div class="timeline-item__desc">
+              <ul>
+                {% for d in item.details_list %}<li>{{ d | safe }}</li>{% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="fade-in fade-in-d3">
+          <div class="section-label">// experience</div>
+          {% for item in experience %}
+          <div class="timeline-item">
+            <div class="timeline-item__year">{{ item.year_label }}</div>
+            <div class="timeline-item__title">{{ item.title }}</div>
+            <div class="timeline-item__institution">{{ item.institution }}</div>
+            {% if item.details_list %}
+            <div class="timeline-item__desc">
+              <ul>
+                {% for d in item.details_list %}<li>{{ d | safe }}</li>{% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="cv-col">
+        <div class="fade-in fade-in-d3">
+          <div class="section-label">// honors &amp; awards</div>
+          {% for award in awards %}
+          <div class="awards-item">
+            <span class="awards-year">{{ award.year }}</span>
+            <span>{{ award.description | safe }}</span>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="fade-in fade-in-d4">
+          <div class="section-label">// general</div>
+          <div style="font-size: 14px; line-height: 2;">
+            <span class="prompt">name</span><span class="muted">:</span> {{ config.name }}<br />
+            <span class="prompt">designation</span><span class="muted">:</span> {{ config.designation }}<br />
+            <span class="prompt">affiliation</span><span class="muted">:</span> {{ config.affiliation }}<br />
+            <span class="prompt">advisor</span><span class="muted">:</span> {{ config.advisor }}<br />
+            <span class="prompt">email</span><span class="muted">:</span> {{ config.email }}<br />
+            <span class="prompt">scholar</span><span class="muted">:</span> <a href="{{ config.scholar_url }}">Google Scholar Profile</a><br />
+            <span class="prompt">github</span><span class="muted">:</span> <a href="https://github.com/{{ config.github }}">github.com/{{ config.github }}</a><br />
+            <span class="prompt">cv_pdf</span><span class="muted">:</span> <a href="assets/CV_AG_05192026.pdf" download>download full CV (pdf)</a>
+          </div>
+        </div>
+
+        <div class="fade-in fade-in-d5">
+          <div class="section-label">// publications</div>
+          <div style="font-size: 14px; color: var(--muted);">
+            <a href="publications.html"><span class="prompt">→</span> view all {{ pub_count }} publications</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{ statusbar(config.status_bar.cv, '© ' ~ config.copyright_year ~ ' ' ~ config.name) }}
+
+  <script src="theme.js"></script>
+  <script src="terminal-easteregg.js"></script>
+</body>
+</html>

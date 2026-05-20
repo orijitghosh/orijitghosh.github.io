@@ -1,4 +1,4 @@
-# CSV data files (private)
+# Personal data (my CSVs — not for public repo)
 data/
 
 # Python
@@ -24,13 +24,7 @@ Thumbs.db
 # Build artifacts
 *.log
 
-# Internal handoff/notes (private to maintainer)
+# Internal/private notes
 HANDOFF.md
-docs/
+docs/superpowers/
 .remember/
-
-# Build tooling (not needed on deployed site)
-build.py
-requirements.txt
-templates/
-tests/
