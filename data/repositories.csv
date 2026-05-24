@@ -4,3 +4,4 @@ VANESSA-DAM,Visualization and ANalysis of timE SerieS dAta — Drosophila Activi
 depmixS4,R package to define and fit mixture and hidden Markov (dependent mixture) models. Forked and extended for sleep state classification applications.,https://github.com/orijitghosh/depmixS4,R
 orijitghosh.github.io,Personal academic website. Built with Jekyll and the al-folio theme. Hosts publications CV research projects and repositories.,https://github.com/orijitghosh/orijitghosh.github.io,"CSS, JavaScript, HTML, Python, Jinja"
 prakriti,R package for Color palettes inspired by India's natural landscapes,https://github.com/orijitghosh/prakriti,R
+rtui,R package for Full-screen terminal user interfaces from R,https://github.com/orijitghosh/rtui,"R, CSS, Python"
