@@ -18,7 +18,7 @@ Complete specification for each CSV file in `data/`.
 |---|---|---|
 | `year` | Yes | Year as integer (e.g., `2026`) |
 | `title` | Yes | Full paper title |
-| `authors` | Yes | Semicolon-separated. Format: `Lastname Firstname`. Your name is auto-bolded based on `config.yaml` → `author_bold_patterns`. |
+| `authors` | Yes | Semicolon-separated. Format: `Lastname Firstname`. Your name is auto-bolded based on `config.yaml` → `author_bold_patterns`. Prefix your name with `*` to mark co-first authorship when you aren't listed first (e.g. `Saha Somdatta; *Ghosh Arijit; …`): it shows a superscript asterisk and a "Co-first author" badge, and counts toward the first-author filter. |
 | `venue` | Yes | Journal/conference name (no italics — added automatically) |
 | `url` | No | Link to paper |
 | `selected` | No | `yes` to show on home page; otherwise empty |
@@ -162,15 +162,17 @@ Static personal info and display options.
 
 Key sections:
 
-- **Personal info:** `name`, `email`, `location`, `designation`, etc.
+- **Personal info:** `name`, `name_native`, `email`, `location`, `timezone` (IANA name, drives the footer clock), `designation`, `affiliation`, `cv_pdf`, etc.
+- **`tagline`:** one-liner under your name in the hero (HTML allowed)
+- **`statement`:** the large statement that lights up word by word as you scroll; wrap words in `<em>` to set them in the accent italic
 - **`bio`:** list of HTML paragraphs shown on the home page
-- **`tags`:** list of strings shown as pills on the home page
+- **`tags`:** list of strings shown on the home page
+- **`research`:** the two research blocks next to the live actogram and sleep-state figures (`title`, `text` paragraphs, optional `links`)
 - **`author_bold_patterns`:** list of name strings to auto-bold in publications
 - **`language_colors`:** map from language name to hex color
 - **`home_page`:**
   - `news_count`: how many news items to show on home (default 7)
   - `selected_publications_count`: max selected pubs on home (default 6)
-  - `typing_text`: prefix for the typing animation
 
 After editing `config.yaml`, run `python build.py` and commit.
 

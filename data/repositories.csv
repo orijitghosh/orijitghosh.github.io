@@ -1,7 +1,7 @@
 name,description,url,languages
-FlyDreamR,An R package to infer sleep/wake states from locomotion data using hidden Markov models. Accompanies our 2026 bioRxiv preprint on genetic basis of sleep states in <em>Drosophila melanogaster</em>.,https://github.com/orijitghosh/FlyDreamR,R
+FlyDreamR,An R package to infer sleep/wake states from locomotion data using hidden Markov models. Accompanies our 2026 bioRxiv preprint on the genetic basis of sleep states in <em>Drosophila melanogaster</em>.,https://github.com/orijitghosh/FlyDreamR,R
 VANESSA-DAM,Visualization and ANalysis of timE SerieS dAta — Drosophila Activity Monitors. A suite of Shiny apps for accelerated time-series analysis and visualization of circadian rhythm and sleep data.,https://github.com/orijitghosh/VANESSA-DAM,R
-orijitghosh.github.io,A terminal-themed personal academic website with a CSV-based content management system.,https://github.com/orijitghosh/orijitghosh.github.io,"CSS, JavaScript, HTML, Python, Jinja"
-prakriti,R package for Color palettes inspired by India's natural landscapes,https://github.com/orijitghosh/prakriti,R
-rtui,R package for Full-screen terminal user interfaces from R,https://github.com/orijitghosh/rtui,"R, CSS, Python"
-ggsketch,"Grammar-native, hand-drawn geoms for ggplot2 - the rough.js sketch aesthetic in pure R, with no JavaScript and no browser.",https://github.com/orijitghosh/ggsketch,R
+ggsketch,"An R package on CRAN with hand-drawn geoms for <em>ggplot2</em>: the rough.js sketch look in pure R, with no JavaScript or browser. The geoms work with aes(), stats, scales and facets, and render on every graphics device, PDF included.",https://github.com/orijitghosh/ggsketch,R
+kodama,"Your GitHub history drawn as a bonsai. Commits grow foliage, merged PRs ripen into fruit and reviews hang lanterns. It's one image URL for your profile README, redrawn every day from your real numbers.",https://github.com/orijitghosh/kodama,"HTML, TypeScript, Astro, JavaScript, CSS"
+prakriti,An R package on CRAN with color palettes inspired by India's natural landscapes.,https://github.com/orijitghosh/prakriti,R
+orijitghosh.github.io,This website. Static pages built from CSV files with Python and Jinja; the theme follows the visitor's time of day.,https://github.com/orijitghosh/orijitghosh.github.io,"CSS, JavaScript, HTML, Python, Jinja"

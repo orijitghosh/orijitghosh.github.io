@@ -1,45 +1,79 @@
-{% from 'base.html.j2' import topbar, statusbar %}
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Publications by {{ config.name }} on sleep genetics, circadian rhythms, Drosophila behavior, TRP channels, and related biological research." />
-  <title>{{ config.name }} — Publications</title>
-  <link rel="stylesheet" href="terminal.css" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-</head>
-<body>
-  {{ topbar('publications') }}
+{% extends 'base.html.j2' %}
+{% from '_macros.html.j2' import arrow %}
 
-  <div class="page-body">
-    <div class="page-title fade-in"><span class="prompt">$</span> ls publications/</div>
-    <div class="page-subtitle fade-in fade-in-d1"><span class="comment">// {{ publications | length }} papers · sorted by year</span></div>
+{% block title %}Publications — {{ config.name }}{% endblock %}
+{% block description %}{{ pub_count }} publications ({{ pub_year_range }}) by {{ config.name }} on circadian rhythms, sleep genetics and chronobiology.{% endblock %}
 
-    <div class="pub-grid">
-      {% for pub in publications %}
-      {% if pub.show_year_divider %}
-      <div class="year-divider">— {{ pub.year }} —</div>
-      {% endif %}
-      <div class="pub-entry" style="animation-delay: {{ pub.animation_delay }}">
-        <div class="pub-num">{{ "%02d" | format(pub.number) }}</div>
-        <div>
-          <div class="pub-title">{{ pub.title }}</div>
-          <div class="pub-authors">{{ pub.authors_html | safe }}</div>
-          <div class="pub-venue"><em>{{ pub.venue }}</em>{% if pub.note %}, {{ pub.note }}{% endif %}, {{ pub.year }}</div>
-          {% if pub.url %}<a href="{{ pub.url }}" class="pub-link">html →</a>{% endif %}
+{% block content %}
+  <header class="phead wrap">
+    <p class="eyebrow" data-reveal="fade"><span class="idx">{{ pub_count }}</span>Publications · {{ pub_year_range }}</p>
+    <h1 class="phead__title" data-words>Papers, <em>preprints</em><br />&amp; chapters.</h1>
+    <div class="phead__row">
+      <p class="phead__lede" data-reveal>Newest first. An asterisk (<span class="cofirst">*</span>) after my name marks co-first authorship. Citation counts are on <a class="link" href="{{ config.scholar_url }}" target="_blank" rel="noopener">Google Scholar</a>.</p>
+      {%- if pub_histogram %}
+      {%- set maxc = pub_histogram | map(attribute='count') | max %}
+      <div class="ybars" data-ybars data-inview>
+        <span class="ybars__cap">Papers per year · tap a bar</span>
+        <div class="ybars__plot" data-max="{{ maxc }}">
+          {%- for b in pub_histogram %}
+          <button class="ybar" type="button" data-year="{{ b.year }}" data-n="{{ b.count }}" style="--h:{{ '%.3f' | format(b.count / maxc) }};--i:{{ loop.index0 }}"{% if not b.count %} disabled{% endif %} aria-label="{{ b.year }}: {{ b.count }} publication{{ '' if b.count == 1 else 's' }}">
+            <span class="ybar__n">{{ b.count }}</span><span class="ybar__fill"></span>
+          </button>
+          {%- endfor %}
         </div>
+        <div class="ybars__axis" aria-hidden="true"><span>{{ pub_histogram[0].year }}</span><span>{{ pub_histogram[-1].year }}</span></div>
       </div>
-      {% endfor %}
+      {%- endif %}
     </div>
-  </div>
+  </header>
 
-  {{ statusbar(
-    (publications | length) ~ ' publications · ' ~ pub_year_range,
-    '© ' ~ config.copyright_year ~ ' ' ~ config.name
-  ) }}
+  <section class="wrap" data-pubs aria-label="Publication list">
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Filter publications" data-seg>
+        <span class="seg__pill" aria-hidden="true"></span>
+        <button class="seg__btn" type="button" aria-pressed="true" data-filter="all">All<span>{{ pub_count }}</span></button>
+        <button class="seg__btn" type="button" aria-pressed="false" data-filter="first">First &amp; co-first<span>{{ first_author_count }}</span></button>
+        <button class="seg__btn" type="button" aria-pressed="false" data-filter="selected">Selected<span>{{ selected_count }}</span></button>
+      </div>
+      <label class="search">
+        <span class="sr-only">Search publications</span>
+        <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+        <input type="search" placeholder="Search titles, authors, venues…" autocomplete="off" spellcheck="false" data-search />
+      </label>
+    </div>
+    <p class="pubs__status" data-status aria-live="polite">Showing all {{ pub_count }}</p>
 
-  <script src="theme.js"></script>
-  <script src="terminal-easteregg.js"></script>
-</body>
-</html>
+    {%- for group in publications | groupby('year') | reverse %}
+    <div class="ygroup" id="y{{ group.grouper }}" data-ygroup="{{ group.grouper }}">
+      <div class="ygroup__year" aria-hidden="true">{{ group.grouper }}</div>
+      <ol class="ygroup__list" aria-label="{{ group.grouper }}">
+        {%- for pub in group.list %}
+        <li class="pub" data-pub data-first="{{ pub.is_first_author | int }}" data-selected="{{ pub.is_selected | int }}" data-search="{{ pub.search_text }}">
+          <span class="pub__num" aria-hidden="true">{{ '%02d' | format(pub_count - pub.number + 1) }}</span>
+          <div class="pub__body">
+            <h2 class="pub__title">{% if pub.url %}<a href="{{ pub.url }}" target="_blank" rel="noopener" data-cursor-label="Read">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</h2>
+            <p class="pub__authors">{{ pub.authors_html | safe }}</p>
+            <p class="pub__venue"><em>{{ pub.venue }}</em>{% if pub.note %} · {{ pub.note }}{% endif %}</p>
+            {%- if pub.is_first_author or pub.is_selected or 'rxiv' in pub.venue | lower %}
+            <div class="pub__badges">
+              {%- if pub.is_cofirst %}<span class="badge badge--sun">Co-first author</span>{% elif pub.is_first_author %}<span class="badge badge--sun">First author</span>{% endif %}
+              {%- if pub.is_selected %}<span class="badge">Selected</span>{% endif %}
+              {%- if 'rxiv' in pub.venue | lower %}<span class="badge">Preprint</span>{% endif %}
+            </div>
+            {%- endif %}
+          </div>
+          {%- if pub.url %}
+          <a class="pub__go" href="{{ pub.url }}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">{{ arrow(size=16) }}</a>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ol>
+    </div>
+    {%- endfor %}
+    <p class="pubs__empty" data-empty hidden>Nothing matches. Try a broader search?</p>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ root }}assets/js/publications.js" defer></script>
+{% endblock %}

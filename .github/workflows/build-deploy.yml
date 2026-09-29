@@ -36,7 +36,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html publications.html repositories.html cv.html teaching.html 404.html _site/
-          cp terminal.css theme.js terminal-easteregg.js favicon.svg config.yaml _site/
+          cp favicon.svg config.yaml _site/
           cp -r assets _site/
 
       - uses: actions/upload-pages-artifact@v3

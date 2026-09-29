@@ -1,6 +1,6 @@
-# terminal-academic
+# zeitgeber
 
-A terminal-themed personal academic website with a CSV-based content management system. Edit your publications, news, CV, and repos in spreadsheets, push to GitHub, and a GitHub Actions workflow builds and deploys the site automatically. No databases, no frameworks, no CMS logins.
+A personal academic website, built around the thing I study: the daily clock. It comes with a CSV-based content management system. Edit your publications, news, CV, and repos in spreadsheets, push to GitHub, and a GitHub Actions workflow builds and deploys the site automatically. No databases, no frameworks, no CMS logins.
 
 Live: [orijitghosh.github.io](https://orijitghosh.github.io)
 
@@ -8,18 +8,20 @@ Live: [orijitghosh.github.io](https://orijitghosh.github.io)
 
 ## What it looks like
 
-- Dark/light theme toggle with film-grain texture overlay
-- Colorblind-accessible palettes (deuteranopia, protanopia, tritanopia)
-- Responsive hamburger nav on mobile
-- Terminal-style easter egg (try typing `help` in the console widget)
-- Page transition animations, typing effect on the home page
-- Print-friendly CV layout
+- **The site keeps circadian time.** Your local clock is converted to Zeitgeber time (ZT0 = 06:00). The theme follows the sun (light 06:00 to 18:00, dark otherwise) unless you pick one, and the nav mark is a 24-hour dial whose hand moves through the day.
+- **A live fly arena** on the home page. Simulated *Drosophila* walk, rest, fly and sleep on a schedule set by the time of day (morning and evening peaks, a midday siesta, sleep at night). Move the cursor to herd them, sweep fast to scare them off, click to startle them. Toggling the theme is a light pulse, so they startle then too.
+- **Two live research figures.** A double-plotted actogram whose free-running period τ you can drag, and a hidden-Markov sleep-state model that steps through wake, quiet wake, light sleep and deep sleep while its transition graph lights up.
+- **Motion throughout:** an intro counter, split-text reveals, scroll-lit statements, a scroll-driven marquee, magnetic buttons, a custom cursor, tilting repo cards and circular page transitions (cross-document View Transitions, with a curtain fallback).
+- **Publications** get a filter pill, live search with highlighting (press `/`), and a year histogram that doubles as navigation. Link a search with `publications.html?q=sleep`.
+- **A tiny shell.** Press `` ` `` anywhere (or use the key in the footer), then type `help`.
+- Everything respects `prefers-reduced-motion`, works with a keyboard, and prints cleanly. The amber and violet palette separates by luminance as well as hue, so it holds up for colour-blind readers.
+- No frameworks and no build step for the front end: plain CSS and classic `defer` scripts, so opening `index.html` straight from disk works.
 
 ## Pages
 
 | Page | Content source |
 |---|---|
-| **about.sh** (home) | `config.yaml` (bio, tags) + `data/news.csv` + `data/publications.csv` (selected) |
+| **About** (home) | `config.yaml` (bio, tags) + `data/news.csv` + `data/publications.csv` (selected) |
 | **publications** | `data/publications.csv` — auto-sorted by year, author name auto-bolded |
 | **repositories** | `data/repositories.csv` — language color dots from config |
 | **cv** | `data/education.csv` + `data/experience.csv` + `data/awards.csv` |
@@ -117,7 +119,7 @@ A few things that might not be obvious:
 
 ### Colors and theme
 
-All colors live in CSS custom properties at the top of `terminal.css`. The dark theme, light theme, and three colorblind palettes each have their own block. Change `--tan`, `--green`, `--accent`, `--bg`, etc. to whatever you want.
+All colours are CSS custom properties at the top of `assets/css/site.css`, with one block for the night (dark) palette and one for the day (light) palette. The main ones are `--bg`, `--ink`, `--sun` (the amber accent), `--dusk` (the violet accent) and `--fly`.
 
 ### Language colors for repo cards
 
@@ -131,15 +133,15 @@ language_colors:
 
 ### Adding pages
 
-The Jinja2 templates are in `templates/`. Each page imports macros from `base.html.j2` (the nav bar and status bar). To add a new page:
+The Jinja2 templates are in `templates/`. Every page extends `base.html.j2` (nav, full-screen menu, footer, cursor and page-transition curtain), and small shared pieces (arrows, section eyebrows, the dial mark) live in `_macros.html.j2`. To add a new page:
 
-1. Create `templates/newpage.html.j2`
-2. Add the rendering call in `build.py`
-3. Add a tab in the `topbar` macro in `base.html.j2`
+1. Create `templates/newpage.html.j2` with `{% extends "base.html.j2" %}` and fill the `content` block
+2. Add a row to the `PAGES` list in `build.py`
+3. Add an entry to `nav_items` at the top of `base.html.j2`
 
 ### Swap out the profile image
 
-Replace `assets/profile.png`. Any square-ish image works, it gets clipped to a circle via CSS.
+Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback). Any square-ish image works; it's clipped to a circle. A photo on a white background looks best, since it's blended onto the portrait disc.
 
 ---
 
@@ -161,25 +163,30 @@ Replace `assets/profile.png`. Any square-ish image works, it gets clipped to a c
 │   └── service.csv
 │
 ├── templates/               # Jinja2 source templates
-│   ├── base.html.j2         # nav bar + status bar macros
+│   ├── base.html.j2         # shared layout: nav, menu, footer, cursor
+│   ├── _macros.html.j2      # arrows, eyebrows, dial mark
 │   ├── index.html.j2
 │   ├── publications.html.j2
 │   ├── repositories.html.j2
 │   ├── cv.html.j2
-│   └── teaching.html.j2
+│   ├── teaching.html.j2
+│   └── 404.html.j2
 │
 ├── assets/
-│   ├── profile.png
+│   ├── css/site.css         # all styling: palettes, layout, motion, print
+│   ├── js/site.js           # core: theme + ZT clock, reveals, cursor, transitions, intro
+│   ├── js/flies.js          # home page fly arena + ZT dial
+│   ├── js/research.js       # actogram + sleep-state model
+│   ├── js/publications.js   # filters, search, year histogram
+│   ├── js/terminal.js       # the ` shell
+│   ├── profile.webp / profile-720.jpg
 │   └── CV_AG_05192026.pdf   # downloadable CV (swap with your own)
 │
-├── terminal.css             # all styling — themes, responsive, print
-├── theme.js                 # dark/light/colorblind toggle logic
-├── terminal-easteregg.js    # interactive terminal widget
 ├── favicon.svg
 ├── 404.html
 │
 ├── tests/
-│   └── test_build.py        # 43 tests for the build script
+│   └── test_build.py        # tests for the build script
 │
 ├── docs/                    # guides for editing, deploying, troubleshooting
 │   ├── SETUP.md

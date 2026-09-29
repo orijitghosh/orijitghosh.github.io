@@ -22,8 +22,7 @@ You don't need Python installed to update the site — just edit files and push.
 The Actions workflow copies only the site files to GitHub Pages:
 
 - HTML pages (`index.html`, `cv.html`, `publications.html`, `repositories.html`, `teaching.html`, `404.html`)
-- Styles/scripts (`terminal.css`, `theme.js`, `terminal-easteregg.js`)
-- Config and assets (`config.yaml`, `favicon.svg`, `assets/`)
+- Config and assets (`config.yaml`, `favicon.svg`, `assets/`, which holds the CSS in `assets/css/` and the scripts in `assets/js/`)
 
 Build tooling, templates, CSVs, tests, and docs stay in the repo but aren't part of the deployed site.
 

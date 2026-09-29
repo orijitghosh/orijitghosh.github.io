@@ -1,228 +1,513 @@
-
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-page="index">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Arijit Ghosh, visiting fellow (postdoctoral) at NHLBI studying circadian rhythms, sleep genetics, quantitative genetics, and multi-omics in Drosophila." />
-  <title>Arijit Ghosh — About</title>
-  <link rel="stylesheet" href="terminal.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arijit Ghosh — circadian rhythms &amp; sleep genetics</title>
+  <meta name="description" content="Arijit Ghosh, visiting fellow (postdoctoral) at National Heart, Lung, and Blood Institute, studying circadian rhythms and sleep genetics in Drosophila." />
+  <meta name="author" content="Arijit Ghosh" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0a0c11" />
+  <meta property="og:title" content="Arijit Ghosh — circadian rhythms &amp; sleep genetics" />
+  <meta property="og:description" content="Arijit Ghosh, visiting fellow (postdoctoral) at National Heart, Lung, and Blood Institute, studying circadian rhythms and sleep genetics in Drosophila." />
+  <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <style>
-    .typing-line { font-size: 1.6rem; font-weight: 600; min-height: 2em; }
-    .bio-block { font-size: 14px; line-height: 1.8; color: var(--muted); max-width: 620px; text-wrap: pretty; }
-    .bio-block code { color: var(--tan); background: var(--code-bg); padding: 1px 5px; border-radius: 2px; font-size: 13px; }
-    .meta-row { display: flex; gap: 28px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
-    .profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
-
-    /* GLITCH TEXT */
-    .glitch { position: relative; display: inline-block; cursor: default; }
-    .glitch::before, .glitch::after {
-      content: attr(data-text);
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0; pointer-events: none;
-    }
-    .glitch::before { color: var(--accent); clip-path: inset(0 0 60% 0); }
-    .glitch::after { color: var(--green); clip-path: inset(40% 0 0 0); }
-    .glitch:hover::before { opacity: 0.8; animation: glitch-top 0.4s steps(2) infinite; }
-    .glitch:hover::after { opacity: 0.8; animation: glitch-bottom 0.4s steps(3) infinite; }
-    @keyframes glitch-top {
-      0% { transform: translate(-2px, -1px); } 25% { transform: translate(2px, 1px); }
-      50% { transform: translate(-1px, 2px); } 75% { transform: translate(1px, -2px); }
-      100% { transform: translate(-2px, 1px); }
-    }
-    @keyframes glitch-bottom {
-      0% { transform: translate(2px, 1px); } 25% { transform: translate(-1px, -1px); }
-      50% { transform: translate(1px, -2px); } 75% { transform: translate(-2px, 2px); }
-      100% { transform: translate(1px, -1px); }
-    }
-    .glitch:hover {
-      text-shadow: 0.05em 0 0 var(--accent), -0.05em -0.025em 0 var(--green);
-      animation: glitch-skew 0.5s steps(2) infinite;
-    }
-    @keyframes glitch-skew {
-      0% { transform: skewX(0deg); } 25% { transform: skewX(-1deg); }
-      50% { transform: skewX(0.5deg); } 75% { transform: skewX(-0.5deg); }
-      100% { transform: skewX(0deg); }
-    }
-  </style>
+  
+  <script>
+    /* Runs before first paint: entrain the theme to the visitor's clock,
+       flag JS-driven motion, and aim cross-page view transitions at the click. */
+    (function () {
+      var d = document.documentElement, h = new Date().getHours(), t = null, ss = null;
+      try { t = localStorage.getItem('ag-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = (h >= 6 && h < 18) ? 'light' : 'dark';
+      d.setAttribute('data-theme', t);
+      d.classList.add('js');
+      try { ss = window.sessionStorage; } catch (e) {}
+      var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var vt = 'PageRevealEvent' in window;
+      if (ss) {
+        if (!still && !ss.getItem('ag-entrained')) d.classList.add('intro');
+        try { ss.setItem('ag-entrained', '1'); } catch (e) {}
+        if (!vt && !still && ss.getItem('ag-curtain')) d.classList.add('curtain-in');
+        try { ss.removeItem('ag-curtain'); } catch (e) {}
+      }
+      addEventListener('pagereveal', function (e) {
+        if (!e.viewTransition) return;
+        var p = null;
+        try { p = JSON.parse(ss.getItem('ag-vt')); ss.removeItem('ag-vt'); } catch (_) {}
+        if (p && Date.now() - p.t < 5000) {
+          d.style.setProperty('--vt-x', p.x + 'px');
+          d.style.setProperty('--vt-y', p.y + 'px');
+        }
+        e.viewTransition.finished.finally(function () {
+          d.style.removeProperty('--vt-x');
+          d.style.removeProperty('--vt-y');
+        });
+      });
+      /* failsafe: if the motion script never arrives, show everything */
+      setTimeout(function () {
+        if (!d.classList.contains('ready')) d.classList.remove('js', 'intro', 'curtain-in');
+      }, 4000);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400..600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap&text=%E0%A6%85%E0%A6%B0%E0%A6%BF%E0%A6%9C%E0%A6%BF%E0%A7%8E%20%E0%A6%98%E0%A7%8B%E0%A6%B7" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  
 </head>
 <body>
-  <nav class="top-bar">
-  <div class="top-bar__dots">
-    <div class="top-bar__dot top-bar__dot--r"></div>
-    <div class="top-bar__dot top-bar__dot--y"></div>
-    <div class="top-bar__dot top-bar__dot--g"></div>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="index.html" aria-label="Arijit Ghosh, home">
+      <svg class="nav__mark" viewBox="0 0 34 34" aria-hidden="true" data-dial-mark>
+  <circle class="mk-face" cx="17" cy="17" r="16"/>
+  <path class="mk-night" d="M17 1a16 16 0 0 0 0 32z"/>
+  <g class="mk-hand"><line x1="17" y1="17" x2="17" y2="6.5"/><circle class="mk-sun" cx="17" cy="6" r="2.6"/></g>
+</svg>
+      <span class="nav__name" data-roll>Arijit Ghosh</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary" data-navlinks>
+      <span class="nav__hover" aria-hidden="true"></span>
+      <a class="nav__link" href="index.html" aria-current="page"><span class="nav__pill" aria-hidden="true"></span><span data-roll>About</span>
+      </a>
+      <a class="nav__link" href="publications.html"><span data-roll>Publications</span>
+      </a>
+      <a class="nav__link" href="repositories.html"><span data-roll>Code</span>
+      </a>
+      <a class="nav__link" href="cv.html"><span data-roll>CV</span>
+      </a>
+      <a class="nav__link" href="teaching.html"><span data-roll>Teaching</span>
+      </a>
+    </nav>
+
+    <div class="nav__tools">
+      <span class="nav__clock" data-clock title="Your local time, and Zeitgeber time (hours since 06:00, when the lights come on)">--:-- · <b>ZT --</b></span>
+      <button class="ld" type="button" data-theme-toggle aria-label="Switch between light and dark">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <mask id="ld-mask" maskUnits="userSpaceOnUse" x="-6" y="-6" width="36" height="36">
+              <rect x="-6" y="-6" width="36" height="36" fill="#fff" />
+              <circle class="ld__cut" cx="17" cy="7" r="5.6" fill="#000" />
+            </mask>
+          </defs>
+          <circle class="ld__core" cx="12" cy="12" r="4.6" mask="url(#ld-mask)" />
+          <g class="ld__rays">
+            <line x1="12" y1="1.6" x2="12" y2="4" /><line x1="12" y1="20" x2="12" y2="22.4" />
+            <line x1="1.6" y1="12" x2="4" y2="12" /><line x1="20" y1="12" x2="22.4" y2="12" />
+            <line x1="4.6" y1="4.6" x2="6.3" y2="6.3" /><line x1="17.7" y1="17.7" x2="19.4" y2="19.4" />
+            <line x1="4.6" y1="19.4" x2="6.3" y2="17.7" /><line x1="17.7" y1="6.3" x2="19.4" y2="4.6" />
+          </g>
+        </svg>
+      </button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+        <i aria-hidden="true"></i><span>Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" data-menu>
+    <nav class="menu__links" aria-label="Mobile">
+      <a class="menu__link" href="index.html" style="--i:0" aria-current="page"><small>01</small><span>About</span></a>
+      <a class="menu__link" href="publications.html" style="--i:1"><small>02</small><span>Publications</span></a>
+      <a class="menu__link" href="repositories.html" style="--i:2"><small>03</small><span>Code</span></a>
+      <a class="menu__link" href="cv.html" style="--i:3"><small>04</small><span>CV</span></a>
+      <a class="menu__link" href="teaching.html" style="--i:4"><small>05</small><span>Teaching</span></a>
+    </nav>
+    <div class="menu__foot">
+      <span>arijitghosh2009@gmail.com</span>
+      <span data-clock>--:--</span>
+    </div>
   </div>
-  <button class="top-bar__burger" aria-label="Menu" onclick="this.closest('.top-bar').classList.toggle('nav-open')">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="top-bar__tabs">
-    <a href="index.html" class="top-bar__tab top-bar__tab--active">about.sh</a>
-    <a href="publications.html" class="top-bar__tab">publications</a>
-    <a href="repositories.html" class="top-bar__tab">repositories</a>
-    <a href="cv.html" class="top-bar__tab">cv</a>
-    <a href="teaching.html" class="top-bar__tab">teaching</a>
+
+  <main id="main">
+    
+  <div class="loader" aria-hidden="true" data-loader>
+    <div class="loader__time" data-loader-time>00:00</div>
+    <svg class="loader__wave" viewBox="0 0 560 60" preserveAspectRatio="none">
+      <path class="lw-base" d="M0 30H560" />
+      <path data-loader-wave pathLength="1" d="M0 30" />
+    </svg>
+    <div class="loader__label">Entraining to your local time…</div>
   </div>
-  <div class="top-bar__spacer"></div>
-  <div class="top-bar__controls">
-    <div class="top-bar__time" id="clock"></div>
-  </div>
-</nav>
 
-  <div class="page-body">
-    <div class="split">
+  
+  <section class="hero" data-hero aria-labelledby="hero-name">
+    <canvas class="hero__flies" data-flies aria-hidden="true"></canvas>
+    <div class="hero__glow" aria-hidden="true" data-glow></div>
+    <div class="hero__horizon" aria-hidden="true"></div>
 
-      <div class="split__left">
-        <div class="profile-header fade-in">
-          <img src="assets/profile.png" alt="Arijit Ghosh" class="profile-img" />
-          <div>
-            <div style="font-size: 13px; color: var(--muted);">visitor@arijit-ghosh:~$</div>
-            <div style="font-size: 18px; color: var(--tan); margin-top: 2px;" class="glitch" data-text="অরিজিৎ ঘোষ">অরিজিৎ ঘোষ</div>
-          </div>
-        </div>
-
-        <div class="typing-line fade-in fade-in-d1">
-          <span class="prompt">&gt;</span> <span id="typed"></span><span class="cursor"></span>
-        </div>
-
-        
-        <div class="bio-block fade-in fade-in-d2">
-          <span class="prompt">$ cat</span> bio.txt<br /><br />
-          Currently I am a visiting postdoctoral fellow at the <a href="https://www.nhlbi.nih.gov/science/systems-genetics#Meet-the-Team">Laboratory of Systems Genetics</a>, SBC, NHLBI at Bethesda, Maryland. I study the interaction between the <code>circadian clock</code> and <code>sleep</code> genetic networks, and how these interactions shape various behavior and physiological responses. During my PhD, I worked on understanding the genetic and molecular mechanisms underlying <code>complex behaviors</code>, specifically timing of a behavior (<a href="https://en.wikipedia.org/wiki/Chronotype">chronotypes</a>), under the influence, or independent of the circadian clock, at the <a href="https://www.jncasr.ac.in/faculty/sheeba">Chronobiology and Behavioural Neurogenetics Laboratory</a>, JNCASR.
-        </div>
-        
-        <div class="bio-block fade-in fade-in-d3">
-          
-          My studies use diverse methodologies — from <code>statistical modeling</code> of behavior to <code>quantitative genetics</code> and <code>multi-omics</code> techniques. Previously, I have also worked on thermo-sensitive <code>Transient Receptor Potential</code> (TRP) channels and their role in osteogenesis, using rodent models, primary bone cells, pharmacological modulators, and molecular dynamics during my masters studies at <a href="https://www.niser.ac.in/">NISER</a>.
-        </div>
-        
-        <div class="bio-block fade-in fade-in-d4">
-          
-          I was born in <a href="https://en.wikipedia.org/wiki/Bardhaman">Burdwan, WB</a>, India. I went to <a href="https://rkmvp.org/">RKMV, Purulia</a> and <a href="https://www.rkmvnarendrapur.org/">RKMV, Narendrapur</a> for schooling, then joined <a href="https://www.niser.ac.in/">NISER, Bhubaneswar</a> for an integrated MSc in Life Sciences with focus on <code>cell biology</code> and <code>bioinformatics</code>. After my PhD from <a href="https://www.jncasr.ac.in/research/research-units/neuroscience-unit">JNCASR</a> in Bangalore, I moved to Bethesda, MD to join the <a href="https://www.nih.gov/">NIH</a>. Apart from lab work, I am a leisure photographer, connoisseur of sci-fi and good food! For a full list of my publications, check out my <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en">Google Scholar profile</a>.
-        </div>
-        
-
-        <div class="fade-in fade-in-d4">
-          <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-            <span class="tag">Circadian Rhythms</span><span class="tag">Sleep Genetics</span><span class="tag">Quantitative Genetics</span><span class="tag">Multi-omics</span><span class="tag">Drosophila</span><span class="tag">Statistical Modeling</span>
-          </div>
-        </div>
-
-        <div class="fade-in fade-in-d5" style="font-size: 13px; color: var(--muted);">
-          <span class="prompt">$ echo</span> $EMAIL → arijitghosh2009@gmail.com<br />
-          <span class="prompt">$ echo</span> $LOCATION → Bethesda, MD<br />
-          <span class="prompt">$ echo</span> $LINKS → <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&amp;hl=en">Google Scholar</a> · <a href="https://github.com/orijitghosh">GitHub</a>
+    <div class="hero__top">
+      <div class="zt" data-zt data-reveal="fade" style="--d:1100">
+        <svg class="zt__dial" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="zt__face" cx="100" cy="100" r="86" />
+          <path class="zt__night" d="M100 14a86 86 0 0 0 0 172z" />
+          <g class="zt__ticks" data-zt-ticks></g>
+          <path class="zt__curve" data-zt-curve d="" />
+          <g class="zt__hand" data-zt-hand>
+            <line x1="100" y1="100" x2="100" y2="22" />
+            <circle cx="100" cy="18" r="6" />
+          </g>
+          <circle class="zt__hub" cx="100" cy="100" r="3" />
+          <text class="zt__lbl" x="100" y="8" text-anchor="middle">ZT0</text>
+          <text class="zt__lbl" x="196" y="103" text-anchor="start">6</text>
+          <text class="zt__lbl" x="100" y="199" text-anchor="middle">12</text>
+          <text class="zt__lbl" x="4" y="103" text-anchor="end">18</text>
+        </svg>
+        <div class="zt__read" aria-live="polite">
+          <span class="zt__time" data-zt-time>--:-- local · <b>ZT --</b></span>
+          <span class="zt__phase" data-zt-phase>Entraining…</span>
+          <span class="zt__msg" data-zt-msg>These flies keep your time zone.</span>
         </div>
       </div>
+    </div>
 
-      <div class="split__right">
-        <div class="fade-in fade-in-d2">
-          <div class="section-label">// latest</div>
-          
-          <div class="news-item">
-            <span class="news-item__date">Mar 2026</span>
-            <span>Received the SRBR Merit Award by the Society for Research on Biological Rhythms (2026), USA.</span>
-          </div>
-          
-          <div class="news-item">
-            <span class="news-item__date">Jan 2026</span>
-            <span>Posted a <a href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1">Preprint</a> on sleep state inference using HMMs in flies and an associated R package, <a href="https://orijitghosh.github.io/FlyDreamR/">FlyDreamR</a>.</span>
-          </div>
-          
-          <div class="news-item">
-            <span class="news-item__date">Jan 2025</span>
-            <span>Received the Sleep and Circadian Science Scholar Award by the Sleep Research Society (2025). Presenting at Advances in Sleep and Circadian Sciences 2025, Clearwater Beach, FL.</span>
-          </div>
-          
-          <div class="news-item">
-            <span class="news-item__date">Oct 2024</span>
-            <span>Received the Lenfant Fellowship from NHLBI for postdoctoral training (intramural equivalent to the F32).</span>
-          </div>
-          
-          <div class="news-item">
-            <span class="news-item__date">Jul 2024</span>
-            <span>Collaborative paper with Dragana Protic's group is out! <a href="https://www.mdpi.com/1422-0067/25/14/7949">Check it here</a>.</span>
-          </div>
-          
-          <div class="news-item">
-            <span class="news-item__date">Jul 2024</span>
-            <span>Our book chapter is published. <a href="https://link.springer.com/chapter/10.1007/978-3-031-62723-1_2">Check it out</a>!</span>
-          </div>
-          
-          <div class="news-item">
-            <span class="news-item__date">Jun 2024</span>
-            <span>Attended SRBR 2024 at San Juan, PR. Received a merit award at the conference.</span>
-          </div>
-          
-        </div>
+    <div class="hero__main">
+      <p class="hero__native bn" lang="bn" data-reveal style="--d:700">অরিজিৎ ঘোষ</p>
+      <h1 class="hero__name" id="hero-name" data-proximity>
+        <span class="sr-only">Arijit Ghosh</span>
+        <span class="hero__line" data-chars aria-hidden="true">Arijit</span>
+        <span class="hero__line hero__line--2" data-chars aria-hidden="true" style="--d:260">Ghosh</span>
+      </h1>
+    </div>
 
-        <div class="fade-in fade-in-d3">
-          <div class="section-label">// selected publications</div>
-          
-          <div class="card">
-            <div class="card__title"><a href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1">Inferring the genetic basis of sleep states in Drosophila melanogaster using hidden Markov models</a></div>
-            <div class="card__meta"><span class="card__year">2026</span><strong>Ghosh A</strong>, Harbison ST · <span class="highlight">bioRxiv</span></div>
+    <div class="hero__foot">
+      <p class="hero__tag" data-reveal style="--d:850">Postdoctoral fellow at the <abbr title="National Institutes of Health">NIH</abbr>, studying how the circadian clock and sleep shape each other.</p>
+      <a class="hero__scroll" href="#about" aria-label="Scroll to About"><i aria-hidden="true"></i>Scroll</a>
+      <p class="hero__meta" data-reveal style="--d:1000">
+        <b>Visiting Fellow (Postdoctoral)</b><br />National Heart, Lung, and Blood Institute<br />Bethesda, MD
+      </p>
+    </div>
+  </section>
+
+  
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal="fade"><span class="idx">01</span>About</p>
+      <h2 class="sr-only" id="about-h">About</h2>
+      <p class="statement" data-scrub>I study how two genetic networks, the <em>circadian clock</em> and <em>sleep</em>, interact to shape behavior. I work with fruit flies, quantitative genetics and statistical models.</p>
+
+      <div class="about__grid">
+        <figure class="portrait" data-reveal="scale">
+          <svg class="portrait__ring" viewBox="0 0 400 400" aria-hidden="true" data-ring data-rotate-scroll="0.04"></svg>
+          <div class="portrait__img">
+            <picture>
+              <source srcset="assets/profile.webp" type="image/webp" />
+              <img src="assets/profile-720.jpg" alt="Portrait of Arijit Ghosh" width="720" height="720" loading="lazy" decoding="async" />
+            </picture>
           </div>
-          
-          <div class="card">
-            <div class="card__title"><a href="https://link.springer.com/chapter/10.1007/978-3-031-62723-1_2">The Genetics of Sleep in Drosophila</a></div>
-            <div class="card__meta"><span class="card__year">2024</span>Singh NP, <strong>Ghosh A</strong>, Harbison ST · <span class="highlight">Genetics of Sleep and Sleep Disorders</span></div>
+          <figcaption class="portrait__cap">fig. 1 — the experimenter, diurnal</figcaption>
+        </figure>
+
+        <div>
+          <div class="bio prose">
+            <p data-reveal>Currently I am a visiting postdoctoral fellow at the <a href="https://www.nhlbi.nih.gov/science/systems-genetics#Meet-the-Team">Laboratory of Systems Genetics</a>, SBC, NHLBI at Bethesda, Maryland. I study the interaction between the <code>circadian clock</code> and <code>sleep</code> genetic networks, and how these interactions shape various behavior and physiological responses. During my PhD, I worked on understanding the genetic and molecular mechanisms underlying <code>complex behaviors</code>, specifically timing of a behavior (<a href="https://en.wikipedia.org/wiki/Chronotype">chronotypes</a>), under the influence, or independent of the circadian clock, at the <a href="https://www.jncasr.ac.in/faculty/sheeba">Chronobiology and Behavioural Neurogenetics Laboratory</a>, JNCASR.</p>
+            <p data-reveal>My studies use diverse methodologies — from <code>statistical modeling</code> of behavior to <code>quantitative genetics</code> and <code>multi-omics</code> techniques. Previously, I have also worked on thermo-sensitive <code>Transient Receptor Potential</code> (TRP) channels and their role in osteogenesis, using rodent models, primary bone cells, pharmacological modulators, and molecular dynamics during my masters studies at <a href="https://www.niser.ac.in/">NISER</a>.</p>
+            <p data-reveal>I was born in <a href="https://en.wikipedia.org/wiki/Bardhaman">Burdwan, WB</a>, India. I went to <a href="https://rkmvp.org/">RKMV, Purulia</a> and <a href="https://www.rkmvnarendrapur.org/">RKMV, Narendrapur</a> for schooling, then joined <a href="https://www.niser.ac.in/">NISER, Bhubaneswar</a> for an integrated MSc in Life Sciences with focus on <code>cell biology</code> and <code>bioinformatics</code>. After my PhD from <a href="https://www.jncasr.ac.in/research/research-units/neuroscience-unit">JNCASR</a> in Bangalore, I moved to Bethesda, MD to join the <a href="https://www.nih.gov/">NIH</a>. Apart from lab work, I am a leisure photographer, connoisseur of sci-fi and good food! For a full list of my publications, check out my <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en">Google Scholar profile</a>.</p>
           </div>
-          
-          <div class="card">
-            <div class="card__title"><a href="https://www.frontiersin.org/journals/cell-and-developmental-biology/articles/10.3389/fcell.2023.1066788/full">TRPV4 regulates osteoblast differentiation and mitochondrial function that are relevant for channelopathy</a></div>
-            <div class="card__meta"><span class="card__year">2023</span>Acharya TK, Pal S, <strong>Ghosh A</strong>, Kumar S, Kumar S, Chattopadhyay N, Goswami C · <span class="highlight">Frontiers in Cell and Dev. Bio.</span></div>
-          </div>
-          
-          <div class="card">
-            <div class="card__title"><a href="https://journals.sagepub.com/doi/full/10.1177/07487304221077662">VANESSA — Shiny Apps for Accelerated Time-series Analysis and Visualization of Drosophila Circadian Rhythm and Sleep Data</a></div>
-            <div class="card__meta"><span class="card__year">2022</span><strong>Ghosh A</strong>, Sheeba V · <span class="highlight">J. Biological Rhythms</span></div>
-          </div>
-          
-          <div class="card">
-            <div class="card__title"><a href="https://www.nature.com/articles/s41598-017-16780-w">Preferential selection of Arginine at the lipid-water-interface of TRPV1 during vertebrate evolution correlates with its snorkeling behaviour and cholesterol interaction</a></div>
-            <div class="card__meta"><span class="card__year">2017</span>Saha S, <strong>Ghosh A</strong>, Tiwari N, Kumar A, Kumar A, Goswami C · <span class="highlight">Scientific Reports</span></div>
-          </div>
-          
-          <div class="card">
-            <div class="card__title"><a href="https://www.tandfonline.com/doi/full/10.1080/19336950.2016.1162365">Why individual thermo sensation and pain perception varies? Clue of disruptive mutations in TRPVs from 2504 human genome data</a></div>
-            <div class="card__meta"><span class="card__year">2016</span><strong>Ghosh A</strong>, Kaur N, Kumar A, Goswami C · <span class="highlight">Channels</span></div>
-          </div>
-          
-          <div style="margin-top: 10px; font-size: 12px;">
-            <a href="publications.html"><span class="prompt">→</span> view all publications</a>
+          <div class="bio__links" data-reveal>
+            <a class="btn" href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&amp;hl=en" target="_blank" rel="noopener" data-magnetic>Google Scholar <span class="btn__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+            <a class="btn" href="https://github.com/orijitghosh" target="_blank" rel="noopener" data-magnetic>GitHub <span class="btn__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+            <a class="btn" href="cv.html" data-magnetic>Curriculum vitae <span class="btn__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"/></svg></span></a>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+  <div class="marquee" data-marquee aria-label="Research interests: Circadian Rhythms, Sleep Genetics, Quantitative Genetics, Multi-omics, Drosophila, Statistical Modeling">
+    <div class="marquee__track" data-marquee-track>
+      <div class="marquee__group" aria-hidden="true">
+        <span class="marquee__item">Circadian Rhythms<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Sleep Genetics<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Quantitative Genetics<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Multi-omics<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Drosophila<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Statistical Modeling<i class="marquee__sep"></i></span>
+      </div>
+      <div class="marquee__group" aria-hidden="true">
+        <span class="marquee__item">Circadian Rhythms<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Sleep Genetics<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Quantitative Genetics<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Multi-omics<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Drosophila<i class="marquee__sep"></i></span>
+        <span class="marquee__item">Statistical Modeling<i class="marquee__sep"></i></span>
+      </div>
+    </div>
   </div>
 
-  <div class="status-bar">
-  <span>systems biology center · nhlbi · nih</span>
-  <span>© 2026 Arijit Ghosh</span>
-</div>
+  
+  
+  <section class="section" id="research" aria-labelledby="research-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow" data-reveal="fade"><span class="idx">02</span>Research</p>
+        <h2 class="h2" id="research-h" data-words>Behavior as <em>rhythms</em><br />and <em>hidden states</em>.</h2>
+      </div>
 
-  <script>
-    const prefix = "hello world \u2014 I\u0027m ";
-    const name = "Arijit Ghosh";
-    const full = prefix + name;
-    const el = document.getElementById('typed');
-    let i = 0;
-    const type = () => {
-      if (i <= full.length) {
-        if (i <= prefix.length) {
-          el.innerHTML = full.slice(0, i);
-        } else {
-          el.innerHTML = prefix + '<span class="glitch" data-text="' + name + '">' + full.slice(prefix.length, i) + '</span>';
-        }
-        i++;
-        setTimeout(type, 55);
-      }
-    };
-    type();
-  </script>
-  <script src="theme.js"></script>
-  <script src="terminal-easteregg.js"></script>
+      
+      <div class="research__block">
+        <div class="research__copy">
+          <h3 class="h3" data-words>Reading an actogram</h3>
+          <p data-reveal>Chronobiologists read behavior as an <em>actogram</em>: every row is a day, plotted twice side by side so rhythms that cross midnight stay readable. A fruit fly's activity bunches around dawn and dusk — the morning and evening peaks — with a siesta in between.</p>
+          <p data-reveal>Switch the lights off for good and the peaks keep coming. They drift a little each day because the internal clock's free-running period, τ, isn't exactly 24 hours. Drag the slider to change it.</p>
+          <div class="tau" data-reveal>
+            <div class="tau__row">
+              <label class="tau__lbl" for="tau">Free-running period, τ</label>
+              <output for="tau" data-tau-out>23.5<small>h</small></output>
+            </div>
+            <input class="range" id="tau" type="range" min="22" max="26" step="0.1" value="23.5" data-tau />
+            <div class="tau__scale" aria-hidden="true"><span>22 h · runs fast</span><span>24</span><span>runs slow · 26 h</span></div>
+          </div>
+        </div>
+        <figure class="fig" data-reveal="fade">
+          <div class="fig__bar"><span><b>Fig. 2</b> — double-plotted actogram</span><span class="fig__tag">simulated</span></div>
+          <canvas data-actogram role="img" aria-label="Simulated double-plotted actogram of a fruit fly: seven days in light–dark cycles with morning and evening activity peaks, then constant darkness where the peaks drift according to the free-running period."></canvas>
+          <figcaption class="fig__foot"><span data-acto-cap>7 days LD 12:12, then constant darkness</span><span>hover a row</span></figcaption>
+        </figure>
+      </div>
+
+      
+      <div class="research__block research__block--flip">
+        <div class="research__copy">
+          <h3 class="h3" data-words>Inferring sleep states</h3>
+          <p data-reveal>Fly sleep varies in depth, from light to deep. Hidden Markov models infer these unobserved states from movement data alone, which lets us map the genes that shape each state.</p>
+          <div class="research__links" data-reveal>
+            <a class="btn btn--solid" href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1" target="_blank" rel="noopener" data-magnetic>Read the preprint <span class="btn__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+            <a class="btn" href="https://orijitghosh.github.io/FlyDreamR/" target="_blank" rel="noopener" data-magnetic>FlyDreamR (R package) <span class="btn__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+          </div>
+        </div>
+        <figure class="fig" data-reveal="fade">
+          <div class="fig__bar"><span><b>Fig. 3</b> — a four-state hidden Markov model</span><span class="fig__tag">simulated</span></div>
+          <svg class="hmm__diagram" viewBox="0 0 520 150" aria-hidden="true" data-hmm-diagram>
+            <defs>
+              <marker id="hmm-ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path class="hmm__arrow" d="M0 0L8 4L0 8z" />
+              </marker>
+            </defs>
+            <path class="hmm__edge" data-edge="0-1" d="M85 64Q130.0 30 175 64" marker-end="url(#hmm-ah)" />
+            <path class="hmm__edge" data-edge="1-0" d="M175 90Q130.0 124 85 90" marker-end="url(#hmm-ah)" />
+            <path class="hmm__edge" data-edge="1-2" d="M215 64Q260.0 30 305 64" marker-end="url(#hmm-ah)" />
+            <path class="hmm__edge" data-edge="2-1" d="M305 90Q260.0 124 215 90" marker-end="url(#hmm-ah)" />
+            <path class="hmm__edge" data-edge="2-3" d="M345 64Q390.0 30 435 64" marker-end="url(#hmm-ah)" />
+            <path class="hmm__edge" data-edge="3-2" d="M435 90Q390.0 124 345 90" marker-end="url(#hmm-ah)" />
+            <g class="hmm__node" data-node="0">
+              <circle cx="65" cy="77" r="21" />
+              <text class="hmm__abbr" x="65" y="83">AW</text>
+              <text x="65" y="146">active wake</text>
+            </g>
+            <g class="hmm__node" data-node="1">
+              <circle cx="195" cy="77" r="21" />
+              <text class="hmm__abbr" x="195" y="83">QW</text>
+              <text x="195" y="146">quiet wake</text>
+            </g>
+            <g class="hmm__node" data-node="2">
+              <circle cx="325" cy="77" r="21" />
+              <text class="hmm__abbr" x="325" y="83">LS</text>
+              <text x="325" y="146">light sleep</text>
+            </g>
+            <g class="hmm__node" data-node="3">
+              <circle cx="455" cy="77" r="21" />
+              <text class="hmm__abbr" x="455" y="83">DS</text>
+              <text x="455" y="146">deep sleep</text>
+            </g>
+          </svg>
+          <canvas data-hypnogram role="img" aria-label="Simulated hypnogram: observed activity counts on top, and the hidden sleep state inferred from them below, scrolling in real time."></canvas>
+          <figcaption class="fig__foot"><span data-hmm-cap>State: <b>—</b></span><span>observed ↑ · inferred ↓</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+  
+
+  
+  <section class="section section--tight" aria-label="At a glance">
+    <div class="wrap">
+      <div class="stats" data-stagger>
+        <div class="stat" data-reveal><span class="stat__n" data-count="15">15</span><span class="stat__l">Publications<br />2015–2026</span></div>
+        <div class="stat" data-reveal><span class="stat__n" data-count="7">7</span><span class="stat__l">As first or<br />co-first author</span></div>
+        <div class="stat" data-reveal><span class="stat__n" data-count="6">6</span><span class="stat__l">Open-source tools</span></div>
+        <div class="stat" data-reveal><span class="stat__n" data-count="6">6</span><span class="stat__l">Awards &amp; fellowships</span></div>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <section class="section" id="news" aria-labelledby="news-h">
+    <div class="wrap split">
+      <div class="split__side">
+        <p class="eyebrow" data-reveal="fade"><span class="idx">03</span>Latest</p>
+        <h2 class="h2" id="news-h" data-words>Recent <em>news</em>.</h2>
+      </div>
+      <ol class="news" data-stagger>
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="2026-03">Mar 2026</time>
+          <p class="news__text prose">Received the SRBR Merit Award by the Society for Research on Biological Rhythms (2026), USA.</p>
+        </li>
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="2026-01">Jan 2026</time>
+          <p class="news__text prose">Posted a <a href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1">Preprint</a> on sleep state inference using HMMs in flies and an associated R package, <a href="https://orijitghosh.github.io/FlyDreamR/">FlyDreamR</a>.</p>
+        </li>
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="2025-01">Jan 2025</time>
+          <p class="news__text prose">Received the Sleep and Circadian Science Scholar Award by the Sleep Research Society (2025). Presenting at Advances in Sleep and Circadian Sciences 2025, Clearwater Beach, FL.</p>
+        </li>
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="2024-10">Oct 2024</time>
+          <p class="news__text prose">Received the Lenfant Fellowship from NHLBI for postdoctoral training (intramural equivalent to the F32).</p>
+        </li>
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="2024-07">Jul 2024</time>
+          <p class="news__text prose">Collaborative paper with Dragana Protic's group is out! <a href="https://www.mdpi.com/1422-0067/25/14/7949">Check it here</a>.</p>
+        </li>
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="2024-07">Jul 2024</time>
+          <p class="news__text prose">Our book chapter is published. <a href="https://link.springer.com/chapter/10.1007/978-3-031-62723-1_2">Check it out</a>!</p>
+        </li>
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="2024-06">Jun 2024</time>
+          <p class="news__text prose">Attended SRBR 2024 at San Juan, PR. Received a merit award at the conference.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+  
+
+  
+  
+  <section class="section" id="selected" aria-labelledby="sel-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow" data-reveal="fade"><span class="idx">04</span>Selected work</p>
+        <div class="sec-head__row">
+          <h2 class="h2" id="sel-h" data-words>Selected <em>papers</em>.</h2>
+          <a class="btn" href="publications.html" data-magnetic>All 15 publications <span class="btn__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"/></svg></span></a>
+        </div>
+      </div>
+      <ol class="plist">
+        <li class="prow" data-reveal>
+          <a class="prow__a" href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1" target="_blank" rel="noopener" data-cursor-label="Read">
+            <span class="prow__year">2026</span>
+            <span class="prow__main">
+              <span class="prow__title">Inferring the genetic basis of sleep states in Drosophila melanogaster using hidden Markov models</span>
+              <span class="prow__meta"><strong>Ghosh A</strong>, Harbison ST · <em>bioRxiv</em></span>
+            </span>
+            <span class="prow__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        </li>
+        <li class="prow" data-reveal>
+          <a class="prow__a" href="https://link.springer.com/chapter/10.1007/978-3-031-62723-1_2" target="_blank" rel="noopener" data-cursor-label="Read">
+            <span class="prow__year">2024</span>
+            <span class="prow__main">
+              <span class="prow__title">The Genetics of Sleep in Drosophila</span>
+              <span class="prow__meta">Singh NP, <strong>Ghosh A</strong>, Harbison ST · <em>Genetics of Sleep and Sleep Disorders</em></span>
+            </span>
+            <span class="prow__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        </li>
+        <li class="prow" data-reveal>
+          <a class="prow__a" href="https://www.frontiersin.org/journals/cell-and-developmental-biology/articles/10.3389/fcell.2023.1066788/full" target="_blank" rel="noopener" data-cursor-label="Read">
+            <span class="prow__year">2023</span>
+            <span class="prow__main">
+              <span class="prow__title">TRPV4 regulates osteoblast differentiation and mitochondrial function that are relevant for channelopathy</span>
+              <span class="prow__meta">Acharya TK, Pal S, <strong>Ghosh A</strong>, Kumar S, Chattopadhyay N, Goswami C · <em>Frontiers in Cell and Dev. Bio.</em></span>
+            </span>
+            <span class="prow__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        </li>
+        <li class="prow" data-reveal>
+          <a class="prow__a" href="https://journals.sagepub.com/doi/full/10.1177/07487304221077662" target="_blank" rel="noopener" data-cursor-label="Read">
+            <span class="prow__year">2022</span>
+            <span class="prow__main">
+              <span class="prow__title">VANESSA — Shiny Apps for Accelerated Time-series Analysis and Visualization of Drosophila Circadian Rhythm and Sleep Data</span>
+              <span class="prow__meta"><strong>Ghosh A</strong>, Sheeba V · <em>J. Biological Rhythms</em></span>
+            </span>
+            <span class="prow__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        </li>
+        <li class="prow" data-reveal>
+          <a class="prow__a" href="https://www.nature.com/articles/s41598-017-16780-w" target="_blank" rel="noopener" data-cursor-label="Read">
+            <span class="prow__year">2017</span>
+            <span class="prow__main">
+              <span class="prow__title">Preferential selection of Arginine at the lipid-water-interface of TRPV1 during vertebrate evolution correlates with its snorkeling behaviour and cholesterol interaction</span>
+              <span class="prow__meta">Saha S, <strong>Ghosh A</strong>, Tiwari N, Kumar A, Kumar A, Goswami C · <em>Scientific Reports</em></span>
+            </span>
+            <span class="prow__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        </li>
+        <li class="prow" data-reveal>
+          <a class="prow__a" href="https://www.tandfonline.com/doi/full/10.1080/19336950.2016.1162365" target="_blank" rel="noopener" data-cursor-label="Read">
+            <span class="prow__year">2016</span>
+            <span class="prow__main">
+              <span class="prow__title">Why individual thermo sensation and pain perception varies? Clue of disruptive mutations in TRPVs from 2504 human genome data</span>
+              <span class="prow__meta"><strong>Ghosh A</strong>, Kaur N, Kumar A, Goswami C · <em>Channels</em></span>
+            </span>
+            <span class="prow__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        </li>
+      </ol>
+    </div>
+  </section>
+  
+
+  </main>
+
+  
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot__cta">
+        <p class="eyebrow" data-reveal="fade"><span class="idx">↘</span>Contact</p>
+        <h2 class="foot__mail"><a href="mailto:arijitghosh2009@gmail.com" data-cursor-label="Write" data-words>Questions or collaborations? <em>Email me</em>.</a></h2>
+        <div class="bio__links" data-reveal>
+          <a class="btn btn--solid" href="mailto:arijitghosh2009@gmail.com" data-magnetic>arijitghosh2009@gmail.com <span class="btn__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+          <button class="btn" type="button" data-copy="arijitghosh2009@gmail.com" data-magnetic><span data-copy-label>Copy address</span></button>
+        </div>
+      </div>
+
+      <div class="foot__grid">
+        <div class="foot__col" data-reveal style="--d:0">
+          <p class="foot__h">Elsewhere</p>
+          <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&amp;hl=en" target="_blank" rel="noopener"><span data-roll>Google Scholar</span></a>
+          <a href="https://github.com/orijitghosh" target="_blank" rel="noopener"><span data-roll>GitHub</span></a>
+          <a href="assets/CV_AG_05192026.pdf" target="_blank" rel="noopener"><span data-roll>CV (PDF)</span></a>
+        </div>
+        <div class="foot__col" data-reveal style="--d:80">
+          <p class="foot__h">Pages</p>
+          <a href="index.html"><span data-roll>About</span></a>
+          <a href="publications.html"><span data-roll>Publications</span></a>
+          <a href="repositories.html"><span data-roll>Code</span></a>
+          <a href="cv.html"><span data-roll>CV</span></a>
+          <a href="teaching.html"><span data-roll>Teaching</span></a>
+        </div>
+        <div class="foot__col" data-reveal style="--d:160">
+          <p class="foot__h">Local time</p>
+          <p class="foot__tz">It’s <b data-tz-clock data-tz="America/New_York">--:--</b> in Bethesda.<br /><span data-tz-you>For you, it’s <b data-clock-short>--:--</b>.</span><span data-tz-same hidden>Same as yours.</span></p>
+        </div>
+        <div class="foot__col" data-reveal style="--d:240">
+          <p class="foot__h">Old habits</p>
+          <button class="foot__key" type="button" data-term-open><span class="kbd">`</span> Open a terminal</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot__word" aria-hidden="true" data-chars>Arijit Ghosh</p>
+
+    <div class="wrap foot__base">
+      <span>© 2026 Arijit Ghosh</span>
+      <span>Built from CSV files and a circadian clock</span>
+      <button type="button" data-top>Back to top ↑</button>
+    </div>
+  </footer>
+  
+
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><div class="cursor__ring"><span class="cursor__label"></span></div><div class="cursor__dot"></div></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <script type="application/json" id="ag-data">{"affiliation": "National Heart, Lung, and Blood Institute", "bio": ["Currently I am a visiting postdoctoral fellow at the \u003ca href=\"https://www.nhlbi.nih.gov/science/systems-genetics#Meet-the-Team\"\u003eLaboratory of Systems Genetics\u003c/a\u003e, SBC, NHLBI at Bethesda, Maryland. I study the interaction between the \u003ccode\u003ecircadian clock\u003c/code\u003e and \u003ccode\u003esleep\u003c/code\u003e genetic networks, and how these interactions shape various behavior and physiological responses. During my PhD, I worked on understanding the genetic and molecular mechanisms underlying \u003ccode\u003ecomplex behaviors\u003c/code\u003e, specifically timing of a behavior (\u003ca href=\"https://en.wikipedia.org/wiki/Chronotype\"\u003echronotypes\u003c/a\u003e), under the influence, or independent of the circadian clock, at the \u003ca href=\"https://www.jncasr.ac.in/faculty/sheeba\"\u003eChronobiology and Behavioural Neurogenetics Laboratory\u003c/a\u003e, JNCASR.", "My studies use diverse methodologies \u2014 from \u003ccode\u003estatistical modeling\u003c/code\u003e of behavior to \u003ccode\u003equantitative genetics\u003c/code\u003e and \u003ccode\u003emulti-omics\u003c/code\u003e techniques. Previously, I have also worked on thermo-sensitive \u003ccode\u003eTransient Receptor Potential\u003c/code\u003e (TRP) channels and their role in osteogenesis, using rodent models, primary bone cells, pharmacological modulators, and molecular dynamics during my masters studies at \u003ca href=\"https://www.niser.ac.in/\"\u003eNISER\u003c/a\u003e.", "I was born in \u003ca href=\"https://en.wikipedia.org/wiki/Bardhaman\"\u003eBurdwan, WB\u003c/a\u003e, India. I went to \u003ca href=\"https://rkmvp.org/\"\u003eRKMV, Purulia\u003c/a\u003e and \u003ca href=\"https://www.rkmvnarendrapur.org/\"\u003eRKMV, Narendrapur\u003c/a\u003e for schooling, then joined \u003ca href=\"https://www.niser.ac.in/\"\u003eNISER, Bhubaneswar\u003c/a\u003e for an integrated MSc in Life Sciences with focus on \u003ccode\u003ecell biology\u003c/code\u003e and \u003ccode\u003ebioinformatics\u003c/code\u003e. After my PhD from \u003ca href=\"https://www.jncasr.ac.in/research/research-units/neuroscience-unit\"\u003eJNCASR\u003c/a\u003e in Bangalore, I moved to Bethesda, MD to join the \u003ca href=\"https://www.nih.gov/\"\u003eNIH\u003c/a\u003e. Apart from lab work, I am a leisure photographer, connoisseur of sci-fi and good food! For a full list of my publications, check out my \u003ca href=\"https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ\u0026hl=en\"\u003eGoogle Scholar profile\u003c/a\u003e."], "cv": "assets/CV_AG_05192026.pdf", "designation": "Visiting Fellow (Postdoctoral)", "email": "arijitghosh2009@gmail.com", "github": "https://github.com/orijitghosh", "location": "Bethesda, MD", "name": "Arijit Ghosh", "native": "\u0985\u09b0\u09bf\u099c\u09bf\u09ce \u0998\u09cb\u09b7", "pages": [["index", "index.html", "About"], ["publications", "publications.html", "Publications"], ["repositories", "repositories.html", "Code"], ["cv", "cv.html", "CV"], ["teaching", "teaching.html", "Teaching"]], "root": "", "scholar": "https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ\u0026hl=en", "tags": ["Circadian Rhythms", "Sleep Genetics", "Quantitative Genetics", "Multi-omics", "Drosophila", "Statistical Modeling"]}</script>
+  <script src="assets/js/site.js" defer></script>
+  
+  <script src="assets/js/flies.js" defer></script>
+  <script src="assets/js/research.js" defer></script>
+
+  <script src="assets/js/terminal.js" defer></script>
 </body>
 </html>

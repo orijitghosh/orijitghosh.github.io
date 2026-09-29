@@ -1,140 +1,260 @@
-{% from 'base.html.j2' import topbar, statusbar %}
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="{{ config.name }}, {{ config.designation | lower }} at NHLBI studying circadian rhythms, sleep genetics, quantitative genetics, and multi-omics in Drosophila." />
-  <title>{{ config.name }} — About</title>
-  <link rel="stylesheet" href="terminal.css" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <style>
-    .typing-line { font-size: 1.6rem; font-weight: 600; min-height: 2em; }
-    .bio-block { font-size: 14px; line-height: 1.8; color: var(--muted); max-width: 620px; text-wrap: pretty; }
-    .bio-block code { color: var(--tan); background: var(--code-bg); padding: 1px 5px; border-radius: 2px; font-size: 13px; }
-    .meta-row { display: flex; gap: 28px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
-    .profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+{% extends 'base.html.j2' %}
+{% from '_macros.html.j2' import arrow, eyebrow %}
+{% set name_parts = config.name.split(' ', 1) %}
 
-    /* GLITCH TEXT */
-    .glitch { position: relative; display: inline-block; cursor: default; }
-    .glitch::before, .glitch::after {
-      content: attr(data-text);
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0; pointer-events: none;
-    }
-    .glitch::before { color: var(--accent); clip-path: inset(0 0 60% 0); }
-    .glitch::after { color: var(--green); clip-path: inset(40% 0 0 0); }
-    .glitch:hover::before { opacity: 0.8; animation: glitch-top 0.4s steps(2) infinite; }
-    .glitch:hover::after { opacity: 0.8; animation: glitch-bottom 0.4s steps(3) infinite; }
-    @keyframes glitch-top {
-      0% { transform: translate(-2px, -1px); } 25% { transform: translate(2px, 1px); }
-      50% { transform: translate(-1px, 2px); } 75% { transform: translate(1px, -2px); }
-      100% { transform: translate(-2px, 1px); }
-    }
-    @keyframes glitch-bottom {
-      0% { transform: translate(2px, 1px); } 25% { transform: translate(-1px, -1px); }
-      50% { transform: translate(1px, -2px); } 75% { transform: translate(-2px, 2px); }
-      100% { transform: translate(1px, -1px); }
-    }
-    .glitch:hover {
-      text-shadow: 0.05em 0 0 var(--accent), -0.05em -0.025em 0 var(--green);
-      animation: glitch-skew 0.5s steps(2) infinite;
-    }
-    @keyframes glitch-skew {
-      0% { transform: skewX(0deg); } 25% { transform: skewX(-1deg); }
-      50% { transform: skewX(0.5deg); } 75% { transform: skewX(-0.5deg); }
-      100% { transform: skewX(0deg); }
-    }
-  </style>
-</head>
-<body>
-  {{ topbar('index') }}
+{% block title %}{{ config.name }} — circadian rhythms &amp; sleep genetics{% endblock %}
 
-  <div class="page-body">
-    <div class="split">
+{% block content %}
+  <div class="loader" aria-hidden="true" data-loader>
+    <div class="loader__time" data-loader-time>00:00</div>
+    <svg class="loader__wave" viewBox="0 0 560 60" preserveAspectRatio="none">
+      <path class="lw-base" d="M0 30H560" />
+      <path data-loader-wave pathLength="1" d="M0 30" />
+    </svg>
+    <div class="loader__label">Entraining to your local time…</div>
+  </div>
 
-      <div class="split__left">
-        <div class="profile-header fade-in">
-          <img src="assets/profile.png" alt="{{ config.name }}" class="profile-img" />
-          <div>
-            <div style="font-size: 13px; color: var(--muted);">visitor@arijit-ghosh:~$</div>
-            <div style="font-size: 18px; color: var(--tan); margin-top: 2px;" class="glitch" data-text="{{ config.name_native }}">{{ config.name_native }}</div>
-          </div>
-        </div>
+  {# ── HERO ─────────────────────────────────────────────────────────── #}
+  <section class="hero" data-hero aria-labelledby="hero-name">
+    <canvas class="hero__flies" data-flies aria-hidden="true"></canvas>
+    <div class="hero__glow" aria-hidden="true" data-glow></div>
+    <div class="hero__horizon" aria-hidden="true"></div>
 
-        <div class="typing-line fade-in fade-in-d1">
-          <span class="prompt">&gt;</span> <span id="typed"></span><span class="cursor"></span>
-        </div>
-
-        {% for paragraph in config.bio %}
-        <div class="bio-block fade-in fade-in-d{{ loop.index + 1 }}">
-          {% if loop.first %}<span class="prompt">$ cat</span> bio.txt<br /><br />{% endif %}
-          {{ paragraph | safe }}
-        </div>
-        {% endfor %}
-
-        <div class="fade-in fade-in-d4">
-          <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-            {% for tag in config.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
-          </div>
-        </div>
-
-        <div class="fade-in fade-in-d5" style="font-size: 13px; color: var(--muted);">
-          <span class="prompt">$ echo</span> $EMAIL → {{ config.email }}<br />
-          <span class="prompt">$ echo</span> $LOCATION → {{ config.location }}<br />
-          <span class="prompt">$ echo</span> $LINKS → <a href="{{ config.scholar_url }}">Google Scholar</a> · <a href="https://github.com/{{ config.github }}">GitHub</a>
+    <div class="hero__top">
+      <div class="zt" data-zt data-reveal="fade" style="--d:1100">
+        <svg class="zt__dial" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="zt__face" cx="100" cy="100" r="86" />
+          <path class="zt__night" d="M100 14a86 86 0 0 0 0 172z" />
+          <g class="zt__ticks" data-zt-ticks></g>
+          <path class="zt__curve" data-zt-curve d="" />
+          <g class="zt__hand" data-zt-hand>
+            <line x1="100" y1="100" x2="100" y2="22" />
+            <circle cx="100" cy="18" r="6" />
+          </g>
+          <circle class="zt__hub" cx="100" cy="100" r="3" />
+          <text class="zt__lbl" x="100" y="8" text-anchor="middle">ZT0</text>
+          <text class="zt__lbl" x="196" y="103" text-anchor="start">6</text>
+          <text class="zt__lbl" x="100" y="199" text-anchor="middle">12</text>
+          <text class="zt__lbl" x="4" y="103" text-anchor="end">18</text>
+        </svg>
+        <div class="zt__read" aria-live="polite">
+          <span class="zt__time" data-zt-time>--:-- local · <b>ZT --</b></span>
+          <span class="zt__phase" data-zt-phase>Entraining…</span>
+          <span class="zt__msg" data-zt-msg>These flies keep your time zone.</span>
         </div>
       </div>
+    </div>
 
-      <div class="split__right">
-        <div class="fade-in fade-in-d2">
-          <div class="section-label">// latest</div>
-          {% for item in news %}
-          <div class="news-item">
-            <span class="news-item__date">{{ item.date_formatted }}</span>
-            <span>{{ item.description | safe }}</span>
-          </div>
-          {% endfor %}
-        </div>
+    <div class="hero__main">
+      <p class="hero__native bn" lang="bn" data-reveal style="--d:700">{{ config.name_native }}</p>
+      <h1 class="hero__name" id="hero-name" data-proximity>
+        <span class="sr-only">{{ config.name }}</span>
+        <span class="hero__line" data-chars aria-hidden="true">{{ name_parts[0] }}</span>
+        {%- if name_parts|length > 1 %}
+        <span class="hero__line hero__line--2" data-chars aria-hidden="true" style="--d:260">{{ name_parts[1] }}</span>
+        {%- endif %}
+      </h1>
+    </div>
 
-        <div class="fade-in fade-in-d3">
-          <div class="section-label">// selected publications</div>
-          {% for pub in selected_publications %}
-          <div class="card">
-            <div class="card__title">{% if pub.url %}<a href="{{ pub.url }}">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</div>
-            <div class="card__meta"><span class="card__year">{{ pub.year }}</span>{{ pub.authors_short | safe }} · <span class="highlight">{{ pub.venue_short }}</span></div>
+    <div class="hero__foot">
+      <p class="hero__tag" data-reveal style="--d:850">{{ config.tagline | safe }}</p>
+      <a class="hero__scroll" href="#about" aria-label="Scroll to About"><i aria-hidden="true"></i>Scroll</a>
+      <p class="hero__meta" data-reveal style="--d:1000">
+        <b>{{ config.designation }}</b><br />{{ config.affiliation }}<br />{{ config.location }}
+      </p>
+    </div>
+  </section>
+
+  {# ── ABOUT ────────────────────────────────────────────────────────── #}
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      {{ eyebrow('01', 'About') }}
+      <h2 class="sr-only" id="about-h">About</h2>
+      <p class="statement" data-scrub>{{ config.statement | safe }}</p>
+
+      <div class="about__grid">
+        <figure class="portrait" data-reveal="scale">
+          <svg class="portrait__ring" viewBox="0 0 400 400" aria-hidden="true" data-ring data-rotate-scroll="0.04"></svg>
+          <div class="portrait__img">
+            <picture>
+              <source srcset="assets/profile.webp" type="image/webp" />
+              <img src="assets/profile-720.jpg" alt="Portrait of {{ config.name }}" width="720" height="720" loading="lazy" decoding="async" />
+            </picture>
           </div>
-          {% endfor %}
-          <div style="margin-top: 10px; font-size: 12px;">
-            <a href="publications.html"><span class="prompt">→</span> view all publications</a>
+          <figcaption class="portrait__cap">fig. 1 — the experimenter, diurnal</figcaption>
+        </figure>
+
+        <div>
+          <div class="bio prose">
+            {%- for paragraph in config.bio %}
+            <p data-reveal>{{ paragraph | safe }}</p>
+            {%- endfor %}
+          </div>
+          <div class="bio__links" data-reveal>
+            <a class="btn" href="{{ config.scholar_url }}" target="_blank" rel="noopener" data-magnetic>Google Scholar <span class="btn__arrow">{{ arrow() }}</span></a>
+            <a class="btn" href="https://github.com/{{ config.github }}" target="_blank" rel="noopener" data-magnetic>GitHub <span class="btn__arrow">{{ arrow() }}</span></a>
+            <a class="btn" href="cv.html" data-magnetic>Curriculum vitae <span class="btn__arrow">{{ arrow('right') }}</span></a>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+  <div class="marquee" data-marquee aria-label="Research interests: {{ config.tags | join(', ') }}">
+    <div class="marquee__track" data-marquee-track>
+      {%- for copy in [0, 1] %}
+      <div class="marquee__group" aria-hidden="true">
+        {%- for tag in config.tags %}
+        <span class="marquee__item">{{ tag }}<i class="marquee__sep"></i></span>
+        {%- endfor %}
+      </div>
+      {%- endfor %}
+    </div>
   </div>
 
-  {{ statusbar(config.status_bar.index, '© ' ~ config.copyright_year ~ ' ' ~ config.name) }}
+  {# ── RESEARCH ─────────────────────────────────────────────────────── #}
+  {% if config.research %}
+  <section class="section" id="research" aria-labelledby="research-h">
+    <div class="wrap">
+      <div class="sec-head">
+        {{ eyebrow('02', 'Research') }}
+        <h2 class="h2" id="research-h" data-words>Behavior as <em>rhythms</em><br />and <em>hidden states</em>.</h2>
+      </div>
 
-  <script>
-    const prefix = {{ config.home_page.typing_text | tojson }};
-    const name = {{ config.name | tojson }};
-    const full = prefix + name;
-    const el = document.getElementById('typed');
-    let i = 0;
-    const type = () => {
-      if (i <= full.length) {
-        if (i <= prefix.length) {
-          el.innerHTML = full.slice(0, i);
-        } else {
-          el.innerHTML = prefix + '<span class="glitch" data-text="' + name + '">' + full.slice(prefix.length, i) + '</span>';
-        }
-        i++;
-        setTimeout(type, 55);
-      }
-    };
-    type();
-  </script>
-  <script src="theme.js"></script>
-  <script src="terminal-easteregg.js"></script>
-</body>
-</html>
+      {% set acto = config.research.actogram %}
+      <div class="research__block">
+        <div class="research__copy">
+          <h3 class="h3" data-words>{{ acto.title }}</h3>
+          {%- for p in acto.text %}
+          <p data-reveal>{{ p | safe }}</p>
+          {%- endfor %}
+          <div class="tau" data-reveal>
+            <div class="tau__row">
+              <label class="tau__lbl" for="tau">Free-running period, τ</label>
+              <output for="tau" data-tau-out>23.5<small>h</small></output>
+            </div>
+            <input class="range" id="tau" type="range" min="22" max="26" step="0.1" value="23.5" data-tau />
+            <div class="tau__scale" aria-hidden="true"><span>22 h · runs fast</span><span>24</span><span>runs slow · 26 h</span></div>
+          </div>
+        </div>
+        <figure class="fig" data-reveal="fade">
+          <div class="fig__bar"><span><b>Fig. 2</b> — double-plotted actogram</span><span class="fig__tag">simulated</span></div>
+          <canvas data-actogram role="img" aria-label="Simulated double-plotted actogram of a fruit fly: seven days in light–dark cycles with morning and evening activity peaks, then constant darkness where the peaks drift according to the free-running period."></canvas>
+          <figcaption class="fig__foot"><span data-acto-cap>7 days LD 12:12, then constant darkness</span><span>hover a row</span></figcaption>
+        </figure>
+      </div>
+
+      {% set hmm = config.research.sleep_states %}
+      <div class="research__block research__block--flip">
+        <div class="research__copy">
+          <h3 class="h3" data-words>{{ hmm.title }}</h3>
+          {%- for p in hmm.text %}
+          <p data-reveal>{{ p | safe }}</p>
+          {%- endfor %}
+          {%- if hmm.links %}
+          <div class="research__links" data-reveal>
+            {%- for l in hmm.links %}
+            <a class="btn{% if loop.first %} btn--solid{% endif %}" href="{{ l.url }}" target="_blank" rel="noopener" data-magnetic>{{ l.label }} <span class="btn__arrow">{{ arrow() }}</span></a>
+            {%- endfor %}
+          </div>
+          {%- endif %}
+        </div>
+        <figure class="fig" data-reveal="fade">
+          <div class="fig__bar"><span><b>Fig. 3</b> — a four-state hidden Markov model</span><span class="fig__tag">simulated</span></div>
+          <svg class="hmm__diagram" viewBox="0 0 520 150" aria-hidden="true" data-hmm-diagram>
+            <defs>
+              <marker id="hmm-ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path class="hmm__arrow" d="M0 0L8 4L0 8z" />
+              </marker>
+            </defs>
+            {%- set xs = [65, 195, 325, 455] %}
+            {%- for i in range(3) %}
+            <path class="hmm__edge" data-edge="{{ i }}-{{ i + 1 }}" d="M{{ xs[i] + 20 }} 64Q{{ (xs[i] + xs[i + 1]) / 2 }} 30 {{ xs[i + 1] - 20 }} 64" marker-end="url(#hmm-ah)" />
+            <path class="hmm__edge" data-edge="{{ i + 1 }}-{{ i }}" d="M{{ xs[i + 1] - 20 }} 90Q{{ (xs[i] + xs[i + 1]) / 2 }} 124 {{ xs[i] + 20 }} 90" marker-end="url(#hmm-ah)" />
+            {%- endfor %}
+            {%- for abbr, label in [('AW', 'active wake'), ('QW', 'quiet wake'), ('LS', 'light sleep'), ('DS', 'deep sleep')] %}
+            <g class="hmm__node" data-node="{{ loop.index0 }}">
+              <circle cx="{{ xs[loop.index0] }}" cy="77" r="21" />
+              <text class="hmm__abbr" x="{{ xs[loop.index0] }}" y="83">{{ abbr }}</text>
+              <text x="{{ xs[loop.index0] }}" y="146">{{ label }}</text>
+            </g>
+            {%- endfor %}
+          </svg>
+          <canvas data-hypnogram role="img" aria-label="Simulated hypnogram: observed activity counts on top, and the hidden sleep state inferred from them below, scrolling in real time."></canvas>
+          <figcaption class="fig__foot"><span data-hmm-cap>State: <b>—</b></span><span>observed ↑ · inferred ↓</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {# ── NUMBERS ──────────────────────────────────────────────────────── #}
+  <section class="section section--tight" aria-label="At a glance">
+    <div class="wrap">
+      <div class="stats" data-stagger>
+        <div class="stat" data-reveal><span class="stat__n" data-count="{{ pub_count }}">{{ pub_count }}</span><span class="stat__l">Publications<br />{{ pub_year_range }}</span></div>
+        <div class="stat" data-reveal><span class="stat__n" data-count="{{ first_author_count }}">{{ first_author_count }}</span><span class="stat__l">As first or<br />co-first author</span></div>
+        <div class="stat" data-reveal><span class="stat__n" data-count="{{ repositories | length }}">{{ repositories | length }}</span><span class="stat__l">Open-source tools</span></div>
+        <div class="stat" data-reveal><span class="stat__n" data-count="{{ awards | length }}">{{ awards | length }}</span><span class="stat__l">Awards &amp; fellowships</span></div>
+      </div>
+    </div>
+  </section>
+
+  {# ── NEWS ─────────────────────────────────────────────────────────── #}
+  {% if news %}
+  <section class="section" id="news" aria-labelledby="news-h">
+    <div class="wrap split">
+      <div class="split__side">
+        {{ eyebrow('03', 'Latest') }}
+        <h2 class="h2" id="news-h" data-words>Recent <em>news</em>.</h2>
+      </div>
+      <ol class="news" data-stagger>
+        {%- for item in news %}
+        <li class="news__item" data-reveal>
+          <time class="news__date" datetime="{{ item.date }}">{{ item.date_formatted }}</time>
+          <p class="news__text prose">{{ item.description | safe }}</p>
+        </li>
+        {%- endfor %}
+      </ol>
+    </div>
+  </section>
+  {% endif %}
+
+  {# ── SELECTED PUBLICATIONS ────────────────────────────────────────── #}
+  {% if selected_publications %}
+  <section class="section" id="selected" aria-labelledby="sel-h">
+    <div class="wrap">
+      <div class="sec-head">
+        {{ eyebrow('04', 'Selected work') }}
+        <div class="sec-head__row">
+          <h2 class="h2" id="sel-h" data-words>Selected <em>papers</em>.</h2>
+          <a class="btn" href="publications.html" data-magnetic>All {{ pub_count }} publications <span class="btn__arrow">{{ arrow('right') }}</span></a>
+        </div>
+      </div>
+      <ol class="plist">
+        {%- for pub in selected_publications %}
+        <li class="prow" data-reveal>
+          {%- if pub.url %}
+          <a class="prow__a" href="{{ pub.url }}" target="_blank" rel="noopener" data-cursor-label="Read">
+          {%- else %}
+          <div class="prow__a">
+          {%- endif %}
+            <span class="prow__year">{{ pub.year }}</span>
+            <span class="prow__main">
+              <span class="prow__title">{{ pub.title }}</span>
+              <span class="prow__meta">{{ pub.authors_short | safe }} · <em>{{ pub.venue_short }}</em></span>
+            </span>
+            <span class="prow__arrow" aria-hidden="true">{{ arrow() }}</span>
+          {%- if pub.url %}</a>{% else %}</div>{% endif %}
+        </li>
+        {%- endfor %}
+      </ol>
+    </div>
+  </section>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ root }}assets/js/flies.js" defer></script>
+  <script src="{{ root }}assets/js/research.js" defer></script>
+{% endblock %}

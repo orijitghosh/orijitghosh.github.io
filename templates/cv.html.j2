@@ -1,99 +1,90 @@
-{% from 'base.html.j2' import topbar, statusbar %}
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Curriculum vitae for {{ config.name }}, {{ config.designation }} at {{ config.affiliation }}." />
-  <title>{{ config.name }} — CV</title>
-  <link rel="stylesheet" href="terminal.css" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-</head>
-<body>
-  {{ topbar('cv') }}
+{% extends 'base.html.j2' %}
+{% from '_macros.html.j2' import arrow %}
 
-  <div class="page-body">
-    <div class="page-title fade-in"><span class="prompt">$</span> cat cv.yml</div>
-    <div class="page-subtitle fade-in fade-in-d1"><span class="comment">// {{ config.name }} · {{ config.designation }} · NHLBI</span></div>
+{% macro timeline(items, title_key) -%}
+<div class="tl" data-progress>
+  <span class="tl__rail" aria-hidden="true"><span class="tl__fill"></span></span>
+  <ol>
+    {%- for item in items %}
+    <li class="tl__item" data-progress-item data-reveal>
+      <span class="tl__dot" aria-hidden="true"></span>
+      <span class="tl__years">{{ item.year_label }}</span>
+      <h3 class="tl__title">{{ item[title_key] }}</h3>
+      <p class="tl__inst">{{ item.institution }}</p>
+      {%- if item.details_list %}
+      <ul class="tl__list">
+        {%- for d in item.details_list %}<li>{{ d | safe }}</li>{% endfor %}
+      </ul>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+  </ol>
+</div>
+{%- endmacro %}
 
-    <div class="cv-grid">
-      <div class="cv-col">
+{% block title %}CV — {{ config.name }}{% endblock %}
+{% block description %}Curriculum vitae of {{ config.name }}: research experience, education and awards.{% endblock %}
 
-        <div class="fade-in fade-in-d2">
-          <div class="section-label">// education</div>
-          {% for item in education %}
-          <div class="timeline-item">
-            <div class="timeline-item__year">{{ item.year_label }}</div>
-            <div class="timeline-item__title">{{ item.degree }}</div>
-            <div class="timeline-item__institution">{{ item.institution }}</div>
-            {% if item.details_list %}
-            <div class="timeline-item__desc">
-              <ul>
-                {% for d in item.details_list %}<li>{{ d | safe }}</li>{% endfor %}
-              </ul>
-            </div>
-            {% endif %}
-          </div>
-          {% endfor %}
-        </div>
-
-        <div class="fade-in fade-in-d3">
-          <div class="section-label">// experience</div>
-          {% for item in experience %}
-          <div class="timeline-item">
-            <div class="timeline-item__year">{{ item.year_label }}</div>
-            <div class="timeline-item__title">{{ item.title }}</div>
-            <div class="timeline-item__institution">{{ item.institution }}</div>
-            {% if item.details_list %}
-            <div class="timeline-item__desc">
-              <ul>
-                {% for d in item.details_list %}<li>{{ d | safe }}</li>{% endfor %}
-              </ul>
-            </div>
-            {% endif %}
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="cv-col">
-        <div class="fade-in fade-in-d3">
-          <div class="section-label">// honors &amp; awards</div>
-          {% for award in awards %}
-          <div class="awards-item">
-            <span class="awards-year">{{ award.year }}</span>
-            <span>{{ award.description | safe }}</span>
-          </div>
-          {% endfor %}
-        </div>
-
-        <div class="fade-in fade-in-d4">
-          <div class="section-label">// general</div>
-          <div style="font-size: 14px; line-height: 2;">
-            <span class="prompt">name</span><span class="muted">:</span> {{ config.name }}<br />
-            <span class="prompt">designation</span><span class="muted">:</span> {{ config.designation }}<br />
-            <span class="prompt">affiliation</span><span class="muted">:</span> {{ config.affiliation }}<br />
-            <span class="prompt">advisor</span><span class="muted">:</span> {{ config.advisor }}<br />
-            <span class="prompt">email</span><span class="muted">:</span> {{ config.email }}<br />
-            <span class="prompt">scholar</span><span class="muted">:</span> <a href="{{ config.scholar_url }}">Google Scholar Profile</a><br />
-            <span class="prompt">github</span><span class="muted">:</span> <a href="https://github.com/{{ config.github }}">github.com/{{ config.github }}</a><br />
-            <span class="prompt">cv_pdf</span><span class="muted">:</span> <a href="assets/CV_AG_05192026.pdf" download>download full CV (pdf)</a>
-          </div>
-        </div>
-
-        <div class="fade-in fade-in-d5">
-          <div class="section-label">// publications</div>
-          <div style="font-size: 14px; color: var(--muted);">
-            <a href="publications.html"><span class="prompt">→</span> view all {{ pub_count }} publications</a>
-          </div>
-        </div>
+{% block content %}
+  <header class="phead wrap">
+    <p class="eyebrow" data-reveal="fade"><span class="idx">CV</span>Updated {{ config.copyright_year }}</p>
+    <h1 class="phead__title" data-words>Curriculum <em>vitae</em>.</h1>
+    <div class="phead__row">
+      <p class="phead__lede" data-reveal>Positions, degrees and awards. The PDF has the full version, including talks and posters.</p>
+      <div data-reveal>
+        <a class="btn btn--solid" href="{{ config.cv_pdf }}" target="_blank" rel="noopener" data-magnetic>Download PDF <span class="btn__arrow btn__arrow--down">{{ arrow('down') }}</span></a>
       </div>
     </div>
+  </header>
+
+  <div class="wrap">
+    {%- if experience %}
+    <section class="cvsec" aria-labelledby="cv-exp">
+      <div class="cvsec__side">
+        <h2 class="cvsec__label" id="cv-exp" data-words>Experience</h2>
+        <span class="cvsec__count">{{ '%02d' | format(experience | length) }} positions</span>
+      </div>
+      {{ timeline(experience, 'title') }}
+    </section>
+    {%- endif %}
+
+    {%- if education %}
+    <section class="cvsec" aria-labelledby="cv-edu">
+      <div class="cvsec__side">
+        <h2 class="cvsec__label" id="cv-edu" data-words>Education</h2>
+        <span class="cvsec__count">{{ '%02d' | format(education | length) }} degrees</span>
+      </div>
+      {{ timeline(education, 'degree') }}
+    </section>
+    {%- endif %}
+
+    {%- if awards %}
+    <section class="cvsec" aria-labelledby="cv-aw">
+      <div class="cvsec__side">
+        <h2 class="cvsec__label" id="cv-aw" data-words>Awards</h2>
+        <span class="cvsec__count">{{ '%02d' | format(awards | length) }} honours</span>
+      </div>
+      <ul class="awards" data-stagger>
+        {%- for a in awards %}
+        <li data-reveal><span class="awards__y">{{ a.year }}</span><span class="awards__d">{{ a.description | safe }}</span></li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- endif %}
+
+    <section class="cvsec" aria-labelledby="cv-det">
+      <div class="cvsec__side">
+        <h2 class="cvsec__label" id="cv-det" data-words>Details</h2>
+      </div>
+      <dl class="facts" data-reveal>
+        <dt>Position</dt><dd>{{ config.designation }}</dd>
+        <dt>Institute</dt><dd>{{ config.affiliation }}</dd>
+        {%- if config.advisor %}<dt>Advisor</dt><dd>{{ config.advisor }}</dd>{% endif %}
+        <dt>Based in</dt><dd>{{ config.location }}</dd>
+        <dt>Email</dt><dd><a class="link" href="mailto:{{ config.email }}">{{ config.email }}</a></dd>
+        <dt>Scholar</dt><dd><a class="link" href="{{ config.scholar_url }}" target="_blank" rel="noopener">Google Scholar profile</a></dd>
+        <dt>GitHub</dt><dd><a class="link" href="https://github.com/{{ config.github }}" target="_blank" rel="noopener">github.com/{{ config.github }}</a></dd>
+      </dl>
+    </section>
   </div>
-
-  {{ statusbar(config.status_bar.cv, '© ' ~ config.copyright_year ~ ' ' ~ config.name) }}
-
-  <script src="theme.js"></script>
-  <script src="terminal-easteregg.js"></script>
-</body>
-</html>
+{% endblock %}

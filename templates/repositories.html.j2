@@ -1,54 +1,40 @@
-{% from 'base.html.j2' import topbar, statusbar %}
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Research software and open-source repositories by {{ config.name }}, including tools for sleep, circadian rhythm, and time-series analysis." />
-  <title>{{ config.name }} — Repositories</title>
-  <link rel="stylesheet" href="terminal.css" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-</head>
-<body>
-  {{ topbar('repositories') }}
+{% extends 'base.html.j2' %}
+{% from '_macros.html.j2' import arrow %}
 
-  <div class="page-body">
-    <div class="page-title fade-in"><span class="prompt">$</span> gh repo list</div>
-    <div class="page-subtitle fade-in fade-in-d1"><span class="comment">// open-source tools and research software</span></div>
+{% block title %}Code — {{ config.name }}{% endblock %}
+{% block description %}Open-source software by {{ config.name }}: R packages and Shiny apps for circadian rhythm and sleep analysis.{% endblock %}
 
-    <div class="fade-in fade-in-d2">
-      <div class="section-label">// github profile</div>
-      <div style="font-size: 14px; line-height: 2; margin-bottom: 28px;">
-        <span class="prompt">user</span><span class="muted">:</span> <a href="https://github.com/{{ config.github }}">{{ config.github }}</a><br />
-        <span class="prompt">bio</span><span class="muted">:</span> {{ config.designation }} · NHLBI / NIH · Circadian rhythms &amp; sleep genetics
+{% block content %}
+  <header class="phead wrap">
+    <p class="eyebrow" data-reveal="fade"><span class="idx">{{ repositories | length }}</span>Repositories</p>
+    <h1 class="phead__title" data-words>Research <em>software</em><br />&amp; side projects.</h1>
+    <div class="phead__row">
+      <p class="phead__lede" data-reveal>R packages and Shiny apps for analyzing sleep and circadian data from <em>Drosophila</em>, plus side projects: hand-drawn plots for <em>ggplot2</em>, a bonsai grown from GitHub history, color palettes, and the code behind this site.</p>
+      <div class="shell" data-shell data-reveal>
+        <span class="shell__cmd"><span data-shell-type>gh repo list {{ config.github }}</span><span class="shell__caret" aria-hidden="true"></span></span>
+        <span class="shell__out">→ {{ repositories | length }} repositories, all public</span>
       </div>
     </div>
+  </header>
 
-    <div class="fade-in fade-in-d3">
-      <div class="section-label">// repositories</div>
-      <div class="repo-grid">
-        {% for repo in repositories %}
-        <a href="{{ repo.url }}" class="repo-card" style="text-decoration:none;">
-          <div class="repo-card__name">{{ repo.name }}</div>
-          <div class="repo-card__desc">{{ repo.description | safe }}</div>
-          <div class="repo-card__lang">
-            {% for lang in repo.language_pills %}
-            <span class="repo-card__lang-dot" style="background: {{ lang.color }};{% if not loop.first %} margin-left: 10px;{% endif %}"></span> {{ lang.name }}
-            {% endfor %}
-          </div>
-          <div class="repo-card__link">view on github →</div>
+  <section class="wrap section" style="padding-top:0" aria-label="Repositories">
+    <ul class="repos">
+      {%- for repo in repositories %}
+      <li data-reveal style="--d:{{ (loop.index0 % 2) * 90 }}">
+        <a class="repo" href="{{ repo.url }}" target="_blank" rel="noopener" data-tilt data-inview data-cursor-label="Open">
+          <span class="repo__glare" aria-hidden="true"></span>
+          <span class="repo__top"><span>{{ '%02d' | format(loop.index) }} / {{ '%02d' | format(repositories | length) }}</span><span class="repo__star" aria-hidden="true">{{ arrow(size=16) }}</span></span>
+          <span class="repo__name">{{ repo.name }}</span>
+          <span class="repo__desc">{{ repo.description | safe }}</span>
+          {%- if repo.language_pills %}
+          <span class="repo__langs">
+            <span class="repo__bar" aria-hidden="true">{% for l in repo.language_pills %}<span style="--c:{{ l.color }};--i:{{ loop.index0 }}"></span>{% endfor %}</span>
+            <ul class="repo__legend" aria-label="Languages">{% for l in repo.language_pills %}<li style="--c:{{ l.color }}"><i></i>{{ l.name }}</li>{% endfor %}</ul>
+          </span>
+          {%- endif %}
         </a>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-
-  {{ statusbar(
-    (repositories | length) ~ ' repositories · github.com/' ~ config.github,
-    '© ' ~ config.copyright_year ~ ' ' ~ config.name
-  ) }}
-
-  <script src="theme.js"></script>
-  <script src="terminal-easteregg.js"></script>
-</body>
-</html>
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+{% endblock %}

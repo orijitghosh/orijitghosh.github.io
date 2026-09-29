@@ -21,7 +21,7 @@ cd orijitghosh.github.io
 
 1. Edit `config.yaml` — replace name, bio, email, affiliation, tags, etc.
 2. Edit the CSV files in `data/` — replace the rows with your own content (keep the header rows). See `docs/CSV_FORMAT.md` for column specs.
-3. Replace `assets/profile.png` with your photo and `assets/CV_AG_05192026.pdf` with your CV.
+3. Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback) with your photo, and `assets/CV_AG_05192026.pdf` with your CV (if you rename the PDF, update `cv_pdf` in `config.yaml`).
 
 ## Step 3: Deploy
 

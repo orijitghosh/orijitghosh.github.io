@@ -6,8 +6,19 @@ affiliation: "National Heart, Lung, and Blood Institute"
 advisor: "Susan T. Harbison"
 email: "arijitghosh2009@gmail.com"
 location: "Bethesda, MD"
+# IANA timezone of `location` (drives the "it's 14:32 in Bethesda" clock in the footer)
+timezone: "America/New_York"
 github: "orijitghosh"
 scholar_url: "https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en"
+# Downloadable CV (path relative to the site root)
+cv_pdf: "assets/CV_AG_05192026.pdf"
+
+# One-liner under the name in the hero (HTML allowed)
+tagline: 'Postdoctoral fellow at the <abbr title="National Institutes of Health">NIH</abbr>, studying how the circadian clock and sleep shape each other.'
+
+# Large statement at the top of the About section. Words light up as you scroll.
+# Wrap words in <em> to set them in italic accent color.
+statement: 'I study how two genetic networks, the <em>circadian clock</em> and <em>sleep</em>, interact to shape behavior. I work with fruit flies, quantitative genetics and statistical models.'
 
 # Author name patterns to auto-bold in publications.
 # String matching is case-sensitive. Order matters: longer patterns first.
@@ -36,13 +47,24 @@ tags:
 home_page:
   news_count: 7
   selected_publications_count: 6
-  typing_text: "hello world — I'm "
 
-# Status bar text
-status_bar:
-  index: "systems biology center · nhlbi · nih"
-  cv: "curriculum vitae · arijit ghosh"
-  teaching: "teaching & service · arijit ghosh"
+# Research section on the home page. Each block sits next to a live,
+# simulated figure (an actogram and a sleep-state hypnogram). HTML allowed.
+research:
+  actogram:
+    title: "Reading an actogram"
+    text:
+      - 'Chronobiologists read behavior as an <em>actogram</em>: every row is a day, plotted twice side by side so rhythms that cross midnight stay readable. A fruit fly''s activity bunches around dawn and dusk — the morning and evening peaks — with a siesta in between.'
+      - 'Switch the lights off for good and the peaks keep coming. They drift a little each day because the internal clock''s free-running period, τ, isn''t exactly 24 hours. Drag the slider to change it.'
+  sleep_states:
+    title: "Inferring sleep states"
+    text:
+      - 'Fly sleep varies in depth, from light to deep. Hidden Markov models infer these unobserved states from movement data alone, which lets us map the genes that shape each state.'
+    links:
+      - label: "Read the preprint"
+        url: "https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1"
+      - label: "FlyDreamR (R package)"
+        url: "https://orijitghosh.github.io/FlyDreamR/"
 
 # Language colors for repository cards (from GitHub Linguist)
 language_colors:

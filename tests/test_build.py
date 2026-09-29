@@ -361,3 +361,70 @@ def test_shorten_venue_known_journals():
 def test_authors_short_initials():
     assert build.authors_short("Ghosh Arijit") == "Ghosh A"
     assert build.authors_short("Ghosh Arijit; Harbison Susan Tracy") == "Ghosh A, Harbison ST"
+
+
+# ---------------------------------------------------------------------------
+# is_first_author / year_histogram / search_text
+# ---------------------------------------------------------------------------
+
+def test_is_first_author_matches_first_only():
+    assert build.is_first_author("Ghosh Arijit; Sheeba Vasu", ["Ghosh Arijit"])
+    assert not build.is_first_author("Sheeba Vasu; Ghosh Arijit", ["Ghosh Arijit"])
+
+
+def test_is_first_author_empty():
+    assert not build.is_first_author("", ["Ghosh Arijit"])
+
+
+def test_process_publications_first_author_flag():
+    rows = [
+        _pub_row(2026, "A", authors="Ghosh Arijit; Harbison Susan"),
+        _pub_row(2024, "B", authors="Singh NP; Ghosh Arijit"),
+    ]
+    pubs = build.process_publications(rows, ["Ghosh Arijit"])
+    assert pubs[0]["is_first_author"] is True
+    assert pubs[1]["is_first_author"] is False
+
+
+def test_is_first_author_counts_marked_cofirst():
+    assert build.is_first_author("Saha S; *Ghosh Arijit; Kumar A", ["Ghosh Arijit"])
+    assert not build.is_first_author("*Saha S; Ghosh Arijit", ["Ghosh Arijit"])
+
+
+def test_is_cofirst_author_only_after_first_position():
+    assert build.is_cofirst_author("Saha S; *Ghosh Arijit", ["Ghosh Arijit"])
+    assert not build.is_cofirst_author("*Ghosh Arijit; Saha S", ["Ghosh Arijit"])
+    assert not build.is_cofirst_author("Saha S; Ghosh Arijit", ["Ghosh Arijit"])
+
+
+def test_format_authors_cofirst_mark():
+    result = build.format_authors("*Ghosh Arijit; Saha S; *Kumar A")
+    assert result == "Ghosh Arijit, Saha S, Kumar A" + build.COFIRST_SUP
+    assert build.authors_short("Saha Somdatta; *Ghosh Arijit") == "Saha S, Ghosh A"
+
+
+def test_process_publications_cofirst_flags():
+    rows = [_pub_row(2017, "TRPV1", authors="Saha Somdatta; *Ghosh Arijit; Goswami C")]
+    pub = build.process_publications(rows, ["Ghosh Arijit"])[0]
+    assert pub["is_first_author"] is True
+    assert pub["is_cofirst"] is True
+    assert "<strong>Ghosh Arijit</strong>" + build.COFIRST_SUP in pub["authors_html"]
+    assert "*" not in pub["search_text"]
+
+
+def test_process_publications_search_text():
+    rows = [_pub_row(2022, "VANESSA Apps", authors="Ghosh A; Sheeba V", venue="J Bio")]
+    pubs = build.process_publications(rows, [])
+    assert pubs[0]["search_text"] == "vanessa apps ghosh a  sheeba v j bio  2022"
+
+
+def test_year_histogram_fills_gaps():
+    assert build.year_histogram([2020, 2022, 2022]) == [
+        {"year": 2020, "count": 1},
+        {"year": 2021, "count": 0},
+        {"year": 2022, "count": 2},
+    ]
+
+
+def test_year_histogram_empty():
+    assert build.year_histogram([]) == []

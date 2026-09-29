@@ -1,0 +1,23 @@
+{#- Shared markup snippets. Imported by page templates; never rendered on its own. -#}
+
+{% macro arrow(dir='ne', size=18) -%}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  {%- if dir == 'down' %}<path d="M12 4v16M5 13l7 7 7-7"/>
+  {%- elif dir == 'up' %}<path d="M12 20V4M5 11l7-7 7 7"/>
+  {%- elif dir == 'right' %}<path d="M4 12h16M13 5l7 7-7 7"/>
+  {%- else %}<path d="M7 17 17 7M8 7h9v9"/>{% endif -%}
+</svg>
+{%- endmacro %}
+
+{% macro eyebrow(idx, label) -%}
+<p class="eyebrow" data-reveal="fade"><span class="idx">{{ idx }}</span>{{ label }}</p>
+{%- endmacro %}
+
+{#- A 24-hour dial face: ZT0 at 12 o'clock, the dark phase shaded on the left. -#}
+{% macro dial_mark(cls='nav__mark') -%}
+<svg class="{{ cls }}" viewBox="0 0 34 34" aria-hidden="true" data-dial-mark>
+  <circle class="mk-face" cx="17" cy="17" r="16"/>
+  <path class="mk-night" d="M17 1a16 16 0 0 0 0 32z"/>
+  <g class="mk-hand"><line x1="17" y1="17" x2="17" y2="6.5"/><circle class="mk-sun" cx="17" cy="6" r="2.6"/></g>
+</svg>
+{%- endmacro %}

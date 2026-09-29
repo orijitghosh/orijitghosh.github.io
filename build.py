@@ -42,14 +42,36 @@ def bold_authors(authors: str, patterns: list[str]) -> str:
     return result
 
 
+# A leading '*' on an author ('*Ghosh Arijit') marks first or co-first
+# authorship, the same convention as the CV.
+COFIRST_MARK = "*"
+COFIRST_SUP = '<sup class="cofirst" title="Co-first author">*</sup>'
+
+
+def _is_marked(name: str) -> bool:
+    return name.startswith(COFIRST_MARK)
+
+
+def _unmark(name: str) -> str:
+    return name.strip().lstrip(COFIRST_MARK).strip()
+
+
 def format_authors(raw: str) -> str:
     """Convert semicolon-separated authors to display format.
 
     - Single author: returned as-is.
     - Two authors: joined with ' and '.
     - Three+ authors: joined with ', '.
+    - A co-first author ('*Name') after the first position gets a
+      superscript asterisk; the mark is dropped on the first author.
     """
-    parts = [p.strip() for p in raw.split(";") if p.strip()]
+    parts = []
+    for p in raw.split(";"):
+        p = p.strip()
+        if not p:
+            continue
+        name = _unmark(p)
+        parts.append(name + COFIRST_SUP if _is_marked(p) and parts else name)
     if len(parts) == 0:
         return ""
     if len(parts) == 1:
@@ -59,9 +81,31 @@ def format_authors(raw: str) -> str:
     return ", ".join(parts)
 
 
+def is_first_author(raw: str, patterns: list[str]) -> bool:
+    """True if the first author, or any '*'-marked co-first author,
+    matches any pattern."""
+    parts = [p.strip() for p in str(raw).split(";") if p.strip()]
+    if not parts:
+        return False
+    return any(
+        any(pattern in _unmark(p) for pattern in patterns)
+        for i, p in enumerate(parts)
+        if i == 0 or _is_marked(p)
+    )
+
+
+def is_cofirst_author(raw: str, patterns: list[str]) -> bool:
+    """True if a matching author is marked co-first but not listed first."""
+    parts = [p.strip() for p in str(raw).split(";") if p.strip()]
+    return any(
+        _is_marked(p) and any(pattern in p for pattern in patterns)
+        for p in parts[1:]
+    )
+
+
 def authors_short(raw: str) -> str:
     """Convert 'Lastname Firstname [Middle]' to 'Lastname F[M]'."""
-    parts = [p.strip() for p in raw.split(";") if p.strip()]
+    parts = [_unmark(p) for p in raw.split(";") if p.strip()]
     out = []
     for p in parts:
         if p.lower() in ("et al.", "et al"):
@@ -117,6 +161,19 @@ def year_range(years: list[int]) -> str:
     if lo == hi:
         return str(lo)
     return f"{lo}–{hi}"
+
+
+def year_histogram(years: list[int]) -> list[dict]:
+    """Count entries per year, oldest first, including empty years in between."""
+    if not years:
+        return []
+    counts: dict[int, int] = {}
+    for y in years:
+        counts[y] = counts.get(y, 0) + 1
+    return [
+        {"year": y, "count": counts.get(y, 0)}
+        for y in range(min(years), max(years) + 1)
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -196,6 +253,11 @@ def process_publications(
         seen_years.add(row["year"])
         row["animation_delay"] = f"{0.10 + i * 0.05:.2f}s"
         row["is_selected"] = str(row.get("selected", "")).strip().lower() == "yes"
+        row["is_first_author"] = is_first_author(row.get("authors", ""), bold_patterns)
+        row["is_cofirst"] = is_cofirst_author(row.get("authors", ""), bold_patterns)
+        row["search_text"] = " ".join(
+            str(row.get(k, "")) for k in ("title", "authors", "venue", "note", "year")
+        ).replace(";", " ").replace(COFIRST_MARK, "").lower()
 
     return cleaned
 
@@ -340,12 +402,15 @@ def select_for_home(
 # ---------------------------------------------------------------------------
 
 PAGES = [
-    # (template_name, output_filename, active_tab)
-    ("index.html.j2", "index.html", "index"),
-    ("publications.html.j2", "publications.html", "publications"),
-    ("repositories.html.j2", "repositories.html", "repositories"),
-    ("cv.html.j2", "cv.html", "cv"),
-    ("teaching.html.j2", "teaching.html", "teaching"),
+    # (template_name, output_filename, active_tab, asset_root)
+    # asset_root prefixes every asset/page link. 404.html is served from
+    # arbitrary nested paths by GitHub Pages, so it needs root-absolute links.
+    ("index.html.j2", "index.html", "index", ""),
+    ("publications.html.j2", "publications.html", "publications", ""),
+    ("repositories.html.j2", "repositories.html", "repositories", ""),
+    ("cv.html.j2", "cv.html", "cv", ""),
+    ("teaching.html.j2", "teaching.html", "teaching", ""),
+    ("404.html.j2", "404.html", "404", "/"),
 ]
 
 
@@ -447,11 +512,14 @@ def build_site(project_root: Path | None = None) -> None:
         "service": service,
         "pub_year_range": pub_year_range,
         "pub_count": len(publications),
+        "pub_histogram": year_histogram([p["year"] for p in publications]),
+        "first_author_count": sum(1 for p in publications if p["is_first_author"]),
+        "selected_count": sum(1 for p in publications if p["is_selected"]),
     }
 
-    for template_name, output_name, _active in PAGES:
+    for template_name, output_name, active, asset_root in PAGES:
         template = env.get_template(template_name)
-        html = template.render(**context)
+        html = template.render(**context, active=active, root=asset_root)
         out_path = root / output_name
         out_path.write_text(html, encoding="utf-8")
         print(f"  {output_name}")
