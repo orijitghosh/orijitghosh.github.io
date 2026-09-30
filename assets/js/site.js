@@ -277,7 +277,7 @@
   /* ═══ 6. CLOCKS ════════════════════════════════════════════════ */
   var tzFmt = {};
   function updateClocks() {
-    var n = AG.now(), zt = Math.floor(n.zt);
+    var n = AG.now(), zt = Math.floor(n.zt), ztm = Math.floor((n.zt - zt) * 60);
     $$('[data-clock]').forEach(function (el) {
       el.innerHTML = el.closest('.menu') ? n.hhmm + ' · ZT' + pad(zt) : n.hhmm + ' · <b>ZT' + pad(zt) + '</b>';
     });
@@ -295,6 +295,13 @@
     });
     $$('[data-dial-mark]').forEach(function (svg) {
       var h = $('.mk-hand', svg); if (h) h.style.setProperty('--hand', (n.zt * 15).toFixed(1) + 'deg');
+    });
+    $$('[data-zt-marker]').forEach(function (el) {
+      el.style.setProperty('--zt-position', (n.zt / 24 * 100).toFixed(3) + '%');
+      el.setAttribute('data-label', 'NOW / ZT ' + pad(zt) + ':' + pad(ztm));
+    });
+    $$('[data-zt-label]').forEach(function (el) {
+      el.textContent = 'Current local Zeitgeber time: ZT ' + pad(zt) + ':' + pad(ztm);
     });
     /* follow the sun if the visitor hasn't chosen a theme */
     var pref = null; try { pref = localStorage.getItem('ag-theme'); } catch (e) {}

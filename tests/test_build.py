@@ -1,5 +1,6 @@
 """Unit tests for build.py CSV CMS."""
 import sys
+import shutil
 from pathlib import Path
 
 import pytest
@@ -428,3 +429,24 @@ def test_year_histogram_fills_gaps():
 
 def test_year_histogram_empty():
     assert build.year_histogram([]) == []
+
+
+# ---------------------------------------------------------------------------
+# rendered footer
+# ---------------------------------------------------------------------------
+
+def test_build_renders_circadian_horizon_with_configured_identity(tmp_path):
+    """The footer presents the research theme without confusing name and handle."""
+    project_root = Path(__file__).parent.parent
+    shutil.copy2(project_root / "config.yaml", tmp_path / "config.yaml")
+    shutil.copytree(project_root / "data", tmp_path / "data")
+    shutil.copytree(project_root / "templates", tmp_path / "templates")
+
+    build.build_site(tmp_path)
+
+    homepage = (tmp_path / "index.html").read_text(encoding="utf-8")
+    assert 'class="foot__horizon"' in homepage
+    assert 'data-zt-marker' in homepage
+    assert '>Arijit Ghosh<' in homepage
+    assert 'https://github.com/orijitghosh' in homepage
+    assert "Built from CSV files and a circadian clock" not in homepage
