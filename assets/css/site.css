@@ -953,8 +953,13 @@ html.intro .loader.is-out { clip-path: inset(0 0 100% 0); transition: clip-path 
   from { clip-path: circle(0 at var(--vt-x, 50vw) var(--vt-y, 50vh)); }
   to { clip-path: circle(150vmax at var(--vt-x, 50vw) var(--vt-y, 50vh)); }
 }
-/* theme swap uses a same-document transition driven from JS */
+/* Define the reveal before snapshot capture to avoid an unclipped first frame. */
 html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+html.theme-vt::view-transition-new(root) { animation: theme-reveal .95s var(--ease-io) both; }
+@keyframes theme-reveal {
+  from { clip-path: circle(0px at var(--theme-x) var(--theme-y)); }
+  to { clip-path: circle(var(--theme-radius) at var(--theme-x) var(--theme-y)); }
+}
 html.theme-vt .nav, html.theme-vt .nav__pill { view-transition-name: none; }
 html.theme-vt *, html.theme-vt *::before, html.theme-vt *::after { transition: none !important; }
 

@@ -332,13 +332,19 @@
     if (!document.startViewTransition || reduceMQ.matches || !origin) { apply(); return; }
     var x = origin.x, y = origin.y;
     var rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    d.style.setProperty('--theme-x', x + 'px');
+    d.style.setProperty('--theme-y', y + 'px');
+    d.style.setProperty('--theme-radius', rad + 'px');
     d.classList.add('theme-vt');
     var vt = document.startViewTransition(apply);
-    vt.ready.then(function () {
-      d.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + rad + 'px at ' + x + 'px ' + y + 'px)'] },
-        { duration: 950, easing: 'cubic-bezier(.76,0,.24,1)', pseudoElement: '::view-transition-new(root)' });
-    }).catch(function () {});
-    vt.finished.finally(function () { d.classList.remove('theme-vt'); });
+    vt.ready.catch(function () {});
+    function cleanThemeTransition() {
+      d.classList.remove('theme-vt');
+      d.style.removeProperty('--theme-x');
+      d.style.removeProperty('--theme-y');
+      d.style.removeProperty('--theme-radius');
+    }
+    vt.finished.then(cleanThemeTransition, cleanThemeTransition);
   };
   $$('[data-theme-toggle]').forEach(function (b) {
     b.addEventListener('click', function (e) {
@@ -587,8 +593,11 @@
     startReveals();
     if (d.classList.contains('curtain-in') && curtain) {
       requestAnimationFrame(function () {
-        curtain.classList.add('is-lifting');
-        setTimeout(function () { d.classList.remove('curtain-in'); curtain.classList.remove('is-lifting'); }, 800);
+        // Paint the covered state before starting the incoming wipe.
+        requestAnimationFrame(function () {
+          curtain.classList.add('is-lifting');
+          setTimeout(function () { d.classList.remove('curtain-in'); curtain.classList.remove('is-lifting'); }, 800);
+        });
       });
     }
   }
