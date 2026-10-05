@@ -81,7 +81,7 @@
               <img src="assets/profile-720.jpg" alt="Portrait of {{ config.name }}" width="720" height="720" loading="lazy" decoding="async" />
             </picture>
           </div>
-          <figcaption class="portrait__cap">fig. 1 — the experimenter, diurnal</figcaption>
+          <figcaption class="portrait__cap">fig. 1 — {{ config.name }}</figcaption>
         </figure>
 
         <div>
@@ -118,7 +118,7 @@
     <div class="wrap">
       <div class="sec-head">
         {{ eyebrow('02', 'Research') }}
-        <h2 class="h2" id="research-h" data-words>Behavior as <em>rhythms</em><br />and <em>hidden states</em>.</h2>
+        <h2 class="h2" id="research-h" data-words>Circadian <em>rhythms</em><br />and <em>sleep states</em>.</h2>
       </div>
 
       {% set acto = config.research.actogram %}
@@ -194,7 +194,7 @@
       <div class="stats" data-stagger>
         <div class="stat" data-reveal><span class="stat__n" data-count="{{ pub_count }}">{{ pub_count }}</span><span class="stat__l">Publications<br />{{ pub_year_range }}</span></div>
         <div class="stat" data-reveal><span class="stat__n" data-count="{{ first_author_count }}">{{ first_author_count }}</span><span class="stat__l">As first or<br />co-first author</span></div>
-        <div class="stat" data-reveal><span class="stat__n" data-count="{{ repositories | length }}">{{ repositories | length }}</span><span class="stat__l">Open-source tools</span></div>
+        <div class="stat" data-reveal><span class="stat__n" data-count="{{ repositories | length }}">{{ repositories | length }}</span><span class="stat__l">Public repositories</span></div>
         <div class="stat" data-reveal><span class="stat__n" data-count="{{ awards | length }}">{{ awards | length }}</span><span class="stat__l">Awards &amp; fellowships</span></div>
       </div>
     </div>

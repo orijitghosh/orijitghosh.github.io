@@ -46,7 +46,7 @@
     return clamp(a + light, 0, 1);
   };
   AG.phase = function (zt) {
-    if (zt >= 21.5 || zt < 2.5) return { key: 'morning', name: 'Morning peak', msg: 'Lights just came on. The flies are at their busiest, and so is this page.' };
+    if (zt >= 21.5 || zt < 2.5) return { key: 'morning', name: 'Morning peak', msg: 'Morning activity peak. Move your cursor to interact with the flies.' };
     if (zt < 8) return { key: 'siesta', name: 'Siesta', msg: 'Midday siesta: most flies are dozing. Wave your cursor to wake a few.' };
     if (zt < 13) return { key: 'evening', name: 'Evening peak', msg: 'Evening peak: activity ramps up in anticipation of dusk.' };
     return { key: 'night', name: 'Night sleep', msg: 'Lights out. The flies are asleep, mostly. Click to startle them.' };
