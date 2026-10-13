@@ -39,7 +39,16 @@
         if (!still && !ss.getItem('ag-entrained')) d.classList.add('intro');
         {%- endif %}
         try { ss.setItem('ag-entrained', '1'); } catch (e) {}
-        if (!vt && !still && ss.getItem('ag-curtain')) d.classList.add('curtain-in');
+        if (!vt && !still && ss.getItem('ag-curtain')) {
+          var p = null;
+          try { p = JSON.parse(ss.getItem('ag-vt')); ss.removeItem('ag-vt'); } catch (_) {}
+          if (p && Date.now() - p.t < 5000) {
+            d.style.setProperty('--curtain-x', p.x + 'px');
+            d.style.setProperty('--curtain-y', p.y + 'px');
+            d.style.setProperty('--curtain-end', Math.hypot(Math.max(p.x, innerWidth - p.x), Math.max(p.y, innerHeight - p.y)) + 'px');
+          }
+          d.classList.add('curtain-in');
+        }
         try { ss.removeItem('ag-curtain'); } catch (e) {}
       }
       addEventListener('pagereveal', function (e) {

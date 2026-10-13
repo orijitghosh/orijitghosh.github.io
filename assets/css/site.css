@@ -353,15 +353,19 @@ html.has-cursor input[type="search"], html.has-cursor input[type="text"], html.h
   100% { transform: translate(0, 0); }
 }
 
-/* fallback page transition (browsers without cross-document view transitions) */
+/* Circular fallback for browsers without cross-document view transitions. */
+@property --curtain-hole { syntax: "<length>"; inherits: false; initial-value: 0px; }
 .curtain {
   position: fixed; inset: 0; z-index: 280; pointer-events: none;
   background: var(--ink);
-  clip-path: inset(100% 0 0 0);
+  clip-path: circle(0px at var(--curtain-x, 50%) var(--curtain-y, 50%));
 }
-.curtain.is-leaving { clip-path: inset(0 0 0 0); transition: clip-path .55s var(--ease-io); }
-html.curtain-in .curtain { clip-path: inset(0 0 0 0); }
-html.curtain-in .curtain.is-lifting { clip-path: inset(0 0 100% 0); transition: clip-path .75s var(--ease-io); }
+.curtain.is-leaving { clip-path: circle(var(--curtain-end, 150vmax) at var(--curtain-x, 50%) var(--curtain-y, 50%)); transition: clip-path .55s var(--ease-io); }
+html.curtain-in .curtain {
+  clip-path: circle(var(--curtain-end, 150vmax) at var(--curtain-x, 50%) var(--curtain-y, 50%));
+  mask-image: radial-gradient(circle at var(--curtain-x, 50%) var(--curtain-y, 50%), transparent var(--curtain-hole), #000 calc(var(--curtain-hole) + 1px));
+}
+html.curtain-in .curtain.is-lifting { --curtain-hole: var(--curtain-end, 150vmax); transition: --curtain-hole .75s var(--ease-io); }
 
 /* ─── 07 REVEAL SYSTEM ────────────────────────────────────────────── */
 html.js [data-reveal] {

@@ -518,7 +518,7 @@
 
   /* ═══ 13. PAGE TRANSITIONS ═════════════════════════════════════
      Cross-document view transitions where supported (circular reveal
-     from the click, see site.css); a curtain wipe everywhere else.    */
+     from the click, see site.css); a circular fallback everywhere else. */
   var curtain = $('.curtain');
   var hasVT = 'PageRevealEvent' in window;
   function internal(a) {
@@ -537,6 +537,10 @@
     if (menuOpen) setMenu(false);
     if (hasVT || reduceMQ.matches || !curtain || location.protocol === 'file:') return;
     e.preventDefault();
+    var x = e.clientX || innerWidth / 2, y = e.clientY || innerHeight / 2;
+    d.style.setProperty('--curtain-x', x + 'px');
+    d.style.setProperty('--curtain-y', y + 'px');
+    d.style.setProperty('--curtain-end', Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 'px');
     try { sessionStorage.setItem('ag-curtain', '1'); } catch (_) {}
     curtain.classList.add('is-leaving');
     setTimeout(function () { location.href = a.href; }, 560);
