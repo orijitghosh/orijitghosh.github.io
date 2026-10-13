@@ -9,10 +9,10 @@
     <p class="eyebrow" data-reveal="fade"><span class="idx">{{ repositories | length }}</span>Repositories</p>
     <h1 class="phead__title" data-words>Research <em>software</em><br />&amp; side projects.</h1>
     <div class="phead__row">
-      <p class="phead__lede" data-reveal>R packages and Shiny apps for analyzing sleep and circadian data from <em>Drosophila</em>, plus side projects: hand-drawn plots for <em>ggplot2</em>, a bonsai grown from GitHub history, color palettes, and the code behind this site.</p>
+      <p class="phead__lede" data-reveal>I build R tools for studying sleep and circadian rhythms in flies. I also made hand-drawn <em>ggplot2</em> geoms, color palettes, and a bonsai that grows from GitHub history.</p>
       <div class="shell" data-shell data-reveal>
         <span class="shell__cmd"><span data-shell-type>gh repo list {{ config.github }}</span><span class="shell__caret" aria-hidden="true"></span></span>
-        <span class="shell__out">→ {{ repositories | length }} repositories, all public</span>
+        <span class="shell__out">{{ repositories[:3] | map(attribute='name') | join(' · ') }}{% if repositories | length > 3 %} · …{% endif %}</span>
       </div>
     </div>
   </header>
