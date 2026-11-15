@@ -4,37 +4,31 @@
 {% block description %}Teaching, mentoring, editorial and professional service by {{ config.name }}.{% endblock %}
 
 {%- set labels = {
-  'teaching': ('Teaching', 'in the classroom'),
-  'mentoring': ('Mentoring', 'trainees &amp; students'),
-  'editorial': ('Editorial', '&amp; peer review'),
-  'service': ('Service', 'at the NIH'),
+  'teaching': 'Teaching',
+  'mentoring': 'Mentoring',
+  'editorial': 'Editorial & peer review',
+  'service': 'Academic & institute service',
 } %}
 {%- set order = ['teaching', 'mentoring', 'editorial', 'service'] %}
 {%- set extra = service.keys() | reject('in', order) | list %}
 
 {% block content %}
   <header class="phead wrap">
-    <p class="eyebrow" data-reveal="fade"><span class="idx">{{ service.values() | map('length') | sum }}</span>Activities</p>
-    <h1 class="phead__title" data-words>Teaching, mentoring<br /><em>&amp; service</em>.</h1>
-    <div class="phead__row">
-      <p class="phead__lede" data-reveal>Courses I’ve taught, students I’ve mentored, and editorial and committee work.</p>
-    </div>
+    <h1 class="phead__title">Teaching, mentoring &amp; service</h1>
+    <p class="phead__lede">Courses and practical modules I have taught, students and trainees I have worked with in the lab, and editorial and committee service.</p>
   </header>
 
-  <div class="wrap">
+  <div class="wrap cv-wrap">
     {%- for key in order + extra %}
     {%- if service[key] %}
-    {%- set label = labels.get(key, (key | title, '')) %}
-    <section class="svc" aria-labelledby="svc-{{ key }}">
-      <div class="svc__side">
-        <span class="svc__count" data-count="{{ service[key] | length }}" data-pad="2" aria-hidden="true">{{ '%02d' | format(service[key] | length) }}</span>
-        <h2 class="svc__name" id="svc-{{ key }}" data-words>{{ label[0] }}{% if label[1] %} <em>{{ label[1] | safe }}</em>{% endif %}</h2>
-      </div>
-      <ol class="svc__list" data-stagger>
+    {%- set heading = labels.get(key, key | title) %}
+    <section class="cvsec" aria-labelledby="svc-{{ key }}">
+      <h2 class="cvsec__label" id="svc-{{ key }}">{{ heading }}</h2>
+      <ul class="svc__list">
         {%- for item in service[key] %}
-        <li data-reveal>{{ item.description | safe }}</li>
+        <li>{{ item.description | safe }}</li>
         {%- endfor %}
-      </ol>
+      </ul>
     </section>
     {%- endif %}
     {%- endfor %}

@@ -14,11 +14,10 @@ scholar_url: "https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en"
 cv_pdf: "assets/CV_AG_05192026.pdf"
 
 # One-liner under the name in the hero (HTML allowed)
-tagline: 'Postdoctoral fellow at the <abbr title="National Institutes of Health">NIH</abbr>, studying how the circadian clock and sleep shape each other.'
+tagline: 'Visiting postdoctoral fellow at the <abbr title="National Institutes of Health">NIH</abbr>, studying how the circadian clock and sleep shape each other.'
 
-# Large statement at the top of the About section. Words light up as you scroll.
-# Wrap words in <em> to set them in italic accent color.
-statement: 'I study how two genetic networks, the <em>circadian clock</em> and <em>sleep</em>, interact to shape behavior. I work with fruit flies, quantitative genetics and statistical models.'
+# Lead sentence at the top of the Research section (HTML allowed).
+statement: 'In the lab, I record behavior across thousands of fruit flies over days of light and darkness, then pair statistical models with quantitative genetics to ask how the <em>circadian clock</em> and <em>sleep</em> genetic networks talk to each other.'
 
 # Author name patterns to auto-bold in publications.
 # String matching is case-sensitive. Order matters: longer patterns first.
@@ -30,9 +29,9 @@ author_bold_patterns:
 
 # Bio paragraphs shown on home page (HTML allowed)
 bio:
-  - 'I am a visiting postdoctoral fellow at the <a href="https://www.nhlbi.nih.gov/science/systems-genetics#Meet-the-Team">Laboratory of Systems Genetics</a>, SBC, NHLBI in Bethesda, Maryland. During my PhD at the <a href="https://www.jncasr.ac.in/faculty/sheeba">Chronobiology and Behavioural Neurogenetics Laboratory</a>, JNCASR, I studied genetic and molecular influences on the timing of behavior (<a href="https://en.wikipedia.org/wiki/Chronotype">chronotypes</a>), including effects independent of the circadian clock.'
-  - 'I use fly activity recordings, genetic data, and statistical models to study sleep and circadian behavior. During my master''s studies at <a href="https://www.niser.ac.in/">NISER</a>, I worked on thermo-sensitive <code>Transient Receptor Potential</code> (TRP) channels and their role in osteogenesis, using rodent models, primary bone cells, pharmacological modulators, and molecular dynamics.'
-  - 'I was born in <a href="https://en.wikipedia.org/wiki/Bardhaman">Burdwan, WB</a>, India. I went to <a href="https://rkmvp.org/">RKMV, Purulia</a> and <a href="https://www.rkmvnarendrapur.org/">RKMV, Narendrapur</a> for schooling, then joined <a href="https://www.niser.ac.in/">NISER, Bhubaneswar</a> for an integrated MSc in Life Sciences with a focus on <code>cell biology</code> and <code>bioinformatics</code>. After my PhD from <a href="https://www.jncasr.ac.in/research/research-units/neuroscience-unit">JNCASR</a> in Bangalore, I moved to Bethesda, MD to join the <a href="https://www.nih.gov/">NIH</a>. Outside the lab, I enjoy photography, science fiction, and good food. For a full list of my publications, see my <a href="https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en">Google Scholar profile</a>.'
+  - 'I am a visiting postdoctoral fellow in <a href="https://www.nhlbi.nih.gov/science/systems-genetics#Meet-the-Team">Susan Harbison’s group</a> at the Laboratory of Systems Genetics, SBC, NHLBI, NIH in Bethesda, Maryland. I study how the circadian clock and sleep genetic networks interact to shape behavior and physiology. During my PhD with <a href="https://www.jncasr.ac.in/faculty/sheeba">Vasu Sheeba</a> at the Chronobiology and Behavioural Neurogenetics Laboratory, <a href="https://www.jncasr.ac.in/research/research-units/neuroscience-unit">JNCASR</a>, Bengaluru, I studied genetic and molecular influences on the timing of behavior (<a href="https://en.wikipedia.org/wiki/Chronotype">chronotypes</a>), both under the control of and independent from the circadian clock.'
+  - 'My work combines behavioral recordings in <em>Drosophila</em> with statistical modeling, quantitative genetics, and multi-omics. Earlier, during my integrated MSc at <a href="https://www.niser.ac.in/">NISER, Bhubaneswar</a>, I studied thermo-sensitive Transient Receptor Potential (TRP) ion channels and their role in osteogenesis using primary bone cells, rodent models, pharmacology, and molecular dynamics.'
+  - 'I grew up in <a href="https://en.wikipedia.org/wiki/Bardhaman">Burdwan, West Bengal</a>, went to school at <a href="https://rkmvp.org/">RKMV Purulia</a> and <a href="https://www.rkmvnarendrapur.org/">RKMV Narendrapur</a>, and moved from Bhubaneswar to Bengaluru before coming to Bethesda. Outside the lab, I enjoy photography, science fiction, good food, and building small open-source R packages (including hand-drawn plots in <a href="https://github.com/orijitghosh/ggsketch">ggsketch</a> and Indian landscape palettes in <a href="https://github.com/orijitghosh/prakriti">prakriti</a>).'
 
 # Tag pills shown on home page
 tags:
@@ -48,22 +47,23 @@ home_page:
   news_count: 7
   selected_publications_count: 6
 
-# Research section on the home page. Each block sits next to a live,
-# simulated figure (an actogram and a sleep-state hypnogram). HTML allowed.
+# Research section on the home page. Each block sits next to an interactive
+# figure (an actogram and a sleep-state hypnogram). HTML allowed.
 research:
   actogram:
     title: "Reading an actogram"
     text:
-      - 'Chronobiologists read behavior as an <em>actogram</em>: every row is a day, plotted twice side by side so rhythms that cross midnight stay readable. A fruit fly''s activity bunches around dawn and dusk — the morning and evening peaks — with a siesta in between.'
-      - 'Switch the lights off for good and the peaks keep coming. They drift a little each day because the internal clock''s free-running period, τ, isn''t exactly 24 hours. Drag the slider to change it.'
+      - 'Most mornings in chronobiology start by looking at an <em>actogram</em>: each row plots 48 hours of a single fly’s movement, two days side by side so rhythms crossing midnight stay continuous. Under a 12:12 light–dark cycle (days 1–7), wild-type flies anticipate dawn and dusk with a quiet midday siesta in between.'
+      - 'When we switch the incubator to constant darkness (DD, day 8 onward), those peaks keep recurring on internal time, drifting each day according to the fly’s free-running period, τ. Try the classic <em>period</em> alleles below—first isolated by Konopka &amp; Benzer in 1971—or drag the slider to see how clock speed reshapes behavior.'
   sleep_states:
-    title: "Inferring sleep states"
+    title: "Inferring hidden sleep states"
     text:
-      - 'I use hidden Markov models to distinguish behavioral states in fly movement recordings, then investigate how genetic variation relates to those states. The animation is an illustrative simulation, not an experimental recording.'
+      - 'In standard infrared beam-break monitors, any five minutes of immobility is scored as “sleep”—treating a brief rest after dusk identically to deep midnight sleep.'
+      - 'To distinguish behavioral states without invasive electrophysiology, we built hidden Markov models (<a href="https://orijitghosh.github.io/FlyDreamR/">FlyDreamR</a>) that infer active wake, quiet wake, light sleep, and deep sleep from movement recordings alone, allowing us to investigate how genetic variation shapes each state. Both figures here are illustrative simulations rather than raw experimental recordings.'
     links:
-      - label: "Read the preprint"
+      - label: "Read the bioRxiv preprint"
         url: "https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1"
-      - label: "FlyDreamR (R package)"
+      - label: "FlyDreamR package"
         url: "https://orijitghosh.github.io/FlyDreamR/"
 
 # Language colors for repository cards (from GitHub Linguist)

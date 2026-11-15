@@ -2,13 +2,11 @@
 {% from '_macros.html.j2' import arrow %}
 
 {% macro timeline(items, title_key) -%}
-<div class="tl" data-progress>
-  <span class="tl__rail" aria-hidden="true"><span class="tl__fill"></span></span>
-  <ol>
-    {%- for item in items %}
-    <li class="tl__item" data-progress-item data-reveal>
-      <span class="tl__dot" aria-hidden="true"></span>
-      <span class="tl__years">{{ item.year_label }}</span>
+<ol class="tl">
+  {%- for item in items %}
+  <li class="tl__item">
+    <span class="tl__years">{{ item.year_label }}</span>
+    <div class="tl__body">
       <h3 class="tl__title">{{ item[title_key] }}</h3>
       <p class="tl__inst">{{ item.institution }}</p>
       {%- if item.details_list %}
@@ -16,10 +14,10 @@
         {%- for d in item.details_list %}<li>{{ d | safe }}</li>{% endfor %}
       </ul>
       {%- endif %}
-    </li>
-    {%- endfor %}
-  </ol>
-</div>
+    </div>
+  </li>
+  {%- endfor %}
+</ol>
 {%- endmacro %}
 
 {% block title %}CV — {{ config.name }}{% endblock %}
@@ -27,60 +25,48 @@
 
 {% block content %}
   <header class="phead wrap">
-    <p class="eyebrow" data-reveal="fade"><span class="idx">CV</span>Updated {{ config.copyright_year }}</p>
-    <h1 class="phead__title" data-words>Curriculum <em>vitae</em>.</h1>
-    <div class="phead__row">
-      <p class="phead__lede" data-reveal>Positions, degrees and awards. The PDF has the full version, including talks and posters.</p>
-      <div data-reveal>
-        <a class="btn btn--solid" href="{{ config.cv_pdf }}" target="_blank" rel="noopener" data-magnetic>Download PDF <span class="btn__arrow btn__arrow--down">{{ arrow('down') }}</span></a>
+    <div class="phead__row phead__row--top">
+      <div>
+        <h1 class="phead__title">Curriculum vitae</h1>
+        <p class="phead__lede">Research positions, degrees, and honors. The PDF includes my complete list of talks, posters, and references.</p>
       </div>
+      <a class="btn btn--solid" href="{{ config.cv_pdf }}" target="_blank" rel="noopener">Download full PDF {{ arrow('down') }}</a>
     </div>
   </header>
 
-  <div class="wrap">
+  <div class="wrap cv-wrap">
     {%- if experience %}
     <section class="cvsec" aria-labelledby="cv-exp">
-      <div class="cvsec__side">
-        <h2 class="cvsec__label" id="cv-exp" data-words>Experience</h2>
-        <span class="cvsec__count">{{ '%02d' | format(experience | length) }} positions</span>
-      </div>
+      <h2 class="cvsec__label" id="cv-exp">Experience</h2>
       {{ timeline(experience, 'title') }}
     </section>
     {%- endif %}
 
     {%- if education %}
     <section class="cvsec" aria-labelledby="cv-edu">
-      <div class="cvsec__side">
-        <h2 class="cvsec__label" id="cv-edu" data-words>Education</h2>
-        <span class="cvsec__count">{{ '%02d' | format(education | length) }} degrees</span>
-      </div>
+      <h2 class="cvsec__label" id="cv-edu">Education</h2>
       {{ timeline(education, 'degree') }}
     </section>
     {%- endif %}
 
     {%- if awards %}
     <section class="cvsec" aria-labelledby="cv-aw">
-      <div class="cvsec__side">
-        <h2 class="cvsec__label" id="cv-aw" data-words>Awards</h2>
-        <span class="cvsec__count">{{ '%02d' | format(awards | length) }} honours</span>
-      </div>
-      <ul class="awards" data-stagger>
+      <h2 class="cvsec__label" id="cv-aw">Awards &amp; fellowships</h2>
+      <ul class="awards">
         {%- for a in awards %}
-        <li data-reveal><span class="awards__y">{{ a.year }}</span><span class="awards__d">{{ a.description | safe }}</span></li>
+        <li><span class="awards__y">{{ a.year }}</span><span class="awards__d">{{ a.description | safe }}</span></li>
         {%- endfor %}
       </ul>
     </section>
     {%- endif %}
 
     <section class="cvsec" aria-labelledby="cv-det">
-      <div class="cvsec__side">
-        <h2 class="cvsec__label" id="cv-det" data-words>Details</h2>
-      </div>
-      <dl class="facts" data-reveal>
+      <h2 class="cvsec__label" id="cv-det">Contact &amp; links</h2>
+      <dl class="facts">
         <dt>Position</dt><dd>{{ config.designation }}</dd>
         <dt>Institute</dt><dd>{{ config.affiliation }}</dd>
         {%- if config.advisor %}<dt>Advisor</dt><dd>{{ config.advisor }}</dd>{% endif %}
-        <dt>Based in</dt><dd>{{ config.location }}</dd>
+        <dt>Location</dt><dd>{{ config.location }}</dd>
         <dt>Email</dt><dd><a class="link" href="mailto:{{ config.email }}">{{ config.email }}</a></dd>
         <dt>Scholar</dt><dd><a class="link" href="{{ config.scholar_url }}" target="_blank" rel="noopener">Google Scholar profile</a></dd>
         <dt>GitHub</dt><dd><a class="link" href="https://github.com/{{ config.github }}" target="_blank" rel="noopener">github.com/{{ config.github }}</a></dd>

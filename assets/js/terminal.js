@@ -89,7 +89,7 @@
       return [t === 'auto' ? 'theme follows the sun again' : 'lights ' + (t === 'light' ? 'on' : 'off')];
     },
     startle: function () {
-      if (!AG.startle) return [dim('the flies live on the home page. ') + 'cd about'];
+      if (!AG.startle) return [dim('*tap tap* · the incubator is quiet (the arrhythmic flies live on /404.html)')];
       AG.startle(0.8);
       return ['*tap tap*  ' + dim('the flies scatter')];
     },

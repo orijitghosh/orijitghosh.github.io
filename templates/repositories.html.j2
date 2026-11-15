@@ -2,37 +2,43 @@
 {% from '_macros.html.j2' import arrow %}
 
 {% block title %}Code — {{ config.name }}{% endblock %}
-{% block description %}Open-source software by {{ config.name }}: R packages and Shiny apps for circadian rhythm and sleep analysis.{% endblock %}
+{% block description %}Open-source software and creative projects by {{ config.name }}: R packages for sleep and circadian biology, ggplot2 and Shiny tools, typeface design, and generative graphics.{% endblock %}
 
 {% block content %}
   <header class="phead wrap">
-    <p class="eyebrow" data-reveal="fade"><span class="idx">{{ repositories | length }}</span>Repositories</p>
-    <h1 class="phead__title" data-words>Research <em>software</em><br />&amp; side projects.</h1>
-    <div class="phead__row">
-      <p class="phead__lede" data-reveal>I build R tools for studying sleep and circadian rhythms in flies. I also made hand-drawn <em>ggplot2</em> geoms, color palettes, and a bonsai that grows from GitHub history.</p>
-      <div class="shell" data-shell data-reveal>
-        <span class="shell__cmd"><span data-shell-type>gh repo list {{ config.github }}</span><span class="shell__caret" aria-hidden="true"></span></span>
-        <span class="shell__out">{{ repositories[:3] | map(attribute='name') | join(' · ') }}{% if repositories | length > 3 %} · …{% endif %}</span>
-      </div>
-    </div>
+    <h1 class="phead__title">Software &amp; code</h1>
+    <p class="phead__lede">
+      Open-source R packages and Shiny apps I’ve built for analyzing <em>Drosophila</em> sleep and circadian rhythms, general-purpose visualization and UI tools for <em>ggplot2</em> and Shiny, and side projects in typeface design and generative graphics. Everything lives on <a class="link" href="https://github.com/{{ config.github }}" target="_blank" rel="noopener">github.com/{{ config.github }}</a>.
+    </p>
   </header>
 
-  <section class="wrap section" style="padding-top:0" aria-label="Repositories">
+  <section class="wrap repos-section" aria-label="Repositories">
     <ul class="repos">
       {%- for repo in repositories %}
-      <li data-reveal style="--d:{{ (loop.index0 % 2) * 90 }}">
-        <a class="repo" href="{{ repo.url }}" target="_blank" rel="noopener" data-tilt data-inview data-cursor-label="Open">
-          <span class="repo__glare" aria-hidden="true"></span>
-          <span class="repo__top"><span>{{ '%02d' | format(loop.index) }} / {{ '%02d' | format(repositories | length) }}</span><span class="repo__star" aria-hidden="true">{{ arrow(size=16) }}</span></span>
-          <span class="repo__name">{{ repo.name }}</span>
-          <span class="repo__desc">{{ repo.description | safe }}</span>
-          {%- if repo.language_pills %}
-          <span class="repo__langs">
-            <span class="repo__bar" aria-hidden="true">{% for l in repo.language_pills %}<span style="--c:{{ l.color }};--i:{{ loop.index0 }}"></span>{% endfor %}</span>
-            <ul class="repo__legend" aria-label="Languages">{% for l in repo.language_pills %}<li style="--c:{{ l.color }}"><i></i>{{ l.name }}</li>{% endfor %}</ul>
-          </span>
+      <li>
+        <article class="repo">
+          <div class="repo__head">
+            <h2 class="repo__name">
+              <a class="repo__link" href="{{ repo.url }}" target="_blank" rel="noopener">{{ repo.name }}</a>
+            </h2>
+            <span class="repo__ext" aria-hidden="true">{{ arrow(size=15) }}</span>
+          </div>
+          <p class="repo__desc prose">{{ repo.description | safe }}</p>
+          {%- if repo.language_pills or repo.link_url %}
+          <div class="repo__foot">
+            {%- if repo.language_pills %}
+            <ul class="repo__legend" aria-label="Languages">
+              {%- for l in repo.language_pills %}
+              <li style="--c:{{ l.color }}"><i></i>{{ l.name }}</li>
+              {%- endfor %}
+            </ul>
+            {%- endif %}
+            {%- if repo.link_url %}
+            <a class="repo__sublink" href="{{ repo.link_url }}" target="_blank" rel="noopener">{{ repo.link_label or 'Website' }} {{ arrow(size=12) }}</a>
+            {%- endif %}
+          </div>
           {%- endif %}
-        </a>
+        </article>
       </li>
       {%- endfor %}
     </ul>

@@ -23,6 +23,7 @@ Complete specification for each CSV file in `data/`.
 | `url` | No | Link to paper |
 | `selected` | No | `yes` to show on home page; otherwise empty |
 | `note` | No | Extra text appended to venue (e.g., `Springer`, `preprint`) |
+| `summary` | No | Optional 1-sentence plain-language note shown under Selected Publications on the home page |
 
 **Example:**
 
@@ -66,6 +67,8 @@ date,description
 | `description` | Yes | Brief description. **HTML allowed** for `<em>`, `<strong>`, etc. |
 | `url` | Yes | Full GitHub URL |
 | `languages` | No | Comma-separated list (e.g., `R` or `"Ruby, HTML"`). Wrap in quotes if multiple. |
+| `link_url` | No | Optional secondary URL (e.g., CRAN page, pkgdown docs, or live demo) |
+| `link_label` | No | Short label for `link_url` (e.g., `CRAN`, `Docs`, `Live app`) |
 
 **Example:**
 

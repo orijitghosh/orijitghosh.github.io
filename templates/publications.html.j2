@@ -6,17 +6,18 @@
 
 {% block content %}
   <header class="phead wrap">
-    <p class="eyebrow" data-reveal="fade"><span class="idx">{{ pub_count }}</span>Publications · {{ pub_year_range }}</p>
-    <h1 class="phead__title" data-words>Papers, <em>preprints</em><br />&amp; chapters.</h1>
+    <h1 class="phead__title">Publications</h1>
     <div class="phead__row">
-      <p class="phead__lede" data-reveal>Newest first. An asterisk (<span class="cofirst">*</span>) after my name marks co-first authorship. Citation counts are on <a class="link" href="{{ config.scholar_url }}" target="_blank" rel="noopener">Google Scholar</a>.</p>
+      <p class="phead__lede">
+        {{ pub_count }} peer-reviewed papers, preprints, and book chapters ({{ pub_year_range }}), listed newest first. An asterisk (<span class="cofirst">*</span>) marks co-first authorship; full citation metrics are on <a class="link" href="{{ config.scholar_url }}" target="_blank" rel="noopener">Google Scholar</a>.
+      </p>
       {%- if pub_histogram %}
       {%- set maxc = pub_histogram | map(attribute='count') | max %}
-      <div class="ybars" data-ybars data-inview>
-        <span class="ybars__cap">Papers per year · tap a bar</span>
+      <div class="ybars" data-ybars>
+        <span class="ybars__cap">By year · click to jump</span>
         <div class="ybars__plot" data-max="{{ maxc }}">
           {%- for b in pub_histogram %}
-          <button class="ybar" type="button" data-year="{{ b.year }}" data-n="{{ b.count }}" style="--h:{{ '%.3f' | format(b.count / maxc) }};--i:{{ loop.index0 }}"{% if not b.count %} disabled{% endif %} aria-label="{{ b.year }}: {{ b.count }} publication{{ '' if b.count == 1 else 's' }}">
+          <button class="ybar" type="button" data-year="{{ b.year }}" data-n="{{ b.count }}" style="--h:{{ '%.3f' | format(b.count / maxc) }}"{% if not b.count %} disabled{% endif %} aria-label="{{ b.year }}: {{ b.count }} publication{{ '' if b.count == 1 else 's' }}">
             <span class="ybar__n">{{ b.count }}</span><span class="ybar__fill"></span>
           </button>
           {%- endfor %}
@@ -27,7 +28,7 @@
     </div>
   </header>
 
-  <section class="wrap" data-pubs aria-label="Publication list">
+  <section class="wrap pubs-section" data-pubs aria-label="Publication list">
     <div class="filters">
       <div class="seg" role="group" aria-label="Filter publications" data-seg>
         <span class="seg__pill" aria-hidden="true"></span>
@@ -38,20 +39,20 @@
       <label class="search">
         <span class="sr-only">Search publications</span>
         <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
-        <input type="search" placeholder="Search titles, authors, venues…" autocomplete="off" spellcheck="false" data-search />
+        <input type="search" placeholder="Search titles, authors, journals… (press /)" autocomplete="off" spellcheck="false" data-search />
       </label>
     </div>
     <p class="pubs__status" data-status aria-live="polite">Showing all {{ pub_count }}</p>
 
     {%- for group in publications | groupby('year') | reverse %}
     <div class="ygroup" id="y{{ group.grouper }}" data-ygroup="{{ group.grouper }}">
-      <div class="ygroup__year" aria-hidden="true">{{ group.grouper }}</div>
+      <h2 class="ygroup__year">{{ group.grouper }}</h2>
       <ol class="ygroup__list" aria-label="{{ group.grouper }}">
         {%- for pub in group.list %}
         <li class="pub" data-pub data-first="{{ pub.is_first_author | int }}" data-selected="{{ pub.is_selected | int }}" data-search="{{ pub.search_text }}">
           <span class="pub__num" aria-hidden="true">{{ '%02d' | format(pub_count - pub.number + 1) }}</span>
           <div class="pub__body">
-            <h2 class="pub__title">{% if pub.url %}<a href="{{ pub.url }}" target="_blank" rel="noopener" data-cursor-label="Read">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</h2>
+            <h3 class="pub__title">{% if pub.url %}<a href="{{ pub.url }}" target="_blank" rel="noopener">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</h3>
             <p class="pub__authors">{{ pub.authors_html | safe }}</p>
             <p class="pub__venue"><em>{{ pub.venue }}</em>{% if pub.note %} · {{ pub.note }}{% endif %}</p>
             {%- if pub.is_first_author or pub.is_selected or 'rxiv' in pub.venue | lower %}
@@ -63,7 +64,7 @@
             {%- endif %}
           </div>
           {%- if pub.url %}
-          <a class="pub__go" href="{{ pub.url }}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">{{ arrow(size=16) }}</a>
+          <a class="pub__go" href="{{ pub.url }}" target="_blank" rel="noopener" aria-label="Open {{ pub.title }}">{{ arrow(size=15) }}</a>
           {%- endif %}
         </li>
         {%- endfor %}

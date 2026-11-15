@@ -8,13 +8,12 @@ Live: [orijitghosh.github.io](https://orijitghosh.github.io)
 
 ## What it looks like
 
-- **The site keeps circadian time.** Your local clock is converted to Zeitgeber time (ZT0 = 06:00). The theme follows the sun (light 06:00 to 18:00, dark otherwise) unless you pick one, and the nav mark is a 24-hour dial whose hand moves through the day.
-- **A live fly arena** on the home page. Simulated *Drosophila* walk, rest, fly and sleep on a schedule set by the time of day (morning and evening peaks, a midday siesta, sleep at night). Move the cursor to herd them, sweep fast to scare them off, click to startle them. Toggling the theme is a light pulse, so they startle then too.
-- **Two live research figures.** A double-plotted actogram whose free-running period τ you can drag, and a hidden-Markov sleep-state model that steps through wake, quiet wake, light sleep and deep sleep while its transition graph lights up.
-- **Motion throughout:** an intro counter, split-text reveals, scroll-lit statements, a scroll-driven marquee, magnetic buttons, a custom cursor, tilting repo cards and circular page transitions (cross-document View Transitions, with a curtain fallback).
+- **The site keeps circadian time.** Your local clock is converted to Zeitgeber time (ZT0 = 06:00). The theme follows the sun (warm cotton paper from 06:00 to 18:00, dark slate otherwise) unless you pick one, and the nav mark is a 24-hour dial whose hand moves through the day.
+- **Two interactive research figures** on the home page: a simulated double-plotted *Drosophila* actogram with classic *period* allele presets (*per*<sup>S</sup>, *per*<sup>L</sup>, *per*<sup>0</sup>) and a draggable free-running period τ, plus a four-state hidden Markov sleep model that steps through active wake, quiet wake, light sleep, and deep sleep (with a Pause toggle).
+- **Calm, zero-clutter typography:** immediate rendering with no intro preloaders, custom cursors, or scroll-jacking—just readable prose, selected publication summaries, and structured CV/code pages.
 - **Publications** get a filter pill, live search with highlighting (press `/`), and a year histogram that doubles as navigation. Link a search with `publications.html?q=sleep`.
-- **A tiny shell.** Press `` ` `` anywhere (or use the key in the footer), then type `help`.
-- Everything respects `prefers-reduced-motion`, works with a keyboard, and prints cleanly. The amber and violet palette separates by luminance as well as hue, so it holds up for colour-blind readers.
+- **A tiny shell** (`terminal.js`, press `` ` `` anywhere or use the footer button) and an interactive fly arena tucked onto the `404.html` page.
+- Everything respects `prefers-reduced-motion`, works with a keyboard, and prints cleanly. The ochre and dusk-violet palette separates by luminance as well as hue, so it holds up for colour-blind readers.
 - No frameworks and no build step for the front end: plain CSS and classic `defer` scripts, so opening `index.html` straight from disk works.
 
 ## Pages
@@ -55,9 +54,9 @@ pip install -r requirements.txt
 
    | File | Columns |
    |---|---|
-   | `publications.csv` | `year, title, authors, venue, url, selected, note` |
+   | `publications.csv` | `year, title, authors, venue, url, selected, note, summary` (`summary` optional) |
    | `news.csv` | `date, description` |
-   | `repositories.csv` | `name, description, url, languages` |
+   | `repositories.csv` | `name, description, url, languages, link_url, link_label` (`link_*` optional) |
    | `education.csv` | `start_year, end_year, degree, institution, details` |
    | `experience.csv` | `start_year, end_year, title, institution, details` |
    | `awards.csv` | `year, description` |
@@ -133,7 +132,7 @@ language_colors:
 
 ### Adding pages
 
-The Jinja2 templates are in `templates/`. Every page extends `base.html.j2` (nav, full-screen menu, footer, cursor and page-transition curtain), and small shared pieces (arrows, section eyebrows, the dial mark) live in `_macros.html.j2`. To add a new page:
+The Jinja2 templates are in `templates/`. Every page extends `base.html.j2` (nav, mobile menu, and footer), and small shared pieces (arrows and the 24-hour dial mark) live in `_macros.html.j2`. To add a new page:
 
 1. Create `templates/newpage.html.j2` with `{% extends "base.html.j2" %}` and fill the `content` block
 2. Add a row to the `PAGES` list in `build.py`
@@ -141,7 +140,7 @@ The Jinja2 templates are in `templates/`. Every page extends `base.html.j2` (nav
 
 ### Swap out the profile image
 
-Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback). Any square-ish image works; it's clipped to a circle. A photo on a white background looks best, since it's blended onto the portrait disc.
+Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback). Any square-ish image works; it renders in a clean portrait frame on the About section.
 
 ---
 
@@ -163,8 +162,8 @@ Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback)
 │   └── service.csv
 │
 ├── templates/               # Jinja2 source templates
-│   ├── base.html.j2         # shared layout: nav, menu, footer, cursor
-│   ├── _macros.html.j2      # arrows, eyebrows, dial mark
+│   ├── base.html.j2         # shared layout: nav, mobile menu, footer
+│   ├── _macros.html.j2      # arrows, dial mark
 │   ├── index.html.j2
 │   ├── publications.html.j2
 │   ├── repositories.html.j2
@@ -173,10 +172,10 @@ Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback)
 │   └── 404.html.j2
 │
 ├── assets/
-│   ├── css/site.css         # all styling: palettes, layout, motion, print
-│   ├── js/site.js           # core: theme + ZT clock, reveals, cursor, transitions, intro
-│   ├── js/flies.js          # home page fly arena + ZT dial
-│   ├── js/research.js       # actogram + sleep-state model
+│   ├── css/site.css         # all styling: day/night palettes, layout, print
+│   ├── js/site.js           # core: theme + ZT clock, mobile menu, copy email
+│   ├── js/flies.js          # 404 page fly arena
+│   ├── js/research.js       # interactive actogram + sleep-state HMM
 │   ├── js/publications.js   # filters, search, year histogram
 │   ├── js/terminal.js       # the ` shell
 │   ├── profile.webp / profile-720.jpg
