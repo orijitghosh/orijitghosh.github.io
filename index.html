@@ -188,8 +188,9 @@
       <div class="research__block">
         <div class="research__copy prose">
           <h3 class="h3">Inferring hidden sleep states</h3>
-          <p>In standard infrared beam-break monitors, any five minutes of immobility is scored as “sleep”—treating a brief rest after dusk identically to deep midnight sleep.</p>
-          <p>To distinguish behavioral states without invasive electrophysiology, we built hidden Markov models (<a href="https://orijitghosh.github.io/FlyDreamR/">FlyDreamR</a>) that infer active wake, quiet wake, light sleep, and deep sleep from movement recordings alone, allowing us to investigate how genetic variation shapes each state. Both figures here are illustrative simulations rather than raw experimental recordings.</p>
+          <p>In standard infrared beam-break monitors, bouts of at least five minutes of immobility are conventionally scored as sleep. This useful rule groups together periods of rest that may differ in sleep depth.</p>
+          <p>Our hidden Markov models (<a href="https://orijitghosh.github.io/FlyDreamR/">FlyDreamR</a>) infer four behavioral states from movement recordings, labeled active wake, quiet wake, light sleep, and deep sleep. In separate DART arousal experiments, independently fitted four-state models identified states that differed in their responses to mechanical stimulation, supporting an interpretation of graded sleep depth. These are inferred behavioral states rather than electrophysiologically defined sleep stages; we use them to investigate how genetic variation relates to sleep and waking behavior.</p>
+          <p>The animation is a generative example: a simulated hidden state sequence produces activity counts. The lower trace shows that generating sequence, not states inferred from the displayed counts. Both research figures are illustrative simulations, not experimental recordings, and the animation’s probabilities are chosen for illustration rather than fitted to data.</p>
           <div class="research__links">
             <a class="btn btn--solid" href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1" target="_blank" rel="noopener">Read the bioRxiv preprint <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
             <a class="btn" href="https://orijitghosh.github.io/FlyDreamR/" target="_blank" rel="noopener">FlyDreamR package <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
@@ -198,7 +199,7 @@
 
         <figure class="fig">
           <div class="fig__bar">
-            <span><strong>Fig. 2</strong> · Four-state hidden Markov model (simulated)</span>
+            <span><strong>Fig. 2</strong> · Hidden Markov model · Generative simulation</span>
             <button class="fig__toggle" type="button" data-hmm-toggle aria-pressed="false">Pause</button>
           </div>
           <svg class="hmm__diagram" viewBox="0 0 520 142" aria-hidden="true" data-hmm-diagram>
@@ -234,10 +235,10 @@
               <text x="455" y="136">deep sleep</text>
             </g>
           </svg>
-          <canvas data-hypnogram role="img" aria-label="Live hypnogram showing observed beam-break activity counts above and inferred hidden sleep state below."></canvas>
+          <canvas data-hypnogram role="img" aria-label="Generative HMM simulation: activity counts above are emitted by the simulated hidden state sequence below. The state trace is not inferred from these counts."></canvas>
           <figcaption class="fig__foot">
-            <span data-hmm-cap>State: <b>—</b></span>
-            <span class="fig__hint">observed counts ↑ · inferred state ↓</span>
+            <span data-hmm-cap>Simulated state: <b>—</b></span>
+            <span class="fig__hint">simulated counts ↑ · generating state ↓</span>
           </figcaption>
         </figure>
       </div>
@@ -265,7 +266,7 @@
               <a href="https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1" target="_blank" rel="noopener">Inferring the genetic basis of sleep states in Drosophila melanogaster using hidden Markov models</a>
             </h3>
             <p class="sel-pub__meta"><strong>Ghosh A</strong>, Harbison ST · <em>bioRxiv</em></p>
-            <p class="sel-pub__summary">Uses hidden Markov models (FlyDreamR) to separate fly sleep into light and deep states from movement data, revealing distinct genetic architectures across the DGRP.</p>
+            <p class="sel-pub__summary">Uses hidden Markov models (FlyDreamR) to infer behavioral states from movement data and examine their genetic associations across the DGRP, with separate arousal experiments supporting differences in sleep depth.</p>
           </div>
         </li>
         <li class="sel-pub">

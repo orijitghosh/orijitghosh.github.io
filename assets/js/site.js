@@ -68,23 +68,59 @@
 
   /* ── Mobile menu ──────────────────────────────────────────────────── */
   var menu = $('[data-menu]'), menuBtn = $('[data-menu-toggle]');
-  var menuOpen = false;
+  var menuOpen = false, menuInert = [], menuOverflow = '';
+  function menuTargets() {
+    return [menuBtn].concat($$('a[href], button, input, select, textarea, [tabindex]', menu).filter(function (el) {
+      return !el.disabled && el.tabIndex >= 0 && el.getClientRects().length;
+    }));
+  }
+  function isolateMenu(parent) {
+    Array.prototype.forEach.call(parent.children, function (el) {
+      if (el === menu || el === menuBtn) return;
+      if (el.contains(menu) || el.contains(menuBtn)) isolateMenu(el);
+      else {
+        menuInert.push({ el: el, was: el.inert });
+        el.inert = true;
+      }
+    });
+  }
   function setMenu(open) {
-    if (!menu || !menuBtn) return;
+    if (!menu || !menuBtn || open === menuOpen) return;
     menuOpen = open;
     menu.hidden = !open;
     menuBtn.setAttribute('aria-expanded', String(open));
     $('span', menuBtn).textContent = open ? 'Close' : 'Menu';
-    document.body.style.overflow = open ? 'hidden' : '';
     if (open) {
-      var first = $('.menu__link', menu);
-      if (first) first.focus({ preventScroll: true });
+      menuOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      isolateMenu(document.body);
+      var targets = menuTargets();
+      (targets[1] || menuBtn).focus({ preventScroll: true });
+    } else {
+      menuInert.forEach(function (entry) { entry.el.inert = entry.was; });
+      menuInert = [];
+      document.body.style.overflow = menuOverflow;
+      var back = innerWidth > 860 ? $('.nav__link[aria-current="page"]') || $('.nav__brand') : menuBtn;
+      if (back) back.focus({ preventScroll: true });
     }
   }
   if (menu && menuBtn) {
     menuBtn.addEventListener('click', function () { setMenu(!menuOpen); });
     addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && menuOpen) { setMenu(false); menuBtn.focus(); }
+      if (!menuOpen) return;
+      if (e.key === 'Escape') { e.preventDefault(); setMenu(false); }
+      else if (e.key === 'Tab') {
+        var targets = menuTargets(), index = targets.indexOf(document.activeElement);
+        var next = index < 0 ? 0 : (index + (e.shiftKey ? -1 : 1) + targets.length) % targets.length;
+        e.preventDefault();
+        targets[next].focus({ preventScroll: true });
+      }
+    });
+    document.addEventListener('focusin', function (e) {
+      if (menuOpen && e.target !== menuBtn && !menu.contains(e.target)) {
+        var targets = menuTargets();
+        (targets[1] || menuBtn).focus({ preventScroll: true });
+      }
     });
     addEventListener('resize', function () {
       if (menuOpen && innerWidth > 860) setMenu(false);

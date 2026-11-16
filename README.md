@@ -9,7 +9,7 @@ Live: [orijitghosh.github.io](https://orijitghosh.github.io)
 ## What it looks like
 
 - **The site keeps circadian time.** Your local clock is converted to Zeitgeber time (ZT0 = 06:00). The theme follows the sun (warm cotton paper from 06:00 to 18:00, dark slate otherwise) unless you pick one, and the nav mark is a 24-hour dial whose hand moves through the day.
-- **Two interactive research figures** on the home page: a simulated double-plotted *Drosophila* actogram with classic *period* allele presets (*per*<sup>S</sup>, *per*<sup>L</sup>, *per*<sup>0</sup>) and a draggable free-running period τ, plus a four-state hidden Markov sleep model that steps through active wake, quiet wake, light sleep, and deep sleep (with a Pause toggle).
+- **Two interactive research figures** on the home page: a simulated double-plotted *Drosophila* actogram with classic *period* allele presets (*per*<sup>S</sup>, *per*<sup>L</sup>, *per*<sup>0</sup>) and a draggable free-running period τ, plus a generative four-state hidden Markov model (with a Pause toggle). The actogram advances continuously at τ in constant darkness. The HMM generates activity from a simulated state sequence; it does not decode states from the displayed counts. Its behavioral labels describe inferred states in the research, with separate arousal experiments supporting differences in sleep depth.
 - **Calm, zero-clutter typography:** immediate rendering with no intro preloaders, custom cursors, or scroll-jacking—just readable prose, selected publication summaries, and structured CV/code pages.
 - **Publications** get a filter pill, live search with highlighting (press `/`), and a year histogram that doubles as navigation. Link a search with `publications.html?q=sleep`.
 - **A tiny shell** (`terminal.js`, press `` ` `` anywhere or use the footer button) and an interactive fly arena tucked onto the `404.html` page.
@@ -207,6 +207,7 @@ The `data/` folder contains my actual content as working examples. Fork the repo
 
 ```bash
 pytest tests/test_build.py -v
+node --test tests/*.test.cjs
 ```
 
 Covers CSV parsing, author bolding, template rendering, edge cases. Useful if you modify `build.py`.

@@ -114,7 +114,7 @@
 
         <figure class="fig">
           <div class="fig__bar">
-            <span><strong>Fig. 2</strong> · Four-state hidden Markov model (simulated)</span>
+            <span><strong>Fig. 2</strong> · Hidden Markov model · Generative simulation</span>
             <button class="fig__toggle" type="button" data-hmm-toggle aria-pressed="false">Pause</button>
           </div>
           <svg class="hmm__diagram" viewBox="0 0 520 142" aria-hidden="true" data-hmm-diagram>
@@ -136,10 +136,10 @@
             </g>
             {%- endfor %}
           </svg>
-          <canvas data-hypnogram role="img" aria-label="Live hypnogram showing observed beam-break activity counts above and inferred hidden sleep state below."></canvas>
+          <canvas data-hypnogram role="img" aria-label="Generative HMM simulation: activity counts above are emitted by the simulated hidden state sequence below. The state trace is not inferred from these counts."></canvas>
           <figcaption class="fig__foot">
-            <span data-hmm-cap>State: <b>—</b></span>
-            <span class="fig__hint">observed counts ↑ · inferred state ↓</span>
+            <span data-hmm-cap>Simulated state: <b>—</b></span>
+            <span class="fig__hint">simulated counts ↑ · generating state ↓</span>
           </figcaption>
         </figure>
       </div>

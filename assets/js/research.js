@@ -4,7 +4,7 @@
            7 days constant darkness (DD), with Konopka & Benzer (1971)
            period mutant presets (WT, perS, perL, per0) and τ slider.
    Fig. 2  Four-state hidden Markov model of fly sleep (AW, QW, LS, DS),
-           showing observed beam-break counts above inferred states.
+           generating beam-break counts from a simulated hidden state sequence.
    ═══════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -80,8 +80,15 @@
     var hover = -1, dirty = true, geo = null;
     var G = { L: 26, R: 30, T: 22, B: 22 };
 
-    function drift(day, t) {
-      return day < LD ? 0 : (day - (LD - 1)) * (t - 24);
+    function phaseAt(day, hour, t) {
+      if (day < LD) return hour;
+      // Release at phase 0 at the start of DD; keep time across row boundaries.
+      var elapsed = (day - LD) * 24 + hour;
+      return ((elapsed * 24 / t) % 24 + 24) % 24;
+    }
+    function onsetAt(cycle, t) {
+      // Absolute hour at the same internal phase used by the activity curve.
+      return cycle < LD ? cycle * 24 + ONSET : LD * 24 + (cycle - LD + ONSET / 24) * t;
     }
     function value(day, bin, t) {
       var ld = day < LD, zt = bin / 2 + 0.25;
@@ -93,10 +100,10 @@
         if (ld && (bin === 0 || bin === 24)) v0 += 0.58;
         return clamp(v0, 0, 1.05);
       }
-      /* Continuous cumulative hour in DD allows fast (19h) or slow (29h) clocks to wrap cleanly */
-      var phase = ld ? zt : (((zt - drift(day, t)) % 24) + 24) % 24;
+      var phase = phaseAt(day, zt, t);
       var a = AG.activity(phase);
-      if (!ld) a = (a - (zt < 12 ? 0.07 : 0)) * 0.86 + 0.03;
+      // Remove the LD background using internal phase, so DD has no 24h light cue.
+      if (!ld) a = (a - (phase < 12 ? 0.07 : 0.025)) * 0.86 + 0.03;
       var v = a * (0.44 + 0.96 * noise[day][bin]) + spor[day][bin] * (a < 0.2 ? 0.8 : 0.25);
       if (ld && (bin === 0 || bin === 24)) v += 0.48;
       return clamp(v, 0, 1.08);
@@ -148,15 +155,16 @@
         c.restore();
       }
 
-      /* Evening-onset phase regression guide (omitted for arrhythmic per0) */
+      /* Constant-phase guides from the same continuous clock (omitted for per0). */
       if (!arrhythmic) {
         c.save();
         c.beginPath(); c.rect(x0, G.T, pw, DAYS * rowH); c.clip();
         c.strokeStyle = C.dusk; c.lineWidth = 1.3; c.setLineDash([3, 3]);
-        for (var k = -2; k <= 3; k++) {
+        var cycles = Math.ceil(DAYS * 24 / MIN_TAU) + 1;
+        for (var k = -cycles; k <= cycles; k++) {
           c.beginPath();
           for (var rr = 0; rr < DAYS; rr++) {
-            var hx = x0 + (ONSET + drift(rr, tauShown) + k * 24) / 48 * pw;
+            var hx = x0 + (onsetAt(rr + k, tauShown) - rr * 24) / 48 * pw;
             var hy = G.T + rr * rowH + rowH / 2;
             if (rr) c.lineTo(hx, hy); else c.moveTo(hx, hy);
           }
@@ -181,7 +189,7 @@
         var tx = x0 + t / 48 * pw;
         c.fillRect(tx - 0.5, G.T + DAYS * rowH, 1, 4);
         c.textAlign = t === 0 ? 'left' : t === 48 ? 'right' : 'center';
-        c.fillText(t === 0 ? 'ZT 0' : String(t), tx, h - 4);
+        c.fillText(t === 0 ? '0 h' : String(t), tx, h - 4);
       }
     }
 
@@ -194,13 +202,10 @@
       if (r < 0) {
         var diff = tau - 24;
         if (Math.abs(diff) < 0.05) return 'τ = 24.0 h: internal period matches the 24 h day';
-        var mins = Math.abs(diff * 60);
-        var amt = mins >= 90 ? (Math.abs(diff).toFixed(1) + ' h') : (mins.toFixed(0) + ' min');
-        return 'τ = ' + tau.toFixed(1) + ' h: peaks shift ' + (diff < 0 ? 'earlier' : 'later') + ' by ' + amt + ' per day in DD';
+        return 'τ = ' + tau.toFixed(1) + ' h: internal cycles repeat every ' + tau.toFixed(1) + ' h in DD (' + (diff < 0 ? 'faster' : 'slower') + ' than a 24 h clock)';
       }
       if (r < LD) return 'Day ' + (r + 1) + ' · <b>LD 12:12</b> · entrained to light–dark cycle';
-      var dr = drift(r, tau);
-      return 'Day ' + (r + 1) + ' · <b>DD</b> · free-running (' + (dr >= 0 ? '+' : '−') + Math.abs(dr).toFixed(1) + ' h cumulative shift)';
+      return 'Day ' + (r + 1) + ' · <b>DD</b> · row starts ' + ((r - LD) * 24) + ' h after release · τ = ' + tau.toFixed(1) + ' h';
     }
 
     function syncChips(activeKey) {
@@ -346,9 +351,9 @@
       c.clearRect(0, 0, w, h);
       c.font = mono; c.textBaseline = 'middle'; c.textAlign = 'left';
 
-      /* Observed beam-break counts */
+      /* Simulated beam-break counts emitted by the hidden chain */
       c.fillStyle = C['ink-3'];
-      c.fillText('obs', 0, topH - 5);
+      c.fillText('sim', 0, topH - 5);
       c.fillStyle = C.line; c.fillRect(L, topH, w - L - R, 1);
       c.save(); c.beginPath(); c.rect(L, 0, w - L - R, h); c.clip();
       for (var j = 0; j < counts.length; j++) {
@@ -368,7 +373,7 @@
         c.fillStyle = C.line; c.fillRect(L, Math.round(lv(k)), w - L - R, 1);
       }
 
-      /* Inferred hypnogram step trace */
+      /* Generating state sequence, not a decoded/inferred hypnogram */
       c.save(); c.beginPath(); c.rect(L, 0, w - L - R, h); c.clip();
       c.beginPath();
       c.moveTo(xi(0), lv(states[0]));
@@ -390,7 +395,7 @@
       nodes.forEach(function (n, k) { n.classList.toggle('is-on', k === st); });
     }
     function caption() {
-      if (cap) cap.innerHTML = 'State: <b>' + NAMES[s] + '</b> · bout ' + (bout + 1) + ' min · P(stay) = ' + P[s][s].toFixed(2);
+      if (cap) cap.innerHTML = 'Simulated state: <b>' + NAMES[s] + '</b> · bout ' + (bout + 1) + ' min · P(stay) = ' + P[s][s].toFixed(2);
     }
     function highlightEdge(a, b) {
       if (!svg) return;

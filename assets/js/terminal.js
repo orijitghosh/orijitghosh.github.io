@@ -167,6 +167,7 @@
     ]);
   }
   function open() {
+    if (document.querySelector('[data-menu-toggle][aria-expanded="true"]')) return;
     build();
     opener = document.activeElement;
     term.classList.add('is-open');
