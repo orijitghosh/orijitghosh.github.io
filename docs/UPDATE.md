@@ -79,10 +79,10 @@ That renders as a `<ul>` with three `<li>` items.
 
 ### Updating the CV PDF
 
-The downloadable CV PDF is at `assets/CV_AG_05192026.pdf` and linked from the CV page's "// general" section. To update it:
+The downloadable CV PDF is set by `cv_pdf` in `config.yaml`. The CV page, footer links, and terminal shortcut all use this setting. To update it:
 
 1. Place the new PDF in `assets/` (e.g., `assets/CV_AG_NEWDATE.pdf`)
-2. Update the link in `templates/cv.html.j2` — find the `cv_pdf` line and change the filename
+2. Set `cv_pdf` in `config.yaml` to the new path (currently `assets/CV_AG_11202026.pdf`)
 3. Delete the old PDF from `assets/`
 4. Build, commit, push
 

@@ -179,7 +179,7 @@ Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback)
 │   ├── js/publications.js   # filters, search, year histogram
 │   ├── js/terminal.js       # the ` shell
 │   ├── profile.webp / profile-720.jpg
-│   └── CV_AG_05192026.pdf   # downloadable CV (swap with your own)
+│   └── CV_AG_11202026.pdf   # downloadable CV (swap with your own)
 │
 ├── favicon.svg
 ├── 404.html

@@ -11,7 +11,7 @@ timezone: "America/New_York"
 github: "orijitghosh"
 scholar_url: "https://scholar.google.co.in/citations?user=Nuaw_FoAAAAJ&hl=en"
 # Downloadable CV (path relative to the site root)
-cv_pdf: "assets/CV_AG_05192026.pdf"
+cv_pdf: "assets/CV_AG_11202026.pdf"
 
 # One-liner under the name in the hero (HTML allowed)
 tagline: 'Visiting postdoctoral fellow at the <abbr title="National Institutes of Health">NIH</abbr>, studying how the circadian clock and sleep shape each other.'
