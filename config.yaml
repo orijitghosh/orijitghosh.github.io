@@ -47,8 +47,10 @@ home_page:
   news_count: 7
   selected_publications_count: 6
 
-# Research section on the home page. Each block sits next to an interactive
-# figure (an actogram and a sleep-state hypnogram). HTML allowed.
+# Research section on the home page.
+# Note for forks: `actogram` and `sleep_states` power Arijit's bespoke interactive
+# simulations and are automatically omitted once `github` is changed above.
+# Delete `research:` to skip this section, or use `topics: [{title, text: [...]}]` for plain text.
 research:
   actogram:
     title: "Reading an actogram"

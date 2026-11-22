@@ -9,7 +9,7 @@ Live: [orijitghosh.github.io](https://orijitghosh.github.io)
 ## What it looks like
 
 - **The site keeps circadian time.** Your local clock is converted to Zeitgeber time (ZT0 = 06:00). The theme follows the sun (warm cotton paper from 06:00 to 18:00, dark slate otherwise) unless you pick one, and the nav mark is a 24-hour dial whose hand moves through the day.
-- **Two interactive research figures** on the home page: a simulated double-plotted *Drosophila* actogram with classic *period* allele presets (*per*<sup>S</sup>, *per*<sup>L</sup>, *per*<sup>0</sup>) and a draggable free-running period τ, plus a generative four-state hidden Markov model (with a Pause toggle). The actogram advances continuously at τ in constant darkness. The HMM generates activity from a simulated state sequence; it does not decode states from the displayed counts. Its behavioral labels describe inferred states in the research, with separate arousal experiments supporting differences in sleep depth.
+- **Personal research figures on the live demo (excluded on forks):** On [orijitghosh.github.io](https://orijitghosh.github.io), the home page includes two bespoke simulations for my own work—a double-plotted *Drosophila* actogram (free-running period τ and *period* alleles) and a generative four-state hidden Markov model. **These two figures are personal to my site and are automatically excluded when you build your own website from a fork** (as soon as you change `github:` in `config.yaml`, or if you start from `config.example.yaml`).
 - **Calm, zero-clutter typography:** immediate rendering with no intro preloaders, custom cursors, or scroll-jacking—just readable prose, selected publication summaries, and structured CV/code pages.
 - **Publications** get a filter pill, live search with highlighting (press `/`), and a year histogram that doubles as navigation. Link a search with `publications.html?q=sleep`.
 - **A tiny shell** (`terminal.js`, press `` ` `` anywhere or use the footer button) and an interactive fly arena tucked onto the `404.html` page.
@@ -48,7 +48,8 @@ pip install -r requirements.txt
 
 ### Make it yours
 
-1. **Edit `config.yaml`** — replace my name, bio, email, affiliation, tags, Google Scholar URL, etc. with yours.
+1. **Edit `config.yaml`** (or start fresh with `cp config.example.yaml config.yaml`) — replace my name, `github` username, bio, email, affiliation, tags, Google Scholar URL, etc. with yours.
+   > **Note:** The interactive actogram and hidden Markov model figures on my live site are personal to my research and are **automatically omitted** once `github:` is no longer `orijitghosh`. Your home page will cleanly show **About → Selected publications → Recent updates** (or you can add optional plain-text `research.topics` in `config.yaml`).
 
 2. **Edit the CSV files in `data/`** — they're already there with my data as examples. Replace the rows with your own:
 

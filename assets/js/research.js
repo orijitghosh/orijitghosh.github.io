@@ -17,7 +17,7 @@
   var C = {};
   function readColors() {
     var cs = getComputedStyle(d);
-    ['--ink', '--ink-2', '--ink-3', '--ink-4', '--shade', '--sun', '--dusk', '--line', '--line-2', '--bg-2'].forEach(function (k) {
+    ['--ink', '--ink-2', '--ink-3', '--shade', '--sun', '--dusk', '--line'].forEach(function (k) {
       C[k.slice(2)] = cs.getPropertyValue(k).trim();
     });
   }
@@ -218,7 +218,6 @@
       arrhythmic = false;
       tau = v;
       if (slider) {
-        slider.disabled = false;
         slider.value = String(v);
         slider.style.setProperty('--fill', ((v - MIN_TAU) / (MAX_TAU - MIN_TAU) * 100).toFixed(1) + '%');
       }

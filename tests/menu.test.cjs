@@ -16,7 +16,7 @@ function menuPage() {
       contains(n) { return n === this || children.some(c => c.contains(n)); },
       getClientRects() { return this.hidden ? [] : [1]; },
       focus() { document.activeElement = this; if (docEvents.focusin) docEvents.focusin({ target: this }); },
-      querySelector(s) { return s === 'span' ? this.label : s === '.menu__link' ? this.children[0] : null; },
+      querySelector(s) { return s === 'span' ? this.label : null; },
       querySelectorAll() { return this.children; }
     };
     nodes[name] = el; return el;

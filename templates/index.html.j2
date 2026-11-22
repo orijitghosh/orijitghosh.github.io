@@ -1,14 +1,16 @@
 {% extends 'base.html.j2' %}
 {% from '_macros.html.j2' import arrow %}
 
-{% block title %}{{ config.name }} — Circadian Rhythms &amp; Sleep Genetics{% endblock %}
+{% block title %}{{ config.name }} — {{ config.site_subtitle or ('Circadian Rhythms & Sleep Genetics' if is_owner else config.designation) }}{% endblock %}
 
 {% block content %}
   {# ── INTRO / ABOUT ────────────────────────────────────────────────── #}
   <section class="intro" id="about" aria-labelledby="intro-name">
     <div class="wrap intro__grid">
       <div class="intro__main">
+        {%- if config.name_native %}
         <p class="intro__native bn" lang="bn">{{ config.name_native }}</p>
+        {%- endif %}
         <h1 class="intro__name" id="intro-name">{{ config.name }}</h1>
         <p class="intro__role">
           <strong>{{ config.designation }}</strong> · {{ config.affiliation }} · {{ config.location }}
@@ -51,14 +53,18 @@
   </section>
 
   {# ── RESEARCH ─────────────────────────────────────────────────────── #}
-  {% if config.research %}
+  {%- set topics = (config.research or {}).get('topics') %}
+  {% if show_chrono_figures or topics %}
   <section class="section" id="research" aria-labelledby="research-h">
     <div class="wrap">
       <div class="sec-head">
         <h2 class="h2" id="research-h">Research</h2>
+        {%- if config.statement %}
         <p class="sec-lede">{{ config.statement | safe }}</p>
+        {%- endif %}
       </div>
 
+      {%- if show_chrono_figures %}
       {% set acto = config.research.actogram %}
       <div class="research__block">
         <div class="research__copy prose">
@@ -143,6 +149,21 @@
           </figcaption>
         </figure>
       </div>
+      {% else %}
+      {%- for t in topics %}
+      <div class="research__copy prose"{% if not loop.first %} style="margin-top:28px"{% endif %}>
+        {%- if t.title %}<h3 class="h3">{{ t.title }}</h3>{% endif %}
+        {%- for p in t.text or [] %}<p>{{ p | safe }}</p>{% endfor %}
+        {%- if t.links %}
+        <div class="research__links">
+          {%- for l in t.links %}
+          <a class="btn{% if loop.first %} btn--solid{% endif %}" href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} {{ arrow() }}</a>
+          {%- endfor %}
+        </div>
+        {%- endif %}
+      </div>
+      {%- endfor %}
+      {%- endif %}
     </div>
   </section>
   {% endif %}
@@ -154,7 +175,7 @@
       <div class="sec-head sec-head--row">
         <div>
           <h2 class="h2" id="sel-h">Selected publications</h2>
-          <p class="sec-sub">A sample across my postdoc, PhD, and MSc work ({{ pub_year_range }}).</p>
+          <p class="sec-sub">{% if is_owner %}A sample across my postdoc, PhD, and MSc work ({{ pub_year_range }}).{% else %}Selected work ({{ pub_year_range }}).{% endif %}</p>
         </div>
         <a class="btn" href="publications.html">All {{ pub_count }} publications {{ arrow('right') }}</a>
       </div>
@@ -204,5 +225,7 @@
 {% endblock %}
 
 {% block scripts %}
+  {%- if show_chrono_figures %}
   <script src="{{ root }}assets/js/research.js" defer></script>
+  {%- endif %}
 {% endblock %}

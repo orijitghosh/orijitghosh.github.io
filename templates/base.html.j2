@@ -13,7 +13,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}{{ config.name }}{% endblock %}</title>
-  <meta name="description" content="{% block description %}{{ config.name }}, {{ config.designation | lower }} at {{ config.affiliation }}, studying circadian rhythms and sleep genetics in Drosophila.{% endblock %}" />
+  <meta name="description" content="{% block description %}{% if is_owner %}{{ config.name }}, {{ config.designation | lower }} at {{ config.affiliation }}, studying circadian rhythms and sleep genetics in Drosophila.{% else %}{{ config.name }} — {{ config.designation }} at {{ config.affiliation }}.{% endif %}{% endblock %}" />
   <meta name="author" content="{{ config.name }}" />
   <meta name="color-scheme" content="light dark" />
   <meta name="theme-color" content="#faf7f1" />
@@ -34,7 +34,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=Instrument+Sans:ital,wght@0,400..600;1,400..600&family=JetBrains+Mono:wght@400..500&display=swap" />
+  {%- if config.name_native %}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap&text={{ config.name_native | urlencode }}" />
+  {%- endif %}
   <link rel="stylesheet" href="{{ root }}assets/css/site.css" />
   {% block head %}{% endblock %}
 </head>
@@ -112,10 +114,10 @@
       <div class="foot__body">
         <div class="foot__about">
           <p class="foot__who">
-            <strong>{{ config.name }}</strong> <span class="bn foot__native" lang="bn">{{ config.name_native }}</span>
+            <strong>{{ config.name }}</strong>{% if config.name_native %} <span class="bn foot__native" lang="bn">{{ config.name_native }}</span>{% endif %}
           </p>
           <p class="foot__note">
-            Always happy to chat about circadian rhythms, sleep genetics, <em>Drosophila</em>, or R tools — write to
+            {{ (config.footer_note or ('Always happy to chat about circadian rhythms, sleep genetics, <em>Drosophila</em>, or R tools — write to' if is_owner else 'Questions or collaborations — write to')) | safe }}
             <a class="link" href="mailto:{{ config.email }}">{{ config.email }}</a>
             <button class="copy-chip" type="button" data-copy="{{ config.email }}"><span data-copy-label>copy</span></button>.
           </p>

@@ -43,5 +43,6 @@ test('LD remains entrained and the adjacent double plots repeat the same day', (
     const a = actogram(tau);
     near(a.phase(6, 0), .25); near(a.phase(6, 47), 23.75);
     near(a.phase(7, 15, 1), a.phase(8, 15));
+    assert.ok(a.labels.includes('0 h') && !a.labels.includes('ZT 0'));
   }
 });

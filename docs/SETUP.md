@@ -19,7 +19,7 @@ cd orijitghosh.github.io
 
 ## Step 2: Make it yours
 
-1. Edit `config.yaml` — replace name, bio, email, affiliation, tags, etc.
+1. Edit `config.yaml` (or copy `config.example.yaml` over `config.yaml` for a clean starter) — replace name, `github` username, bio, email, affiliation, tags, etc. Note: the interactive actogram and HMM figures on Arijit's live site are personal to his research and are automatically omitted once `github:` is changed.
 2. Edit the CSV files in `data/` — replace the rows with your own content (keep the header rows). See `docs/CSV_FORMAT.md` for column specs.
 3. Replace `assets/profile.webp` and `assets/profile-720.jpg` (a 720×720 fallback) with your photo, and `assets/CV_AG_11202026.pdf` with your CV (if you rename the PDF, update `cv_pdf` in `config.yaml`).
 

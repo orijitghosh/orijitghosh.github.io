@@ -191,21 +191,6 @@ def test_process_publications_bolds_authors():
     assert "<strong>Ghosh A</strong>" in pubs[0]["authors_html"]
 
 
-def test_process_publications_year_divider_flag():
-    rows = [_pub_row(2026, "A"), _pub_row(2024, "B"), _pub_row(2024, "C")]
-    pubs = build.process_publications(rows, [])
-    assert pubs[0]["show_year_divider"] is True
-    assert pubs[1]["show_year_divider"] is True
-    assert pubs[2]["show_year_divider"] is False
-
-
-def test_process_publications_animation_delay():
-    rows = [_pub_row(2026, "A"), _pub_row(2024, "B")]
-    pubs = build.process_publications(rows, [])
-    assert pubs[0]["animation_delay"] == "0.10s"
-    assert pubs[1]["animation_delay"] == "0.15s"
-
-
 def test_process_publications_selected_flag():
     rows = [_pub_row(2026, "A", selected="yes"), _pub_row(2024, "B")]
     pubs = build.process_publications(rows, [])
@@ -449,4 +434,42 @@ def test_build_renders_circadian_horizon_with_configured_identity(tmp_path):
     assert 'data-zt-marker' in homepage
     assert '>Arijit Ghosh<' in homepage
     assert 'https://github.com/orijitghosh' in homepage
-    assert "Built from CSV files and a circadian clock" not in homepage
+    assert 'data-actogram' in homepage
+    assert 'data-hypnogram' in homepage
+    assert 'assets/js/research.js' in homepage
+
+
+def test_fork_omits_personal_actogram_and_hmm_figures(tmp_path):
+    """Changing github handle omits bespoke actogram/HMM figures while keeping circadian theme."""
+    project_root = Path(__file__).parent.parent
+    cfg = build.load_config(project_root / "config.yaml")
+    cfg["name"] = "Jane Doe"
+    cfg["name_native"] = ""
+    cfg["github"] = "janedoe"
+    (tmp_path / "config.yaml").write_text(build.yaml.safe_dump(cfg), encoding="utf-8")
+    shutil.copytree(project_root / "data", tmp_path / "data")
+    shutil.copytree(project_root / "templates", tmp_path / "templates")
+
+    build.build_site(tmp_path)
+
+    homepage = (tmp_path / "index.html").read_text(encoding="utf-8")
+    assert 'data-actogram' not in homepage
+    assert 'data-hypnogram' not in homepage
+    assert 'assets/js/research.js' not in homepage
+    assert 'Tiro+Bangla' not in homepage
+    assert 'class="foot__horizon"' in homepage
+    assert 'data-zt-marker' in homepage
+
+    cfg["research"] = {"topics": [{"title": "Genomics", "text": ["Plain text topic."]}]}
+    (tmp_path / "config.yaml").write_text(build.yaml.safe_dump(cfg), encoding="utf-8")
+    build.build_site(tmp_path)
+    topics_home = (tmp_path / "index.html").read_text(encoding="utf-8")
+    assert "Plain text topic." in topics_home
+    assert 'data-actogram' not in topics_home
+
+    shutil.copy2(project_root / "config.example.yaml", tmp_path / "config.yaml")
+    build.build_site(tmp_path)
+    starter_home = (tmp_path / "index.html").read_text(encoding="utf-8")
+    assert 'data-actogram' not in starter_home
+    assert 'data-hypnogram' not in starter_home
+    assert '>Jane Doe<' in starter_home

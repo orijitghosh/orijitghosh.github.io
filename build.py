@@ -242,16 +242,12 @@ def process_publications(
 
     cleaned.sort(key=lambda r: r["year"], reverse=True)
 
-    seen_years: set[int] = set()
     for i, row in enumerate(cleaned):
         row["number"] = i + 1
         row["authors_html"] = bold_authors(
             format_authors(str(row.get("authors", ""))),
             bold_patterns,
         )
-        row["show_year_divider"] = row["year"] not in seen_years
-        seen_years.add(row["year"])
-        row["animation_delay"] = f"{0.10 + i * 0.05:.2f}s"
         row["is_selected"] = str(row.get("selected", "")).strip().lower() == "yes"
         row["is_first_author"] = is_first_author(row.get("authors", ""), bold_patterns)
         row["is_cofirst"] = is_cofirst_author(row.get("authors", ""), bold_patterns)
@@ -500,8 +496,18 @@ def build_site(project_root: Path | None = None) -> None:
         keep_trailing_newline=True,
     )
 
+    is_owner = str(config.get("github", "")).strip().lower() == "orijitghosh"
+    research_cfg = config.get("research") or {}
+    show_chrono_figures = bool(
+        config.get("chrono_figures", is_owner)
+        and research_cfg.get("actogram")
+        and research_cfg.get("sleep_states")
+    )
+
     context = {
         "config": config,
+        "is_owner": is_owner,
+        "show_chrono_figures": show_chrono_figures,
         "publications": publications,
         "selected_publications": selected_publications,
         "news": news,

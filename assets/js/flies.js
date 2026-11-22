@@ -1,12 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════════
-   flies.js — a live Drosophila arena behind the hero
-   Each fly runs a small behavioural state machine (walk · rest · flight
-   · sleep). How many are awake follows the real LD activity profile at
-   the visitor's current Zeitgeber time. The pointer is a stimulus:
-   hovering wakes sleepers, fast sweeps and clicks startle them into
-   flight, and a tracking reticle labels the nearest fly the way
-   video-tracking software would. Also drives the ZT dial and the glow.
-   On the 404 page (data-mode="arrhythmic") the clock is simply broken.
+   flies.js — interactive Drosophila arena on the 404 page (arrhythmic
+   mode) or any [data-flies] canvas. Each fly runs a small behavioural
+   state machine (walk · rest · flight · sleep); the pointer acts as a
+   stimulus (hover wakes sleepers, sweeps and clicks startle into flight).
    ═══════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -19,68 +15,12 @@
   function randn() { return Math.sqrt(-2 * Math.log(1 - rand())) * Math.cos(TAU * rand()); }
   function angDiff(a, b) { var x = (a - b) % TAU; if (x > Math.PI) x -= TAU; if (x < -Math.PI) x += TAU; return x; }
 
-  /* ═══ ZT DIAL ════════════════════════════════════════════════════ */
-  (function dial() {
-    var zt = document.querySelector('[data-zt]');
-    if (!zt) return;
-    var ticks = zt.querySelector('[data-zt-ticks]'), curve = zt.querySelector('[data-zt-curve]'), hand = zt.querySelector('[data-zt-hand]');
-    var tEl = zt.querySelector('[data-zt-time]'), pEl = zt.querySelector('[data-zt-phase]'), mEl = zt.querySelector('[data-zt-msg]');
-    var html = '';
-    for (var i = 0; i < 48; i++) {
-      var a = i / 48 * TAU, major = i % 12 === 0, mid = i % 2 === 0;
-      var r1 = major ? 75 : mid ? 80 : 83;
-      html += '<line' + (major ? ' class="major"' : '') + ' x1="' + (100 + Math.sin(a) * 86).toFixed(2) + '" y1="' + (100 - Math.cos(a) * 86).toFixed(2) +
-        '" x2="' + (100 + Math.sin(a) * r1).toFixed(2) + '" y2="' + (100 - Math.cos(a) * r1).toFixed(2) + '"/>';
-    }
-    ticks.innerHTML = html;
-    function path(k) {
-      var s = '';
-      for (var j = 0; j <= 192; j++) {
-        var z = j / 192 * 24, a = z / 24 * TAU, r = 30 + AG.activity(z) * 46 * k;
-        s += (j ? 'L' : 'M') + (100 + Math.sin(a) * r).toFixed(2) + ' ' + (100 - Math.cos(a) * r).toFixed(2);
-      }
-      return s + 'Z';
-    }
-    curve.setAttribute('d', path(reduced ? 1 : 0));
-    var ang = 0, started = false;
-    function update() {
-      var n = AG.now();
-      tEl.innerHTML = n.hhmm + ' local · <b>ZT' + AG.pad(Math.floor(n.zt)) + '</b>';
-      var ph = AG.phase(n.zt);
-      pEl.textContent = ph.name;
-      mEl.textContent = ph.msg;
-      zt.setAttribute('data-phase', ph.key);
-      if (!started) return;
-      var target = n.zt * 15, delta = ((target - ang) % 360 + 360) % 360;
-      ang += delta;
-      hand.style.transform = 'rotate(' + ang.toFixed(2) + 'deg)';
-    }
-    update();
-    setInterval(update, 20000);
-    if (reduced) { started = true; hand.style.transition = 'none'; update(); return; }
-    var poll = setInterval(function () {
-      if (!zt.classList.contains('is-in')) return;
-      clearInterval(poll);
-      setTimeout(function () {
-        started = true; update();
-        var t0 = performance.now();
-        (function grow(t) {
-          var k = clamp((t - t0) / 2200, 0, 1), e = 1 - Math.pow(1 - k, 4);
-          curve.setAttribute('d', path(e));
-          if (k < 1) requestAnimationFrame(grow);
-        })(t0);
-      }, 250);
-    }, 120);
-  })();
-
   /* ═══ ARENA ══════════════════════════════════════════════════════ */
   var canvas = document.querySelector('[data-flies]');
   if (!canvas || !canvas.getContext) return;
   var host = canvas.parentElement;
   var ctx = canvas.getContext('2d');
   var arrhythmic = canvas.getAttribute('data-mode') === 'arrhythmic';
-  var glow = host.querySelector('[data-glow]');
-  var loader = document.querySelector('[data-loader]');
   var W = 0, H = 0, DPR = 1, S = 1, rect = null;
   var flies = [], ripples = [], zs = [];
   var col = {};
@@ -358,10 +298,8 @@
   function tick(now, dt) {
     if (!visible || document.hidden || reduced) return;
     if (!fadeStart) {
-      var introing = d.classList.contains('intro') && loader && !loader.classList.contains('is-out');
-      if (!d.classList.contains('ready') || introing) return;
+      if (!d.classList.contains('ready')) return;
       fadeStart = now;
-      if (loader && d.classList.contains('intro')) setTimeout(function () { AG.startle(0.35); }, 250);
     }
     fade = clamp((now - fadeStart) / 1400, 0, 1);
     if (now - lastAwake > 5000) { lastAwake = now; updateAwake(); }
@@ -393,18 +331,6 @@
       reticle.sz = lerp(reticle.sz, 22 * S, 0.14);
       reticle.a = lerp(reticle.a, 1, 0.14);
     } else reticle.a = lerp(reticle.a, 0, 0.14);
-
-    /* glow: the sun (or the moon) crosses the hero; the pointer tugs it */
-    if (glow) {
-      var n = AG.now(), hr = n.h + n.m / 60, day = hr >= 6 && hr < 18;
-      var kk = day ? (hr - 6) / 12 : ((hr - 18 + 24) % 24) / 12;
-      var gx = W * (0.1 + 0.8 * kk), gy = H * (0.66 - 0.46 * Math.sin(Math.PI * kk));
-      if (pt.inside) { gx = lerp(gx, pt.x, 0.3); gy = lerp(gy, pt.y, 0.3); }
-      glow._x = lerp(glow._x == null ? gx : glow._x, gx, 0.04);
-      glow._y = lerp(glow._y == null ? gy : glow._y, gy, 0.04);
-      glow.style.setProperty('--gx', glow._x.toFixed(1) + 'px');
-      glow.style.setProperty('--gy', glow._y.toFixed(1) + 'px');
-    }
 
     draw(now);
   }

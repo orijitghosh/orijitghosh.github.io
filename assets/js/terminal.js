@@ -24,8 +24,7 @@
     return pages.filter(function (p) { return p.key === arg || p.slug === arg; })[0];
   }
   function go(p) {
-    try { sessionStorage.setItem('ag-vt', JSON.stringify({ x: innerWidth - 60, y: innerHeight - 60, t: Date.now() })); } catch (e) {}
-    setTimeout(function () { location.href = root + p.href; }, 380);
+    setTimeout(function () { location.href = root + p.href; }, 80);
     return [dim('cd ~/' + (p.key === 'index' ? '' : p.key + '/') + ' …')];
   }
 
@@ -55,7 +54,7 @@
       if (!p) return ['<span class="t-err">cd: no such page: ' + esc(a) + '</span>'];
       return go(p);
     },
-    whoami: function () { return [esc(D.name) + ' ' + dim('(' + esc(D.native) + ')'), esc(D.designation) + ', ' + esc(D.affiliation), dim(esc(D.location))]; },
+    whoami: function () { return [esc(D.name) + (D.native ? ' ' + dim('(' + esc(D.native) + ')') : ''), esc(D.designation) + ', ' + esc(D.affiliation), dim(esc(D.location))]; },
     'cat': function (a) {
       if (a === 'bio' || a === 'bio.txt') return (D.bio || []).map(function (p) { return esc(strip(p)); }).join('\n\n').split('\n');
       if (a === 'tags' || a === 'interests') return [(D.tags || []).map(esc).join(dim(' · '))];
@@ -84,8 +83,7 @@
     github: function () { window.open(D.github, '_blank', 'noopener'); return [dim('opening GitHub …')]; },
     theme: function (a) {
       var t = a === 'light' || a === 'dark' || a === 'auto' ? a : (document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-      var r = term.getBoundingClientRect();
-      AG.setTheme(t, { x: r.left + 24, y: r.top + 18 });
+      AG.setTheme(t);
       return [t === 'auto' ? 'theme follows the sun again' : 'lights ' + (t === 'light' ? 'on' : 'off')];
     },
     startle: function () {

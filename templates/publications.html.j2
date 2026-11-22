@@ -2,7 +2,7 @@
 {% from '_macros.html.j2' import arrow %}
 
 {% block title %}Publications — {{ config.name }}{% endblock %}
-{% block description %}{{ pub_count }} publications ({{ pub_year_range }}) by {{ config.name }} on circadian rhythms, sleep genetics and chronobiology.{% endblock %}
+{% block description %}{% if is_owner %}{{ pub_count }} publications ({{ pub_year_range }}) by {{ config.name }} on circadian rhythms, sleep genetics and chronobiology.{% else %}{{ pub_count }} publications ({{ pub_year_range }}) by {{ config.name }}.{% endif %}{% endblock %}
 
 {% block content %}
   <header class="phead wrap">

@@ -132,7 +132,8 @@
   function paintMeta() {
     if (metaTheme) metaTheme.setAttribute('content', getComputedStyle(d).getPropertyValue('--bg').trim() || '#faf7f1');
   }
-  AG.setTheme = function (t, _origin, auto) {
+  AG.setTheme = function (t) {
+    var auto = false;
     if (t === 'auto') {
       try { localStorage.removeItem('ag-theme'); } catch (e) {}
       var h = new Date().getHours();
