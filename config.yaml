@@ -59,13 +59,13 @@ research:
     title: "Inferring hidden sleep states"
     text:
       - 'In standard infrared beam-break monitors, bouts of at least five minutes of immobility are conventionally scored as sleep. This useful rule groups together periods of rest that may differ in sleep depth.'
-      - 'Our hidden Markov models (<a href="https://orijitghosh.github.io/FlyDreamR/">FlyDreamR</a>) infer four behavioral states from movement recordings, labeled active wake, quiet wake, light sleep, and deep sleep. In separate DART arousal experiments, independently fitted four-state models identified states that differed in their responses to mechanical stimulation, supporting an interpretation of graded sleep depth. These are inferred behavioral states rather than electrophysiologically defined sleep stages; we use them to investigate how genetic variation relates to sleep and waking behavior.'
+      - 'Our hidden Markov models (<a href="https://nhlbi.github.io/FlyDreamR/">FlyDreamR</a>) infer four behavioral states from movement recordings, labeled active wake, quiet wake, light sleep, and deep sleep. In separate DART arousal experiments, independently fitted four-state models identified states that differed in their responses to mechanical stimulation, supporting an interpretation of graded sleep depth. These are inferred behavioral states rather than electrophysiologically defined sleep stages; we use them to investigate how genetic variation relates to sleep and waking behavior.'
       - 'The animation is a generative example: a simulated hidden state sequence produces activity counts. The lower trace shows that generating sequence, not states inferred from the displayed counts. Both research figures are illustrative simulations, not experimental recordings, and the animation’s probabilities are chosen for illustration rather than fitted to data.'
     links:
       - label: "Read the bioRxiv preprint"
         url: "https://www.biorxiv.org/content/10.64898/2026.01.14.699526v1"
       - label: "FlyDreamR package"
-        url: "https://orijitghosh.github.io/FlyDreamR/"
+        url: "https://nhlbi.github.io/FlyDreamR/"
 
 # Language colors for repository cards (from GitHub Linguist)
 language_colors:

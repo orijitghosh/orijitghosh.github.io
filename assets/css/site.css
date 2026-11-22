@@ -726,6 +726,7 @@ abbr[title] {
 .repo__ext { color: var(--ink-3); flex: none; transition: color .18s ease, transform .18s ease; }
 .repo:has(.repo__link:hover) .repo__ext { color: var(--sun-text); transform: translate(2px, -2px); }
 .repo__desc { color: var(--ink-2); font-size: .94rem; line-height: 1.6; flex: 1; }
+.repo__desc a { position: relative; z-index: 2; }
 .repo__desc em { color: var(--ink); }
 .repo__foot {
   display: flex; justify-content: space-between; align-items: center; gap: 10px 16px; flex-wrap: wrap;

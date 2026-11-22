@@ -73,9 +73,9 @@ date,description
 **Example:**
 
 ```csv
-name,description,url,languages
-FlyDreamR,An R package to infer sleep states.,https://github.com/orijitghosh/FlyDreamR,R
-mysite,Personal website built with <em>Jekyll</em>.,https://github.com/orijitghosh/mysite,"Ruby, HTML"
+name,description,url,languages,link_url,link_label
+FlyDreamR,An R package to infer sleep states.,https://github.com/NHLBI/FlyDreamR,R,https://nhlbi.github.io/FlyDreamR/,Docs
+mysite,Personal website built with <em>Jekyll</em>.,https://github.com/orijitghosh/mysite,"Ruby, HTML",,
 ```
 
 **Language colors:** Defined in `config.yaml` → `language_colors`. Add new ones if needed.
